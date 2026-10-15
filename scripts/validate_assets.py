@@ -8,6 +8,7 @@ import struct
 import zipfile
 from pathlib import Path
 from feat_catalog import ROOT, PROJECT, catalog, calls, split_args, source_file
+from release_delivery import LOCALES, check_sources, check_archive
 
 
 def read(path):
@@ -37,19 +38,36 @@ def mechanics(source):
     return results
 
 
+def check_release_archive(path, root=ROOT):
+    manifest = json.loads(read(root / 'docs/icon-manifest.json'))
+    with zipfile.ZipFile(path) as archive:
+        check_archive(archive, root)
+        names = archive.namelist()
+        for name in names:
+            parts = name.rstrip('/').split('/')
+            assert '\\' not in name and all(part not in ('', '.', '..') and ':' not in part
+                                           for part in parts), f'unsafe ZIP path: {name}'
+        icons = {name for name in names if name.lower().endswith('.png')}
+        assert icons == {'Icons/' + asset['filename'] for asset in manifest}, 'release icon coverage'
+        assert {name for name in names if name.lower().endswith('.dll')} == {'ACHomebrew.dll'}, 'only the root mod DLL may ship'
+        assert json.loads(archive.read('Info.json')) == json.loads(read(root / 'src/ACHomebrew/Info.json'))
+        assert not any(name.split('/')[0] in ('notes', 'doc', 'docs', 'tests', 'scripts') for name in names), 'contributor files must not ship in the Mod ZIP'
+        for asset in manifest:
+            data = archive.read('Icons/' + asset['filename'])
+            assert data == (root / 'src/ACHomebrew/Icons' / asset['filename']).read_bytes()
+            assert hashlib.sha256(data).hexdigest() == asset['sha256'], asset['filename']
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--allow-pending-icons', action='store_true')
     parser.add_argument('--release', type=Path)
     args = parser.parse_args()
     rows = catalog()
-    resources = json.loads(read(ROOT / 'src/ACHomebrew.Core/Localization/FeatText.json'))
-    entries = {r['Key']: r for r in resources}
-    assert len(entries) == len(resources) == 289
+    _, entries = check_sources()
+    resources = list(entries.values())
     for entry in resources:
-        assert entry['enGB'].strip() and entry['zhCN'].strip(), entry['Key']
-        assert re.findall(r'\{\w+\}', entry['enGB']) == re.findall(r'\{\w+\}', entry['zhCN']), entry['Key']
-        assert re.findall(r'</?\w+>', entry['enGB']) == re.findall(r'</?\w+>', entry['zhCN']), entry['Key']
+        assert all(entry[locale].strip() for locale in LOCALES), entry['Key']
     for row in rows:
         assert entries[row['key'] + '.Name']['enGB'] == row['en'], row['internal']
         assert entries[row['key'] + '.Name']['zhCN'] == row['zh'], row['internal']
@@ -96,16 +114,8 @@ def main():
         assert {p.name for p in (PROJECT/'Icons').glob('*.png')} == {r['filename'] for r in manifest}, 'extra icon files'
     if args.release:
         assert not pending
-        with zipfile.ZipFile(args.release) as archive:
-            names = archive.namelist()
-            icons = {n.replace('\\','/') for n in names if n.endswith('.png')}
-            assert icons == {'Icons/'+r['filename'] for r in manifest}, 'release icon coverage'
-            assert {Path(n).name for n in names if n.endswith('.dll')} == {'ACHomebrew.dll'}, 'game DLLs must not ship'
-            assert json.loads(archive.read('Info.json')) == json.loads(read(PROJECT/'Info.json'))
-            assert not any(n.replace('\\', '/').split('/')[0] in ('notes', 'doc', 'docs') for n in names), 'documentation must not ship in the Mod ZIP'
-            for asset in manifest:
-                assert archive.read('Icons/'+asset['filename']) == (PROJECT/'Icons'/asset['filename']).read_bytes()
-    print(f'289 bilingual entries, 92 unique existing feat names, published component calls/inline IDs and {len(manifest)-len(pending)}/{len(manifest)} icons verified (static checks only).')
+        check_release_archive(args.release)
+    print(f'{len(entries)} entries in {len(LOCALES)} languages, player delivery files, 92 unique existing feat names, published component calls/inline IDs and {len(manifest)-len(pending)}/{len(manifest)} icons verified (static checks only).')
     if args.release: print(f'Release ZIP verified: {args.release}')
 
 

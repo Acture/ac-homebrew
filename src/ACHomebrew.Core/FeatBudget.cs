@@ -132,7 +132,7 @@ namespace ACHomebrew.Feats
             => FeatGroupRules.Blocking(GroupMembers, GroupLimit, OwnedGuids(unit), guid);
 
         public static string GroupName(FeatGroup group)
-            => LocalizationManager.CurrentLocale == Locale.zhCN ? group.NameZh : group.NameEn;
+            => Common.CurrentText(group.NameKey, group.NameEn);
 
         public static string DescribeGroups(UnitDescriptor unit, string guid)
         {

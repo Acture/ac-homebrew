@@ -26,22 +26,18 @@ namespace ACHomebrew.Feats
             Initialized = true;
             if (Mod.Settings?.EnableMemeFeats != true) return;
 
-            Feat(FeatSelection.Meme, "WhatCanISay", Guids.Meme.WhatCanISay, "Man, What Can I Say", "曼巴语录",
-                    Desc("Meme", "梗",
-                        "When your weapon attack drops an enemy or scores a critical hit, you say \"Man, what can I say.\" At most once per round. No other effect.",
-                        "你的武器攻击击倒敌人或造成重击时，你会说出“Man, what can I say.”。每轮最多一次。没有其他效果。"))
+            Feat(FeatSelection.Meme, "WhatCanISay", Guids.Meme.WhatCanISay, LocalizedText.Text("Text.MemeFeats.ConfigureAll.Text", "Man, What Can I Say"),
+                    Desc(LocalizedText.Text("Text.MemeFeats.ConfigureAll.Text.2", "Meme"),
+                        LocalizedText.Text("Text.MemeFeats.ConfigureAll.Text.3", "When your weapon attack drops an enemy or scores a critical hit, you say \"Man, what can I say.\" At most once per round. No other effect.")))
                 .AddComponent<MemeBarkOnKill>()
                 .Configure();
 
             ParametrizedFeatureConfigurator.New("NobodyKnowsBetter", Guids.Meme.NobodyKnowsBetter)
                 .SetGroups(Kingmaker.Blueprints.Classes.FeatureGroup.Feat)
-                .SetDisplayName(Common.L("NobodyKnowsBetter.Name", "Nobody Knows It Better", "没有人比我更懂"))
+                .SetDisplayName(Common.L("NobodyKnowsBetter.Name", LocalizedText.Text("NobodyKnowsBetter.Name", "Nobody Knows It Better")))
                 .SetIconIfPresent("NobodyKnowsBetter")
                 .SetDescription(Common.L("NobodyKnowsBetter.Desc",
-                    Desc("Meme", "梗", "Choose a skill. You gain +2 on it, and whenever you use it you announce that nobody knows it better than you (at most once per round).",
-                        "选择一项技能，该技能+2；每次使用该技能时，你都会宣称没有人比你更懂它（每轮最多一次）。").en,
-                    Desc("Meme", "梗", "Choose a skill. You gain +2 on it, and whenever you use it you announce that nobody knows it better than you (at most once per round).",
-                        "选择一项技能，该技能+2；每次使用该技能时，你都会宣称没有人比你更懂它（每轮最多一次）。").zh, tagEncyclopediaEntries: true))
+                    Desc(LocalizedText.Text("Text.MemeFeats.ConfigureAll.Text.2", "Meme"), LocalizedText.Text("Text.MemeFeats.ConfigureAll.Text.4", "Choose a skill. You gain +2 on it, and whenever you use it you announce that nobody knows it better than you (at most once per round).")), tagEncyclopediaEntries: true))
                 .SetParameterType(FeatureParameterType.Skill)
                 .AddComponent<NobodyKnowsBetterSkill>()
                 .OnConfigure(feat => FeatSelection.Meme.Register(feat))

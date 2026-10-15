@@ -2,7 +2,7 @@
 	"Id": "AttributeFeats",
 	"DisplayName": "AC's Homebrew",
 	"Author": "acturea",
-	"Version": "0.2.0",
+	"Version": "0.2.1",
 	"ManagerVersion": "0.27.11",
 	"Requirements": [],
 	"LoadAfter": [ "ModMenu", "ModTagEx" ],

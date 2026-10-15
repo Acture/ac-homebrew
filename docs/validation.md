@@ -1,6 +1,6 @@
 # Validation
 
-Run these checks from the repository root. GitHub Actions runs the first six
+Run these checks from the repository root. GitHub Actions runs the first ten
 commands on Windows and Linux.
 
 ```powershell
@@ -9,16 +9,33 @@ dotnet run --project tests/WeaponDamage.Tests --configuration Release
 dotnet run --project tests/FeatBudget.Tests --configuration Release
 dotnet run --project tests/Initialization.Tests --configuration Release
 dotnet run --project tests/FeatText --configuration Release
+dotnet run --project tests/AssemblyInspector.Tests --configuration Release
 python scripts/validate_assets.py
+python scripts/test_release_delivery.py
+python scripts/test_nexus_release.py
+python scripts/test_draft_release.py
 ```
 
 Use PowerShell 7, the .NET 10 SDK and Python 3.10 or newer. Localization tests
 declare Newtonsoft.Json as a NuGet dependency; they need no game assemblies.
 They compile the production text loader and registration/refresh methods with
-an in-memory replacement for the external localization APIs. They check all
-all bilingual resource entries (289 at the time of writing), every menu, weapon and budget key, EN → zhCN → EN
-refresh, runtime budget text, English fallback, compiled fallback and
-encyclopedia tagging calls.
+an in-memory replacement for the external localization APIs. They check every
+resource entry in all eight language files (same keys, compatible placeholders,
+markup and links), every menu, weapon and budget key, a refresh round trip
+through every locale, per-locale template composition, localized list joining,
+runtime budget text, English fallback for unsupported locales, compiled fallback
+and encyclopedia tagging calls. They edit external language files through the
+production loader and assert that edited names and rule templates reach
+localized strings without recompilation; missing, malformed, duplicate,
+blank and structurally invalid translations have fallback diagnostics.
+Roslyn source checks cover literal resource references in every language,
+English compiled-fallback agreement, and reject translated (CJK) literals or
+`Locale.zhCN` special cases in source: translations live only in the language files.
+
+The [assembly inspector](type-inspection.md) checks type and member metadata
+without executing target code. Its fixture controls cover hazardous initializers,
+constructors, getters, methods and attribute constructors; dependency errors
+must fail without partial output. These checks do not establish runtime behavior.
 
 Feat budget checks run the production budget rules without game assemblies:
 exactly full and exceeded count/point limits, both limits together, cross-family
@@ -43,15 +60,38 @@ powershell -NoProfile -File tests/VerifySettings.ps1 -WrathInstallDir "<game dir
 powershell -NoProfile -File tests/VerifyLiveWeaponDamageMode.ps1 -WrathInstallDir "<game directory>"
 powershell -NoProfile -File tests/VerifyHarmonyTargets.ps1 -WrathInstallDir "<game directory>"
 dotnet build ACHomebrew.slnx -c Release -p:DeployToGame=false
-python scripts/validate_assets.py --release artifacts/packages/ACHomebrew-0.2.0.zip
+powershell.exe -NoProfile -File tests\VerifyExternalLocalization.ps1 -WrathInstallDir "<game directory>"
+python scripts/validate_assets.py --release artifacts/packages/ACHomebrew-0.2.1.zip
+pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1 -WotrInputRoot "<game directory>"
 ```
+
+The offline mechanics tests (`external/wotr-testing`, initialize the submodule
+first) load the mod into a real offline game session. Besides feat mechanics,
+`LocalizationTests` checks every string the mod registers in all eight locales:
+nonblank, no Chinese outside `zhCN`, and longer texts translated rather than
+copied from English. The multi-locale refactor was checked against a dump of all
+520 registered strings taken before it: English and Chinese were byte-identical.
 
 The reflection checks run in Windows PowerShell 5.1 against installed
 assemblies without starting the game. VerifyHarmonyTargets resolves every
 Harmony patch target in the built mod against the game assembly. They check settings serialization, including feat budget defaults, and
 whether an existing weapon-damage component reads changed mode settings.
-The package check verifies loader metadata, icon coverage and bytes, and that
-no dependency/game DLLs or documentation directories are included.
+VerifyExternalLocalization edits temporary copies of the delivered language files
+and runs the **merged release DLL's** loader and formatter, checking external
+precedence and malformed-file diagnostics without rebuilding or touching the
+installed mod. It does not invoke Unity localization APIs; registration and
+refresh are covered separately by the production-source tests with API doubles.
+The package check verifies loader metadata and version, icon coverage and bytes,
+both player guides and changelogs, both license files and all eight canonical
+language files. It rejects missing delivery files, invalid language resources,
+different package/source bytes, dependency/game DLLs and contributor directories.
+CI runs positive and negative delivery fixtures without building against licensed
+game files. See [localization and release delivery](localization-and-release.md)
+for the single-artifact GitHub/Nexus publishing procedure.
+The [manual Nexus workflow](nexus-publishing.md) has separate offline controls
+for release metadata, digest/source matching, upload preparation and required
+reviewers. It does not publish during CI. A reviewed live upload and independent
+download comparison are still needed to verify account permissions and delivery.
 
 ## Offline mechanics with the real game files
 

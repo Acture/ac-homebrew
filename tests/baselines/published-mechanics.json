@@ -550,7 +550,7 @@
         ],
         [
           "AddContextRankConfig",
-          "ContextRankConfigs.StatBonus(baseStat,Desc,AbilityRankType.StatBonus,min:0).WithMultiplyByModifierProgression(-1)"
+          "ContextRankConfigs.StatBonus(baseStat,Desc,AbilityRankType.StatBonus,max:0).WithMultiplyByModifierProgression(-1)"
         ],
         [
           "AddRecalculateOnStatChange",

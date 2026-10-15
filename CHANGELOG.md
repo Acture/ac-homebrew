@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.1 — 2026-10-12
+
+### Added
+- The release ZIP now includes English and Simplified Chinese player readmes, versioned changelogs, `LICENSE` and `LICENSE-EXCEPTION.md`.
+- Editable `Localization/enGB.json` and `Localization/zhCN.json` cover feat names, lore, full rules and shared description templates, plus the optional ModMenu's static setting labels. Restart after editing; no DLL rebuild is needed.
+- German, French, Spanish, Italian, Brazilian Portuguese and Russian follow the game language. **These six are unreviewed machine translations**; corrections are welcome. Missing text falls back to English, and switching language in game switches all feat text.
+- Exclusion group names in the budget tooltips and ModMenu follow the game language.
+
+### Changed
+- External text takes precedence over embedded text in the same language. Missing files/keys, blank translations, malformed JSON and invalid placeholders, rich text or encyclopedia links produce diagnostics and fall back.
+- Release checks require player materials, matching language keys/template arguments and consistent package/loader versions.
+- **Fixed Grandmaster's Gambit** (Intelligence stance): other attack rolls now take the intended penalty equal to your Intelligence modifier (minimum 0). Previously the penalty never applied, and an Intelligence below 10 even turned it into a bonus. The description is corrected in every language. Characters using this stance attack slightly worse outside attacks of opportunity; no respec is required.
+- No other feat mechanics or numbers change. UMM identity, installed folder, settings identity and published blueprint IDs are unchanged.
+
 ## 0.2.0 — 2026-10-11 (Public beta)
 
 ### Changed

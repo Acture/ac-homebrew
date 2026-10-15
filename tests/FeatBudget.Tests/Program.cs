@@ -209,7 +209,7 @@ Check("one Main per character covers new source menus and retired feats", () =>
 Check("every group has bilingual names and a usable default", () =>
 {
     foreach (var group in FeatGroupRules.All)
-        Expect(!string.IsNullOrWhiteSpace(group.NameEn) && !string.IsNullOrWhiteSpace(group.NameZh) && group.DefaultMax >= 1, group.Id);
+        Expect(!string.IsNullOrWhiteSpace(group.NameEn) && group.NameKey == "FeatGroup." + group.SettingId && group.DefaultMax >= 1, group.Id);
 });
 
 // Close-quarters scores and distance styles.

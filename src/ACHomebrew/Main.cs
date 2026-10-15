@@ -28,6 +28,7 @@ namespace ACHomebrew
             Mod.Entry = Entry;
             Mod.Log = Log;
             Mod.Settings = Settings;
+            FeatTextCatalog.Initialize(modEntry.Path, message => Log.Log(message));
 
             modEntry.OnToggle = OnToggle;
             modEntry.OnGUI = OnGUI;

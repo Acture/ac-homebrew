@@ -5,9 +5,14 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeAnalysis" HintPath="$(MSBuildSDKsPath)/../Roslyn/bincore/Microsoft.CodeAnalysis.dll" />
+    <Reference Include="Microsoft.CodeAnalysis.CSharp" HintPath="$(MSBuildSDKsPath)/../Roslyn/bincore/Microsoft.CodeAnalysis.CSharp.dll" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <Compile Include="../../src/ACHomebrew.Core/FeatTextCatalog.cs" Link="FeatTextCatalog.cs" />
     <Compile Include="../../src/ACHomebrew.Core/Common.Localization.cs" Link="Common.Localization.cs" />
-    <EmbeddedResource Include="../../src/ACHomebrew.Core/Localization/FeatText.json" LogicalName="AttributeFeats.Localization.FeatText.json" />
+    <Compile Include="../../src/ACHomebrew.Core/TextFormat.cs" Link="TextFormat.cs" />
+    <Compile Include="../../src/ACHomebrew.Core/LocalizedText.cs" Link="LocalizedText.cs" />
+    <EmbeddedResource Include="../../src/ACHomebrew.Core/Localization/enGB.json" LogicalName="AttributeFeats.Localization.FeatText.json" />
+    <EmbeddedResource Include="../../src/ACHomebrew.Core/Localization/*.json" Exclude="../../src/ACHomebrew.Core/Localization/enGB.json" LogicalName="AttributeFeats.Localization.%(Filename).json" />
   </ItemGroup>
 </Project>

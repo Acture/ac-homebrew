@@ -16,7 +16,7 @@ namespace HarmonyLib
 
 namespace Kingmaker.Localization.Shared
 {
-    internal enum Locale { enGB, zhCN, Other }
+    internal enum Locale { enGB, ruRU, deDE, frFR, zhCN, esES, itIT, ptBR, Sound }
 }
 
 namespace Kingmaker.Localization
