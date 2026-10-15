@@ -605,7 +605,7 @@
   "Text.StanceFeats.ConfigureAll.Text.5": "Costituzione",
   "Text.StanceFeats.ConfigureAll.Text.6": "All'attivazione, ottieni punti ferita temporanei pari al tuo modificatore di Costituzione (minimo 0); questa posizione non li rinnova ogni round. I tuoi tiri per colpire e il numero di attacchi di opportunità sono ridotti del tuo modificatore di Costituzione (minimo 0).",
   "Text.StanceFeats.ConfigureAll.Text.7": "Intelligenza",
-  "Text.StanceFeats.ConfigureAll.Text.8": "Mentre è attiva, gli attacchi di opportunità e il loro numero ottengono un bonus senza tipo pari al tuo modificatore di Intelligenza, minimo 0. Gli altri tiri per colpire subiscono una penalità pari.",
+  "Text.StanceFeats.ConfigureAll.Text.8": "Mentre è attiva, gli attacchi di opportunità e il loro numero ottengono un bonus senza tipo pari al tuo modificatore di Intelligenza, minimo 0. Gli altri tiri per colpire subiscono una penalità di pari valore.",
   "Text.StanceFeats.ConfigureAll.Text.9": "Saggezza",
   "Text.StanceFeats.ConfigureAll.Text.10": "Mentre è attiva, aggiunge il tuo modificatore di Saggezza (minimo 0, senza tipo) alla CA e ai tiri salvezza su Volontà. Tiri per colpire e danni subiscono una pari penalità; questa posizione non riduce l'iniziativa.",
   "Text.StanceFeats.ConfigureAll.Text.11": "Carisma",
