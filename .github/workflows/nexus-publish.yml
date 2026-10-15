@@ -24,9 +24,9 @@ defaults:
     shell: bash
 
 env:
-  # A published release uploads after environment approval; prereleases only preview unless run manually.
+  # Every published release, prereleases included, requests an upload that waits for environment approval.
   RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || inputs.release_tag }}
-  PUBLISH: ${{ github.event_name == 'release' && !github.event.release.prerelease || github.event_name == 'workflow_dispatch' && inputs.publish }}
+  PUBLISH: ${{ github.event_name == 'release' || inputs.publish }}
 
 concurrency:
   group: nexus-publish

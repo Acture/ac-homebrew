@@ -104,9 +104,9 @@ locally and the rest is automated:
    creates a **draft** GitHub Release titled `AC's Homebrew X.Y.Z` with the English
    and Chinese changelog sections as notes. An existing release is left unchanged.
 4. Review the draft (notes, prerelease flag, attached ZIP) and publish it.
-5. Publishing runs the [Nexus workflow](nexus-publishing.md) on the same ZIP. A
-   normal release requests the upload and waits for `nexus-publish` approval; a
-   prerelease only previews.
+5. Publishing runs the [Nexus workflow](nexus-publishing.md) on the same ZIP. Every
+   published release, including a prerelease, requests the upload and waits for
+   `nexus-publish` approval. Reject the deployment to keep a release GitHub-only.
 
 To build and check without releasing:
 

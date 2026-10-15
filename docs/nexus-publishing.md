@@ -8,9 +8,10 @@ environment approval. It does not build the mod or upload game assemblies.
 It starts in two ways:
 
 - **Automatically when a GitHub Release is published** (see the
-  [release flow](localization-and-release.md#release-flow)). A normal release
-  requests the upload and then waits for a `nexus-publish` reviewer; a
-  prerelease only previews. Because a release run uses the workflow file from the
+  [release flow](localization-and-release.md#release-flow)). Every published
+  release, prereleases included, requests the upload and then waits for a
+  `nexus-publish` reviewer; reject the deployment to skip Nexus for that release.
+  Because a release run uses the workflow file from the
   tagged commit, that commit must already be on the default branch.
 - **Manually** from the default branch, for a preview or to retry a release.
 
