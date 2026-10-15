@@ -50,34 +50,32 @@ namespace ACHomebrew.Feats
 
         private static void ConfigureKillsAndRhythm()
         {
-            var spree = Buff("KillingSpreeBuff", Guids.Playstyle.KillingSpreeBuff, Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text", "Cascading Carnage", false), Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text", "浴血连斩", true),
-                    Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.2", "+2 on attack rolls and +10 feet speed per stack (up to 3 stacks).", false), Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.2", "每层攻击检定+2、速度+10尺（最多3层）。", true))
+            var spree = Buff("KillingSpreeBuff", Guids.Playstyle.KillingSpreeBuff, LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text", "Cascading Carnage"),
+                    LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.2", "+2 on attack rolls and +10 feet speed per stack (up to 3 stacks)."))
                 .SetStacking(StackingType.Rank)
                 .SetRanks(3)
                 .AddContextRankConfig(ContextRankConfigs.BuffRank(Guids.Playstyle.KillingSpreeBuff))
                 .AddContextStatBonus(StatType.AdditionalAttackBonus, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable, multiplier: 2)
                 .AddContextStatBonus(StatType.Speed, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable, multiplier: 10)
                 .Configure();
-            Feat(FeatSelection.Momentum, "KillingSpree", Guids.Playstyle.KillingSpree, Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text", "Cascading Carnage", false), Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text", "浴血连斩", true),
-                    Desc(Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.3", "Momentum", false), Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.3", "动能", true),
-                        Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.4", "When your weapon attack drops an enemy, gain a Cascading Carnage stack until the end of your next turn: +2 on attack rolls and +10 feet speed per stack, up to 3 stacks.", false),
-                        Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.4", "你的武器攻击使敌人倒下时，获得一层浴血连斩直到你下回合结束：每层攻击检定+2、速度+10尺，最多3层。", true)))
+            Feat(FeatSelection.Momentum, "KillingSpree", Guids.Playstyle.KillingSpree, LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text", "Cascading Carnage"),
+                    Desc(LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.3", "Momentum"),
+                        LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.4", "When your weapon attack drops an enemy, gain a Cascading Carnage stack until the end of your next turn: +2 on attack rolls and +10 feet speed per stack, up to 3 stacks.")))
                 .AddInitiatorAttackWithWeaponTrigger(action: ActionsBuilder.New().ApplyBuff(spree, Rounds(2)), actionsOnInitiator: true,
                     onlyHit: true, reduceHPToZero: true)
                 .Configure();
 
-            var rhythm = Buff("BattleRhythmBuff", Guids.Playstyle.BattleRhythmBuff, Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.5", "Unbroken Measure", false), Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.5", "连绵战韵", true),
-                    Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.6", "+1 on attack rolls and +2 damage per stack (up to 3 stacks).", false), Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.6", "每层攻击检定+1、伤害+2（最多3层）。", true))
+            var rhythm = Buff("BattleRhythmBuff", Guids.Playstyle.BattleRhythmBuff, LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.5", "Unbroken Measure"),
+                    LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.6", "+1 on attack rolls and +2 damage per stack (up to 3 stacks)."))
                 .SetStacking(StackingType.Rank)
                 .SetRanks(3)
                 .AddContextRankConfig(ContextRankConfigs.BuffRank(Guids.Playstyle.BattleRhythmBuff))
                 .AddContextStatBonus(StatType.AdditionalAttackBonus, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable)
                 .AddContextStatBonus(StatType.AdditionalDamage, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable, multiplier: 2)
                 .Configure();
-            Feat(FeatSelection.Momentum, "BattleRhythm", Guids.Playstyle.BattleRhythm, Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.5", "Unbroken Measure", false), Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.5", "连绵战韵", true),
-                    Desc(Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.3", "Momentum", false), Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.3", "动能", true),
-                        Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.7", "Each weapon hit you land adds an Unbroken Measure stack for 3 rounds: +1 on attack rolls and +2 damage per stack, up to 3 stacks. Each weapon hit you take removes one stack.", false),
-                        Common.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.7", "你每次武器命中获得一层连绵战韵，持续3轮：每层攻击检定+1、伤害+2，最多3层。你每被武器命中一次失去一层。", true)))
+            Feat(FeatSelection.Momentum, "BattleRhythm", Guids.Playstyle.BattleRhythm, LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.5", "Unbroken Measure"),
+                    Desc(LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.3", "Momentum"),
+                        LocalizedText.Text("Text.MomentumFeats.ConfigureKillsAndRhythm.Text.7", "Each weapon hit you land adds an Unbroken Measure stack for 3 rounds: +1 on attack rolls and +2 damage per stack, up to 3 stacks. Each weapon hit you take removes one stack.")))
                 .AddInitiatorAttackWithWeaponTrigger(action: ActionsBuilder.New().ApplyBuff(rhythm, Rounds(3)), actionsOnInitiator: true, onlyHit: true)
                 .AddTargetAttackWithWeaponTrigger(actionOnSelf: ActionsBuilder.New().RemoveBuffSingleStack(rhythm), onlyHit: true)
                 .Configure();
@@ -86,23 +84,21 @@ namespace ACHomebrew.Feats
         private static void ConfigureFervorAndCrits()
         {
             var fervor = BuffConfigurator.New("FervorBuff", Guids.Dota.FervorBuff)
-                .SetDisplayName(Common.L("FervorBuff.Name", Common.Text("FervorBuff.Name", "Quarry's Obsession", false), Common.Text("FervorBuff.Name", "步步紧逼", true)))
-                .SetDescription(Common.L("FervorBuff.Desc", Common.Text("FervorBuff.Desc", "+1 dodge AC per stack; at 3 stacks, one extra attack in a full attack.", false),
-                    Common.Text("FervorBuff.Desc", "每层闪避AC+1；3层时全回合攻击额外攻击一次。", true)))
+                .SetDisplayName(Common.L("FervorBuff.Name", LocalizedText.Text("FervorBuff.Name", "Quarry's Obsession")))
+                .SetDescription(Common.L("FervorBuff.Desc", LocalizedText.Text("FervorBuff.Desc", "+1 dodge AC per stack; at 3 stacks, one extra attack in a full attack.")))
                 .SetStacking(StackingType.Rank)
                 .SetRanks(3)
                 .AddContextRankConfig(ContextRankConfigs.BuffRank(Guids.Dota.FervorBuff))
                 .AddContextStatBonus(StatType.AC, Common.Rank(), descriptor: ModifierDescriptor.Dodge)
                 .Configure();
             var fervorAttack = BuffConfigurator.New("FervorAttackBuff", Guids.Dota.FervorAttackBuff)
-                .SetDisplayName(Common.L("FervorAttackBuff.Name", Common.Text("FervorAttackBuff.Name", "Quarry's Obsession: extra attack", false), Common.Text("FervorAttackBuff.Name", "步步紧逼：额外攻击", true)))
-                .SetDescription(Common.L("FervorAttackBuff.Desc", Common.Text("FervorAttackBuff.Desc", "One extra attack in a full attack.", false), Common.Text("FervorAttackBuff.Desc", "全回合攻击额外攻击一次。", true)))
+                .SetDisplayName(Common.L("FervorAttackBuff.Name", LocalizedText.Text("FervorAttackBuff.Name", "Quarry's Obsession: extra attack")))
+                .SetDescription(Common.L("FervorAttackBuff.Desc", LocalizedText.Text("FervorAttackBuff.Desc", "One extra attack in a full attack.")))
                 .AddBuffExtraAttack(number: 1)
                 .Configure();
-            Feat(FeatSelection.Momentum, "Fervor", Guids.Dota.Fervor, Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text", "Quarry's Obsession", false), Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text", "步步紧逼", true),
-                    Desc(Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.2", "Momentum", false), Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.2", "动能", true),
-                        Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.3", "Each consecutive weapon attack against the same target, hit or miss, adds an Obsession stack (up to 3): +1 dodge AC per stack, and at 3 stacks you make one extra attack in a full attack. Attacking a different target resets the stacks.", false),
-                        Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.3", "连续攻击同一目标时（无论是否命中）每次获得一层紧逼（最多3层）：每层闪避AC+1，3层时全回合攻击额外攻击一次。攻击其他目标时层数重置。", true)))
+            Feat(FeatSelection.Momentum, "Fervor", Guids.Dota.Fervor, LocalizedText.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text", "Quarry's Obsession"),
+                    Desc(LocalizedText.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.2", "Momentum"),
+                        LocalizedText.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.3", "Each consecutive weapon attack against the same target, hit or miss, adds an Obsession stack (up to 3): +1 dodge AC per stack, and at 3 stacks you make one extra attack in a full attack. Attacking a different target resets the stacks.")))
                 .AddComponent<FervorTracker>(c =>
                 {
                     c.Buff = fervor.ToReference<BlueprintBuffReference>();
@@ -110,10 +106,9 @@ namespace ACHomebrew.Feats
                 })
                 .Configure();
 
-            Feat(FeatSelection.Momentum, "CrushingRhythm", Guids.Dota.CrushingRhythm, Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.4", "Fourth-Beat Ruin", false), Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.4", "叠浪惊雷", true),
-                    Desc(Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.2", "Momentum", false), Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.2", "动能", true),
-                        Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.5", "Every fourth weapon attack you make, hit or miss, is an automatic critical threat that is automatically confirmed if it hits.", false),
-                        Common.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.5", "你每第4次武器攻击（无论前几次是否命中）自动成为重击威胁，命中时自动确认为重击。", true)))
+            Feat(FeatSelection.Momentum, "CrushingRhythm", Guids.Dota.CrushingRhythm, LocalizedText.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.4", "Fourth-Beat Ruin"),
+                    Desc(LocalizedText.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.2", "Momentum"),
+                        LocalizedText.Text("Text.MomentumFeats.ConfigureFervorAndCrits.Text.5", "Every fourth weapon attack you make, hit or miss, is an automatic critical threat that is automatically confirmed if it hits.")))
                 .AddComponent<EveryNthHitCritical>(c => c.Every = 4)
                 .Configure();
         }

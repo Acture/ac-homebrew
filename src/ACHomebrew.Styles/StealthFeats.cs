@@ -50,18 +50,17 @@ namespace ACHomebrew.Feats
 
         private static void ConfigureStealth()
         {
-            var cooldown = Buff("ReStealthCooldownBuff", Guids.Playstyle.ReStealthCooldownBuff, Common.Text("Text.StealthFeats.ConfigureStealth.Text", "Vanishing Stroke (used)", false), Common.Text("Text.StealthFeats.ConfigureStealth.Text", "刃落无影（已触发）", true),
-                    Common.Text("Text.StealthFeats.ConfigureStealth.Text.2", "Vanishing Stroke has triggered this round.", false), Common.Text("Text.StealthFeats.ConfigureStealth.Text.2", "刃落无影本轮已触发。", true))
+            var cooldown = Buff("ReStealthCooldownBuff", Guids.Playstyle.ReStealthCooldownBuff, LocalizedText.Text("Text.StealthFeats.ConfigureStealth.Text", "Vanishing Stroke (used)"),
+                    LocalizedText.Text("Text.StealthFeats.ConfigureStealth.Text.2", "Vanishing Stroke has triggered this round."))
                 .Configure();
             var vanish = ActionsBuilder.New().Conditional(
                 ConditionsBuilder.New().HasBuff(cooldown, negate: true),
                 ifTrue: ActionsBuilder.New()
                     .ApplyBuff(VanillaGreaterInvisibilityBuff, Rounds(1))
                     .ApplyBuff(cooldown, Rounds(1)));
-            Feat(FeatSelection.Stealth, "ReStealth", Guids.Playstyle.ReStealth, Common.Text("Text.StealthFeats.ConfigureStealth.Text.3", "Vanishing Stroke", false), Common.Text("Text.StealthFeats.ConfigureStealth.Text.3", "刃落无影", true),
-                    Desc(Common.Text("Text.StealthFeats.ConfigureStealth.Text.4", "Stealth", false), Common.Text("Text.StealthFeats.ConfigureStealth.Text.4", "潜行", true),
-                        Common.Text("Text.StealthFeats.ConfigureStealth.Text.5", "Once per round, when your weapon attack drops an enemy, scores a critical hit, or deals sneak attack damage, you become greatly invisible for 1 round.", false),
-                        Common.Text("Text.StealthFeats.ConfigureStealth.Text.5", "每轮一次，你的武器攻击使敌人倒下、造成重击或造成偷袭伤害时，你获得1轮高等隐身。", true)))
+            Feat(FeatSelection.Stealth, "ReStealth", Guids.Playstyle.ReStealth, LocalizedText.Text("Text.StealthFeats.ConfigureStealth.Text.3", "Vanishing Stroke"),
+                    Desc(LocalizedText.Text("Text.StealthFeats.ConfigureStealth.Text.4", "Stealth"),
+                        LocalizedText.Text("Text.StealthFeats.ConfigureStealth.Text.5", "Once per round, when your weapon attack drops an enemy, scores a critical hit, or deals sneak attack damage, you become greatly invisible for 1 round.")))
                 .AddInitiatorAttackWithWeaponTrigger(action: vanish, actionsOnInitiator: true, onlyHit: true, reduceHPToZero: true)
                 .AddInitiatorAttackWithWeaponTrigger(action: vanish, actionsOnInitiator: true, onlyHit: true, criticalHit: true)
                 .AddInitiatorAttackWithWeaponTrigger(action: vanish, actionsOnInitiator: true, onlyHit: true, onlySneakAttack: true)

@@ -50,38 +50,34 @@ namespace ACHomebrew.Feats
 
         private static void ConfigureKillGrowth()
         {
-            Growth("EssenceShift", Guids.Playstyle.EssenceShift, Guids.Playstyle.EssenceShiftCounter, Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text", "Stolen Grace", false), Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text", "掠影炼魄", true),
+            Growth("EssenceShift", Guids.Playstyle.EssenceShift, Guids.Playstyle.EssenceShiftCounter, LocalizedText.Text("Text.GrowthFeats.ConfigureKillGrowth.Text", "Stolen Grace"),
                 StatType.Dexterity, 100, casterKillsOnly: false, partyKills: false,
-                Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.2", "Every 100 enemies you kill permanently increase your Dexterity by 1. There is no limit.", false),
-                Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.2", "你每击杀100名敌人，永久提升1点敏捷，没有上限。", true));
-            Growth("FleshHeap", Guids.Playstyle.FleshHeap, Guids.Playstyle.FleshHeapCounter, Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.3", "Corpse-Forged Bulk", false), Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.3", "尸山淬躯", true),
+                LocalizedText.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.2", "Every 100 enemies you kill permanently increase your Dexterity by 1. There is no limit."));
+            Growth("FleshHeap", Guids.Playstyle.FleshHeap, Guids.Playstyle.FleshHeapCounter, LocalizedText.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.3", "Corpse-Forged Bulk"),
                 StatType.Strength, 100, casterKillsOnly: false, partyKills: true,
-                Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.4", "Every 100 enemies killed by your party (including pets) permanently increase your Strength by 1. There is no limit.", false),
-                Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.4", "你的队伍（含宠物）每击杀100名敌人，你永久提升1点力量，没有上限。", true));
-            Growth("ArcaneSiphon", Guids.Playstyle.ArcaneSiphon, Guids.Playstyle.ArcaneSiphonCounter, Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.5", "Stolen Epiphany", false), Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.5", "掠识开慧", true),
+                LocalizedText.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.4", "Every 100 enemies killed by your party (including pets) permanently increase your Strength by 1. There is no limit."));
+            Growth("ArcaneSiphon", Guids.Playstyle.ArcaneSiphon, Guids.Playstyle.ArcaneSiphonCounter, LocalizedText.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.5", "Stolen Epiphany"),
                 StatType.Intelligence, 10, casterKillsOnly: true, partyKills: false,
-                Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.6", "Every 10 spellcasting enemies you kill permanently increase your Intelligence by 1. There is no limit.", false),
-                Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.6", "你每击杀10名施法者敌人，永久提升1点智力，没有上限。", true));
-            Growth("DevouredVigor", Guids.Playstyle.DevouredVigor, Guids.Playstyle.DevouredVigorCounter, Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.7", "Siphoned Vitality", false), Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.7", "噬元固魄", true),
+                LocalizedText.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.6", "Every 10 spellcasting enemies you kill permanently increase your Intelligence by 1. There is no limit."));
+            Growth("DevouredVigor", Guids.Playstyle.DevouredVigor, Guids.Playstyle.DevouredVigorCounter, LocalizedText.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.7", "Siphoned Vitality"),
                 StatType.HitPoints, 10, casterKillsOnly: false, partyKills: false,
-                Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.8", "Every 10 enemies you kill permanently increase your maximum hit points by 1. There is no limit.", false),
-                Common.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.8", "你每击杀10名敌人，永久提升1点生命上限，没有上限。", true));
+                LocalizedText.Text("Text.GrowthFeats.ConfigureKillGrowth.Text.8", "Every 10 enemies you kill permanently increase your maximum hit points by 1. There is no limit."));
         }
 
-        private static void Growth(string name, string guid, string counterGuid, string nameEn, string nameZh, StatType stat, int killsPerPoint,
-            bool casterKillsOnly, bool partyKills, string effectEn, string effectZh)
+        private static void Growth(string name, string guid, string counterGuid, LocalizedText displayName, StatType stat, int killsPerPoint,
+            bool casterKillsOnly, bool partyKills, LocalizedText effect)
         {
             // The counter's rank is the kill count; it is saved with the character like any feature.
             var counter = FeatureConfigurator.New($"{name}Counter", counterGuid)
-                .SetDisplayName(Common.L($"{name}Counter.Name", Common.Format("Text.GrowthFeats.Growth.Text", "{0} (kills)", false, nameEn), Common.Format("Text.GrowthFeats.Growth.Text", "{0}（击杀数）", true, nameZh)))
-                .SetDescription(Common.L($"{name}Counter.Desc", effectEn, effectZh))
+                .SetDisplayName(Common.L($"{name}Counter.Name", LocalizedText.Format("Text.GrowthFeats.Growth.Text", "{0} (kills)", displayName)))
+                .SetDescription(Common.L($"{name}Counter.Desc", effect))
                 .SetHideInUI(true)
                 .SetHideInCharacterSheetAndLevelUp(true)
                 .SetRanks(1000000)
                 .AddContextRankConfig(ContextRankConfigs.FeatureRank(counterGuid).WithDivStepProgression(killsPerPoint))
                 .AddContextStatBonus(stat, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable)
                 .Configure();
-            Feat(FeatSelection.Growth, name, guid, nameEn, nameZh, Desc(Common.Text("Text.GrowthFeats.Growth.Text.2", "Growth", false), Common.Text("Text.GrowthFeats.Growth.Text.2", "成长", true), effectEn, effectZh))
+            Feat(FeatSelection.Growth, name, guid, displayName, Desc(LocalizedText.Text("Text.GrowthFeats.Growth.Text.2", "Growth"), effect))
                 .AddComponent<KillGrowth>(c =>
                 {
                     c.Counter = counter.ToReference<BlueprintFeatureReference>();
@@ -94,17 +90,16 @@ namespace ACHomebrew.Feats
         private static void ConfigureNecromastery()
         {
             var souls = BuffConfigurator.New("NecromasteryBuff", Guids.Dota.NecromasteryBuff)
-                .SetDisplayName(Common.L("NecromasteryBuff.Name", Common.Text("NecromasteryBuff.Name", "Souls", false), Common.Text("NecromasteryBuff.Name", "灵魂", true)))
-                .SetDescription(Common.L("NecromasteryBuff.Desc", Common.Text("NecromasteryBuff.Desc", "+1 damage per 2 souls.", false), Common.Text("NecromasteryBuff.Desc", "每2个灵魂伤害+1。", true)))
+                .SetDisplayName(Common.L("NecromasteryBuff.Name", LocalizedText.Text("NecromasteryBuff.Name", "Souls")))
+                .SetDescription(Common.L("NecromasteryBuff.Desc", LocalizedText.Text("NecromasteryBuff.Desc", "+1 damage per 2 souls.")))
                 .SetStacking(StackingType.Rank)
                 .SetRanks(40)
                 .AddContextRankConfig(ContextRankConfigs.BuffRank(Guids.Dota.NecromasteryBuff).WithDivStepProgression(2))
                 .AddContextStatBonus(StatType.AdditionalDamage, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable)
                 .Configure();
-            Feat(FeatSelection.Growth, "Necromastery", Guids.Dota.Necromastery, Common.Text("Text.GrowthFeats.ConfigureNecromastery.Text", "Soul-Tether Harvest", false), Common.Text("Text.GrowthFeats.ConfigureNecromastery.Text", "拘魂蓄怨", true),
-                    Desc(Common.Text("Text.GrowthFeats.ConfigureNecromastery.Text.2", "Growth", false), Common.Text("Text.GrowthFeats.ConfigureNecromastery.Text.2", "成长", true),
-                        Common.Text("Text.GrowthFeats.ConfigureNecromastery.Text.3", "Each enemy you kill grants a soul, up to twice your character level (and never more than 40). You deal +1 damage per 2 souls. Souls persist until you die.", false),
-                        Common.Text("Text.GrowthFeats.ConfigureNecromastery.Text.3", "你每击杀一名敌人获得一个灵魂，上限为角色等级的2倍（不超过40）。每2个灵魂伤害+1。灵魂保留到你死亡为止。", true)))
+            Feat(FeatSelection.Growth, "Necromastery", Guids.Dota.Necromastery, LocalizedText.Text("Text.GrowthFeats.ConfigureNecromastery.Text", "Soul-Tether Harvest"),
+                    Desc(LocalizedText.Text("Text.GrowthFeats.ConfigureNecromastery.Text.2", "Growth"),
+                        LocalizedText.Text("Text.GrowthFeats.ConfigureNecromastery.Text.3", "Each enemy you kill grants a soul, up to twice your character level (and never more than 40). You deal +1 damage per 2 souls. Souls persist until you die.")))
                 .AddComponent<NecromasterySouls>(c => c.Buff = souls.ToReference<BlueprintBuffReference>())
                 .Configure();
         }

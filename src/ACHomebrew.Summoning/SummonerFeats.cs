@@ -49,24 +49,21 @@ namespace ACHomebrew.Feats
 
         private static void ConfigureSummoner()
         {
-            Feat(FeatSelection.Summoner, "SwarmCaller", Guids.Summoning.SwarmCaller, Common.Text("Text.SummonerFeats.ConfigureSummoner.Text", "Swarm Caller", false), Common.Text("Text.SummonerFeats.ConfigureSummoner.Text", "万灵应召", true),
-                    Desc(Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "Summoner", false), Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "召唤师", true),
-                        Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.3", "Whenever you summon creatures, you summon one additional creature per 3 caster levels (minimum 1). This applies to every summoning spell or ability you use, including those from other mods.", false),
-                        Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.3", "你每次召唤生物时，每3施法者等级额外召唤一只（至少一只）。适用于你使用的所有召唤法术与能力，包括其他模组添加的。", true)))
+            Feat(FeatSelection.Summoner, "SwarmCaller", Guids.Summoning.SwarmCaller, LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text", "Swarm Caller"),
+                    Desc(LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "Summoner"),
+                        LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text.3", "Whenever you summon creatures, you summon one additional creature per 3 caster levels (minimum 1). This applies to every summoning spell or ability you use, including those from other mods.")))
                 .AddComponent<ExtraSummons>()
                 .Configure();
 
-            Feat(FeatSelection.Summoner, "LingeringBond", Guids.Summoning.LingeringBond, Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.4", "Lingering Bond", false), Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.4", "契约长存", true),
-                    Desc(Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "Summoner", false), Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "召唤师", true),
-                        Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.5", "Creatures you summon remain for 24 hours longer than normal.", false),
-                        Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.5", "你召唤的生物比正常多停留24小时。", true)))
+            Feat(FeatSelection.Summoner, "LingeringBond", Guids.Summoning.LingeringBond, LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text.4", "Lingering Bond"),
+                    Desc(LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "Summoner"),
+                        LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text.5", "Creatures you summon remain for 24 hours longer than normal.")))
                 .AddComponent<LongerSummons>()
                 .Configure();
 
-            Feat(FeatSelection.Summoner, "SpiritLink", Guids.Dota.SpiritLink, Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.6", "Summoner's Tether", false), Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.6", "契魂连理", true),
-                    Desc(Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "Summoner", false), Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "召唤师", true),
-                        Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.7", "Whenever you are healed, your summoned creatures within 30 feet heal the same amount. Whenever one of your summoned creatures is healed, you heal half that amount. Healing shared by this link is never shared again, so it does not bounce back and forth.", false),
-                        Common.Text("Text.SummonerFeats.ConfigureSummoner.Text.7", "你受到治疗时，你30尺内的召唤物回复等量生命；你的召唤物受到治疗时，你回复其一半的生命。经由本链接传递的治疗不会再次传递，不会来回反弹。", true)))
+            Feat(FeatSelection.Summoner, "SpiritLink", Guids.Dota.SpiritLink, LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text.6", "Summoner's Tether"),
+                    Desc(LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text.2", "Summoner"),
+                        LocalizedText.Text("Text.SummonerFeats.ConfigureSummoner.Text.7", "Whenever you are healed, your summoned creatures within 30 feet heal the same amount. Whenever one of your summoned creatures is healed, you heal half that amount. Healing shared by this link is never shared again, so it does not bounce back and forth.")))
                 .AddComponent<SpiritLinkHealing>()
                 .Configure();
         }

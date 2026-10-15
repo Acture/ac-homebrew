@@ -61,7 +61,7 @@
 	        Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
 	  <None Include="../../CHANGELOG.md;../../LICENSE;../../LICENSE-EXCEPTION.md"
 	        Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-	  <None Include="../ACHomebrew.Core/Localization/enGB.json;../ACHomebrew.Core/Localization/zhCN.json"
+	  <None Include="../ACHomebrew.Core/Localization/*.json"
 	        Link="Localization/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
 	  <None Update="Properties\Settings.settings">
 	    <Generator>SettingsSingleFileGenerator</Generator>

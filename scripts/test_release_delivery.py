@@ -1,7 +1,7 @@
 """Run positive and failure controls for delivery checks without game files."""
 import io
 import zipfile
-from release_delivery import ROOT, REQUIRED, check_sources, check_archive, parse_json, language_entries
+from release_delivery import ROOT, REQUIRED, LOCALES, check_sources, check_archive, parse_json, language_entries
 
 
 def archive(overrides=None, omit=None):
@@ -36,13 +36,13 @@ def main():
         broken = dict(chinese)
         broken["FeatBudget.PointsShort"] = replacement
         try:
-            language_entries(english, broken)
+            language_entries({"enGB": english, "zhCN": broken})
         except (AssertionError, ValueError):
             continue
         raise AssertionError("Invalid translation accepted")
     rejected(lambda: archive({"Info.json": '{"Version":"0.0.0"}'}))
     rejected(lambda: archive({"README.en.md": "outdated guide"}))
-    print(f"Player delivery contracts passed: version {version}, {len(entries)} bilingual keys; "
+    print(f"Player delivery contracts passed: version {version}, {len(entries)} keys in {len(LOCALES)} languages; "
           f"{len(REQUIRED)} missing-file and 9 malformed/version/content failure controls.")
 
 

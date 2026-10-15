@@ -9,30 +9,45 @@ namespace ACHomebrew.Feats
 {
     internal static partial class Common
     {
-        private static readonly Dictionary<string, (string en, string zh, bool tag)> LocalizedStrings = new();
+        private static readonly Dictionary<string, (LocalizedText text, bool tag)> LocalizedStrings = new();
 
-        public static string Text(string key, string fallback, bool chinese = false)
-            => FeatTextCatalog.Get(key, fallback, chinese);
+        /// <summary>Catalog text in <paramref name="locale"/>, then English, then the compiled English fallback.</summary>
+        public static string Text(string key, string fallback, Locale locale)
+            => FeatTextCatalog.Get(key, fallback, locale);
 
-        public static string Format(string key, string fallback, bool chinese, params object[] arguments)
-            => string.Format(CultureInfo.CurrentCulture, Text(key, fallback, chinese), arguments);
+        public static string Format(string key, string fallback, Locale locale, params object[] arguments)
+            => string.Format(CultureInfo.CurrentCulture, Text(key, fallback, locale), arguments);
 
         /// <summary>Text for runtime-built UI strings in the active game locale.</summary>
         public static string CurrentText(string key, string fallback)
-            => FeatTextCatalog.Get(key, fallback, LocalizationManager.CurrentLocale == Locale.zhCN);
+            => FeatTextCatalog.Get(key, fallback, LocalizationManager.CurrentLocale);
 
-        public static LocalizedString L(string key, string enValue, string zhValue = null, bool tagEncyclopediaEntries = false)
+        /// <summary>
+        /// Registers a game string. A catalog entry under <paramref name="key"/> itself overrides the composed
+        /// text in that locale, so translators can replace any generated name or description wholesale.
+        /// </summary>
+        public static LocalizedString L(string key, LocalizedText text, bool tagEncyclopediaEntries = false)
         {
-            enValue = FeatTextCatalog.Get(key, enValue, false);
-            zhValue = FeatTextCatalog.Get(key, zhValue, true);
-            LocalizedStrings[key] = (enValue, zhValue, tagEncyclopediaEntries);
-            var isZh = LocalizationManager.CurrentLocale == Locale.zhCN;
-            var text = (isZh && !string.IsNullOrEmpty(zhValue)) ? zhValue : enValue;
-            return LocalizationTool.CreateString(key, text, tagEncyclopediaEntries);
+            text = LocalizedText.Compose(locale => FeatTextCatalog.Find(key, locale) ?? text[locale]);
+            LocalizedStrings[key] = (text, tagEncyclopediaEntries);
+            return LocalizationTool.CreateString(key, text[LocalizationManager.CurrentLocale], tagEncyclopediaEntries);
         }
 
-        public static LocalizedString L(string key, string value, bool tagEncyclopediaEntries)
-            => L(key, value, null, tagEncyclopediaEntries);
+        /// <summary>Registers the catalog entry <paramref name="key"/>, with compiled English as the fallback.</summary>
+        public static LocalizedString L(string key, string englishFallback, bool tagEncyclopediaEntries = false)
+            => L(key, LocalizedText.Text(key, englishFallback), tagEncyclopediaEntries);
+
+        /// <summary>Joins names as a localized list ("A, B and C", "A、B、C").</summary>
+        public static string JoinList(IReadOnlyList<string> values, Locale locale)
+        {
+            if (values.Count == 0) return string.Empty;
+            if (values.Count == 1) return values[0];
+            if (values.Count == 2) return Format("Text.List.Pair", "{0} and {1}", locale, values[0], values[1]);
+            var separator = Text("Text.List.Separator", ", ", locale);
+            var head = values[0];
+            for (var i = 1; i < values.Count - 1; i++) head += separator + values[i];
+            return Format("Text.List.Last", "{0}, and {1}", locale, head, values[values.Count - 1]);
+        }
 
         public static void RefreshLocale()
         {
@@ -40,10 +55,10 @@ namespace ACHomebrew.Feats
             {
                 var pack = LocalizationManager.CurrentPack;
                 if (pack == null) return;
-                var isZh = LocalizationManager.CurrentLocale == Locale.zhCN;
+                var locale = LocalizationManager.CurrentLocale;
                 foreach (var entry in LocalizedStrings)
                 {
-                    var text = (isZh && !string.IsNullOrEmpty(entry.Value.zh)) ? entry.Value.zh : entry.Value.en;
+                    var text = entry.Value.text[locale];
                     pack.PutString(entry.Key, entry.Value.tag ? EncyclopediaTool.TagEncyclopediaEntries(text) : text);
                 }
             }
@@ -54,7 +69,7 @@ namespace ACHomebrew.Feats
         }
 
         // OnLocaleChanged is a private method, not an event. BlueprintCore's own postfix there re-applies
-        // the creation-time (single-locale) text, so ours must run after it to restore the zhCN strings.
+        // the creation-time (single-locale) text, so ours must run after it to restore the selected locale.
         [HarmonyPatch(typeof(LocalizationManager), "OnLocaleChanged")]
         private static class LocalizationManager_OnLocaleChanged_Patch
         {

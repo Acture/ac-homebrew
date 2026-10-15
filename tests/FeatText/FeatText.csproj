@@ -11,7 +11,8 @@
     <Compile Include="../../src/ACHomebrew.Core/FeatTextCatalog.cs" Link="FeatTextCatalog.cs" />
     <Compile Include="../../src/ACHomebrew.Core/Common.Localization.cs" Link="Common.Localization.cs" />
     <Compile Include="../../src/ACHomebrew.Core/TextFormat.cs" Link="TextFormat.cs" />
+    <Compile Include="../../src/ACHomebrew.Core/LocalizedText.cs" Link="LocalizedText.cs" />
     <EmbeddedResource Include="../../src/ACHomebrew.Core/Localization/enGB.json" LogicalName="AttributeFeats.Localization.FeatText.json" />
-    <EmbeddedResource Include="../../src/ACHomebrew.Core/Localization/zhCN.json" LogicalName="AttributeFeats.Localization.zhCN.json" />
+    <EmbeddedResource Include="../../src/ACHomebrew.Core/Localization/*.json" Exclude="../../src/ACHomebrew.Core/Localization/enGB.json" LogicalName="AttributeFeats.Localization.%(Filename).json" />
   </ItemGroup>
 </Project>

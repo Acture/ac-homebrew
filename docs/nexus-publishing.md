@@ -1,10 +1,18 @@
 # Publish the same release ZIP to Nexus Mods
 
-`.github/workflows/nexus-publish.yml` adds a manually triggered **Publish existing
-release to Nexus** workflow. It downloads a published GitHub Release asset,
-checks it against that release tag's source files, and optionally uploads those
-exact bytes to Nexus Mods. It does not build the mod, create a GitHub Release,
-upload game assemblies or run when a PR, push or GitHub Release is published.
+`.github/workflows/nexus-publish.yml` is the **Publish existing release to Nexus**
+workflow. It downloads a published GitHub Release asset, checks it against that
+release tag's source files, and uploads those exact bytes to Nexus Mods after
+environment approval. It does not build the mod or upload game assemblies.
+
+It starts in two ways:
+
+- **Automatically when a GitHub Release is published** (see the
+  [release flow](localization-and-release.md#release-flow)). A normal release
+  requests the upload and then waits for a `nexus-publish` reviewer; a
+  prerelease only previews. Because a release run uses the workflow file from the
+  tagged commit, that commit must already be on the default branch.
+- **Manually** from the default branch, for a preview or to retry a release.
 
 The uploader is the [official Nexus Mods action](https://github.com/Nexus-Mods/upload-action),
 pinned to commit `98532f7670c27cbecc78fae03fa3e278147827e2`
@@ -38,7 +46,7 @@ Do not paste API keys into issues, workflow inputs, logs or the repository.
 Repository environment settings, credentials and a first live Nexus upload are
 not created or tested by the code integration.
 
-## Preview, then explicitly approve an upload
+## Manual preview, then explicitly approve an upload
 
 Build and validate locally using the
 [release delivery procedure](localization-and-release.md). Publish the reviewed

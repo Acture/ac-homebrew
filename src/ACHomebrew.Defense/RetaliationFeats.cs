@@ -50,48 +50,43 @@ namespace ACHomebrew.Feats
 
         private static void ConfigureCounters()
         {
-            Feat(FeatSelection.Retaliation, "CounterAttack", Guids.Playstyle.CounterAttack, Common.Text("Text.RetaliationFeats.ConfigureCounters.Text", "Riposte Reflex", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text", "截锋逆击", true),
-                    Desc(Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "反击", true),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.3", "When an enemy makes a melee attack against you, you make an attack of opportunity against it if it is within your reach. This uses one of your attacks of opportunity for the round, so Combat Reflexes increases how often you can counter.", false),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.3", "敌人对你发动近战攻击时，若其在你的触及范围内，你对其发动一次借机攻击。这会消耗你本轮的借机攻击次数，因此战斗反射等能增加反击次数。", true)))
+            Feat(FeatSelection.Retaliation, "CounterAttack", Guids.Playstyle.CounterAttack, LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text", "Riposte Reflex"),
+                    Desc(LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation"),
+                        LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.3", "When an enemy makes a melee attack against you, you make an attack of opportunity against it if it is within your reach. This uses one of your attacks of opportunity for the round, so Combat Reflexes increases how often you can counter.")))
                 .AddComponent<CounterAttackOnMelee>(c => c.Mode = CounterAttackMode.AnyAttack)
                 .Configure();
 
-            Feat(FeatSelection.Retaliation, "MissCounter", Guids.Playstyle.MissCounter, Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.4", "Punish the Overreach", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.4", "乘虚落刃", true),
-                    Desc(Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "反击", true),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.5", "Once per round, when an enemy's melee attack misses you, you make an attack against it if it is within your reach. This counterattack does not use your attacks of opportunity.", false),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.5", "每轮一次，敌人对你的近战攻击未命中时，若其在你的触及范围内，你对其发动一次攻击。这次反击不消耗借机攻击次数。", true)))
+            Feat(FeatSelection.Retaliation, "MissCounter", Guids.Playstyle.MissCounter, LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.4", "Punish the Overreach"),
+                    Desc(LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation"),
+                        LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.5", "Once per round, when an enemy's melee attack misses you, you make an attack against it if it is within your reach. This counterattack does not use your attacks of opportunity.")))
                 .AddComponent<CounterAttackOnMelee>(c => c.Mode = CounterAttackMode.FreeOnMiss)
                 .Configure();
 
-            var mark = Buff("PunisherMarkBuff", Guids.Playstyle.PunisherMarkBuff, Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.6", "Blood Debt", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.6", "血债", true),
-                    Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.7", "This creature attacked someone with the Blood-Debt Reckoning feat this round.", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.7", "该生物本轮攻击过拥有睚眦必报专长的角色。", true))
+            var mark = Buff("PunisherMarkBuff", Guids.Playstyle.PunisherMarkBuff, LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.6", "Blood Debt"),
+                    LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.7", "This creature attacked someone with the Blood-Debt Reckoning feat this round."))
                 .Configure();
-            Feat(FeatSelection.Retaliation, "Punisher", Guids.Playstyle.Punisher, Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.8", "Blood-Debt Reckoning", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.8", "睚眦必报", true),
-                    Desc(Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "反击", true),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.9", "Against enemies that attacked you this round, you gain +1 on attack and damage rolls per 4 character levels (minimum +1, maximum +5).", false),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.9", "对本轮攻击过你的敌人，你的攻击检定与伤害骰每4角色等级获得+1（最低+1，最高+5）。", true)))
+            Feat(FeatSelection.Retaliation, "Punisher", Guids.Playstyle.Punisher, LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.8", "Blood-Debt Reckoning"),
+                    Desc(LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation"),
+                        LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.9", "Against enemies that attacked you this round, you gain +1 on attack and damage rolls per 4 character levels (minimum +1, maximum +5).")))
                 .AddTargetAttackWithWeaponTrigger(actionsOnAttacker: ActionsBuilder.New().ApplyBuff(mark, Rounds(1)), onlyMelee: false)
                 .AddContextRankConfig(ContextRankConfigs.CharacterLevel(min: 1, max: 5).WithDivStepProgression(4))
                 .AddAttackBonusAgainstFactOwner(bonus: Common.Rank(), checkedFact: mark, descriptor: ModifierDescriptor.UntypedStackable)
                 .AddDamageBonusAgainstFactOwner(bonus: Common.Rank(), checkedFact: mark, descriptor: ModifierDescriptor.UntypedStackable)
                 .Configure();
 
-            var crit = Buff("ParryCritBuff", Guids.Playstyle.ParryCritBuff, Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.10", "Opening Read", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.10", "看破", true),
-                    Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.11", "Your next attack is a confirmed critical hit.", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.11", "你的下一次攻击必定为重击。", true))
+            var crit = Buff("ParryCritBuff", Guids.Playstyle.ParryCritBuff, LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.10", "Opening Read"),
+                    LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.11", "Your next attack is a confirmed critical hit."))
                 .AddComponent<NextAttackCritical>()
                 .Configure();
-            Feat(FeatSelection.Retaliation, "ParryCrit", Guids.Playstyle.ParryCrit, Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.12", "Read the Blade", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.12", "明镜识锋", true),
-                    Desc(Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "反击", true),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.13", "After you successfully parry an attack, your next attack within 2 rounds is an automatically confirmed critical hit.", false),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.13", "成功招架一次攻击后，你在2轮内的下一次攻击自动成为确认的重击。", true)))
+            Feat(FeatSelection.Retaliation, "ParryCrit", Guids.Playstyle.ParryCrit, LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.12", "Read the Blade"),
+                    Desc(LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation"),
+                        LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.13", "After you successfully parry an attack, your next attack within 2 rounds is an automatically confirmed critical hit.")))
                 .AddComponent<ApplyBuffOnParry>(c => c.Buff = crit.ToReference<BlueprintBuffReference>())
                 .Configure();
 
-            Feat(FeatSelection.Retaliation, "Shove", Guids.Playstyle.Shove, Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.14", "Batter and Displace", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.14", "撼步冲撞", true),
-                    Desc(Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation", false), Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "反击", true),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.15", "After each of your weapon attacks and after each weapon attack against you, hit or miss, you attempt a bull rush against that enemy. This bull rush does not provoke attacks of opportunity.", false),
-                        Common.Text("Text.RetaliationFeats.ConfigureCounters.Text.15", "你的每次武器攻击结算后，以及敌人对你的每次武器攻击结算后（无论是否命中），你对该敌人尝试一次冲撞。该冲撞不引发借机攻击。", true)))
+            Feat(FeatSelection.Retaliation, "Shove", Guids.Playstyle.Shove, LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.14", "Batter and Displace"),
+                    Desc(LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.2", "Retaliation"),
+                        LocalizedText.Text("Text.RetaliationFeats.ConfigureCounters.Text.15", "After each of your weapon attacks and after each weapon attack against you, hit or miss, you attempt a bull rush against that enemy. This bull rush does not provoke attacks of opportunity.")))
                 .AddInitiatorAttackWithWeaponTrigger(action: ActionsBuilder.New().CombatManeuver(ActionsBuilder.New(), CombatManeuver.BullRush))
                 .AddTargetAttackWithWeaponTrigger(actionsOnAttacker: ActionsBuilder.New().CombatManeuver(ActionsBuilder.New(), CombatManeuver.BullRush))
                 .Configure();
@@ -99,17 +94,15 @@ namespace ACHomebrew.Feats
 
         private static void ConfigureReturnDamage()
         {
-            Feat(FeatSelection.Retaliation, "ReturnBlow", Guids.Dota.ReturnBlow, Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text", "Anvil's Retribution", false), Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text", "铁砧反震", true),
-                    Desc(Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.2", "Retaliation", false), Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.2", "反击", true),
-                        Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.3", "Whenever an enemy damages you with a melee or ranged attack or a spell, it takes damage equal to half your character level plus your Strength modifier (minimum 1).", false),
-                        Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.3", "敌人以近战、远程攻击或法术对你造成伤害时，受到等于你角色等级一半加力量调整值的伤害（最低1）。", true)))
+            Feat(FeatSelection.Retaliation, "ReturnBlow", Guids.Dota.ReturnBlow, LocalizedText.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text", "Anvil's Retribution"),
+                    Desc(LocalizedText.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.2", "Retaliation"),
+                        LocalizedText.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.3", "Whenever an enemy damages you with a melee or ranged attack or a spell, it takes damage equal to half your character level plus your Strength modifier (minimum 1).")))
                 .AddComponent<ReturnBlowDamage>()
                 .Configure();
 
-            Feat(FeatSelection.Retaliation, "KrakenShell", Guids.Dota.KrakenShell, Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.4", "Leviathan's Carapace", false), Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.4", "渊海甲胄", true),
-                    Desc(Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.2", "Retaliation", false), Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.2", "反击", true),
-                        Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.5", "You gain DR 1/— plus 1 per 4 character levels. After you take damage totalling a tenth of your maximum hit points, all harmful effects on you are removed and the count resets.", false),
-                        Common.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.5", "你获得1/—的伤害减免，每4角色等级再+1。累计受到相当于最大生命值十分之一的伤害后，移除你身上所有有害效果，并重新计数。", true)))
+            Feat(FeatSelection.Retaliation, "KrakenShell", Guids.Dota.KrakenShell, LocalizedText.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.4", "Leviathan's Carapace"),
+                    Desc(LocalizedText.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.2", "Retaliation"),
+                        LocalizedText.Text("Text.RetaliationFeats.ConfigureReturnDamage.Text.5", "You gain DR 1/— plus 1 per 4 character levels. After you take damage totalling a tenth of your maximum hit points, all harmful effects on you are removed and the count resets.")))
                 .AddContextRankConfig(ContextRankConfigs.CharacterLevel().WithStartPlusDivStepProgression(4, 0))
                 .AddDamageResistancePhysical(isStackable: true, value: Common.Rank())
                 .AddComponent<KrakenShellPurge>()

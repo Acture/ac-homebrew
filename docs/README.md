@@ -15,7 +15,7 @@ AttributeFeats), versioned with the mod's code.
 - [Building from source](../README.md#building-from-source)
 - [Validation commands and limits](validation.md)
 - [Editable localization and release delivery](localization-and-release.md)
-- [Manual Nexus publishing and environment setup](nexus-publishing.md)
+- [Nexus publishing and environment setup](nexus-publishing.md)
 - [Offline mechanics tests against the real game files](offline-mechanics-testing.md)
 - [Read-only game assembly and type inspection](type-inspection.md)
 - [English/Chinese feat catalog](feat-catalog.md)

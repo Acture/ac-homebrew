@@ -4,6 +4,8 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+# Game locales with a shipped language file; English first (the fallback for every other locale).
+LOCALES = ("enGB", "zhCN", "deDE", "frFR", "esES", "itIT", "ptBR", "ruRU")
 REQUIRED = {
     "README.en.md": "docs/player/README.en.md",
     "README.zh-CN.md": "docs/player/README.zh-CN.md",
@@ -11,8 +13,7 @@ REQUIRED = {
     "CHANGELOG.zh-CN.md": "docs/player/CHANGELOG.zh-CN.md",
     "LICENSE": "LICENSE",
     "LICENSE-EXCEPTION.md": "LICENSE-EXCEPTION.md",
-    "Localization/enGB.json": "src/ACHomebrew.Core/Localization/enGB.json",
-    "Localization/zhCN.json": "src/ACHomebrew.Core/Localization/zhCN.json",
+    **{f"Localization/{locale}.json": f"src/ACHomebrew.Core/Localization/{locale}.json" for locale in LOCALES},
     "Info.json": "src/ACHomebrew/Info.json",
 }
 
@@ -83,14 +84,20 @@ def signature(text):
     return tokens
 
 
-def language_entries(english, chinese):
-    assert isinstance(english, dict) and isinstance(chinese, dict), "language files must be JSON objects"
-    assert english and english.keys() == chinese.keys(), "language key coverage differs"
+def language_entries(packs):
+    """Check {locale: language file} against English; return {key: {"Key", locale: text...}}."""
+    assert all(isinstance(pack, dict) for pack in packs.values()), "language files must be JSON objects"
+    english = packs["enGB"]
+    assert english, "English language file is empty"
+    for locale, pack in packs.items():
+        assert pack.keys() == english.keys(), f"language key coverage differs: {locale}"
     for key in english:
         assert key.strip() and all(isinstance(pack[key], str) and pack[key].strip()
-                                   for pack in (english, chinese)), f"blank/invalid translation: {key}"
-        assert signature(english[key]) == signature(chinese[key]), f"placeholder/markup/link mismatch: {key}"
-    return {key: {"Key": key, "enGB": english[key], "zhCN": chinese[key]} for key in english}
+                                   for pack in packs.values()), f"blank/invalid translation: {key}"
+        expected = signature(english[key])
+        for locale, pack in packs.items():
+            assert signature(pack[key]) == expected, f"placeholder/markup/link mismatch: {locale} {key}"
+    return {key: {"Key": key, **{locale: pack[key] for locale, pack in packs.items()}} for key in english}
 
 
 def check_sources(root=ROOT):
@@ -106,9 +113,11 @@ def check_sources(root=ROOT):
         if item.get("CopyToOutputDirectory") not in ("Always", "PreserveNewest"):
             continue
         for include in (item.get("Include") or item.get("Update", "")).split(";"):
-            path = (project_path.parent / include).resolve()
-            link = item.get("Link", "").replace("%(Filename)%(Extension)", path.name)
-            outputs[link or path.name] = path
+            pattern = project_path.parent / include
+            paths = sorted(pattern.parent.glob(pattern.name)) if "*" in pattern.name else [pattern]
+            for path in (path.resolve() for path in paths):
+                link = item.get("Link", "").replace("%(Filename)%(Extension)", path.name)
+                outputs[link or path.name] = path
     for destination, source in REQUIRED.items():
         assert outputs.get(destination) == (root / source).resolve(), f"not copied by packaging project: {destination}"
         assert (root / source).is_file(), f"missing player delivery source: {source}"
@@ -121,8 +130,8 @@ def check_sources(root=ROOT):
         headings = [line for line in (root / REQUIRED[name]).read_text(encoding="utf-8").splitlines()
                     if line.startswith("## ")]
         assert headings and headings[0].startswith(f"## {version} "), f"outdated changelog: {name}"
-    entries = language_entries(*(parse_json((root / REQUIRED[f"Localization/{locale}.json"]).read_bytes())
-                                 for locale in ("enGB", "zhCN")))
+    entries = language_entries({locale: parse_json((root / REQUIRED[f"Localization/{locale}.json"]).read_bytes())
+                                for locale in LOCALES})
     return version, entries
 
 
@@ -134,6 +143,6 @@ def check_archive(archive, root=ROOT):
     metadata = parse_json(archive.read("Info.json"))
     assert metadata["Version"] == version, "archive metadata version"
     assert archive.filename is None or Path(archive.filename).name == f"ACHomebrew-{version}.zip", "release ZIP version"
-    language_entries(*(parse_json(archive.read(f"Localization/{locale}.json")) for locale in ("enGB", "zhCN")))
+    language_entries({locale: parse_json(archive.read(f"Localization/{locale}.json")) for locale in LOCALES})
     for destination, source in REQUIRED.items():
         assert archive.read(destination) == (root / source).read_bytes(), f"archive differs from build inputs: {destination}"

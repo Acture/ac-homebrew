@@ -42,9 +42,9 @@ namespace ACHomebrew.Feats
             Initialized = true;
 
             var spellbooks = CollectSpellbooks();
-            Create(StatType.Strength, "Str", Common.Text("Text.CastingStatFeats.ConfigureAll.Text", "Strength", false), Common.Text("Text.CastingStatFeats.ConfigureAll.Text", "力量", true), Common.Text("Text.CastingStatFeats.ConfigureAll.Text.2", "Somatic Force", false), Common.Text("Text.CastingStatFeats.ConfigureAll.Text.2", "力擎法脉", true), Guids.CastingStat.Str, spellbooks);
-            Create(StatType.Dexterity, "Dex", Common.Text("Text.CastingStatFeats.ConfigureAll.Text.3", "Dexterity", false), Common.Text("Text.CastingStatFeats.ConfigureAll.Text.3", "敏捷", true), Common.Text("Text.CastingStatFeats.ConfigureAll.Text.4", "Sleight of Arcana", false), Common.Text("Text.CastingStatFeats.ConfigureAll.Text.4", "巧指弄玄", true), Guids.CastingStat.Dex, spellbooks);
-            Create(StatType.Constitution, "Con", Common.Text("Text.CastingStatFeats.ConfigureAll.Text.5", "Constitution", false), Common.Text("Text.CastingStatFeats.ConfigureAll.Text.5", "体质", true), Common.Text("Text.CastingStatFeats.ConfigureAll.Text.6", "Sanguine Incantation", false), Common.Text("Text.CastingStatFeats.ConfigureAll.Text.6", "气血炼真", true), Guids.CastingStat.Con, spellbooks);
+            Create(StatType.Strength, "Str", LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text", "Strength"), LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.2", "Somatic Force"), Guids.CastingStat.Str, spellbooks);
+            Create(StatType.Dexterity, "Dex", LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.3", "Dexterity"), LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.4", "Sleight of Arcana"), Guids.CastingStat.Dex, spellbooks);
+            Create(StatType.Constitution, "Con", LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.5", "Constitution"), LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.6", "Sanguine Incantation"), Guids.CastingStat.Con, spellbooks);
             Mod.Log?.Log($"AttributeFeats: casting attribute feats cover {spellbooks.Count} spellbooks.");
         }
 
@@ -63,15 +63,14 @@ namespace ACHomebrew.Feats
                 .ToList();
         }
 
-        private static void Create(StatType attribute, string key, string en, string zh, string titleEn, string titleZh, string guid, List<BlueprintSpellbook> spellbooks)
+        private static void Create(StatType attribute, string key, LocalizedText attributeName, LocalizedText title, string guid, List<BlueprintSpellbook> spellbooks)
         {
             var name = $"CastingStat_{key}";
-            var descEn = Common.Format("Text.CastingStatFeats.Create.desc", "<i>Casting Attribute · {0}</i>\n\n<b>Effect:</b> Choose one of your spellbooks. It uses {0} as its casting attribute: spell save DCs, bonus spell slots, the minimum score needed to cast each spell level, and concentration all use it.\n\n<b>Settings:</b> Casting Scope can make the feat apply to all your spellbooks instead; Casting Mode can make it apply only when {0} is higher than the spellbook's own attribute.\n\n<b>Restrictions:</b> Each spellbook can have only one casting attribute feat. You can take the feat again for another spellbook.", false, en);
-            var descZh = Common.Format("Text.CastingStatFeats.Create.desc", "<i>施法属性 · {0}</i>\n\n<b>效果：</b>选择你的一本法术书，其施法属性改为{0}：法术豁免DC、额外法术位、各环法术所需的最低属性值与专注都改用该属性。\n\n<b>设置：</b>“施法范围”可改为作用于你的全部法术书；“施法模式”可改为仅在{0}高于法术书原属性时生效。\n\n<b>限制：</b>每本法术书只能有一个施法属性专长。可再次选取本专长用于另一本法术书。", true, zh);
-            (descEn, descZh) = FeatLore.Apply(name, (descEn, descZh));
+            var desc = LocalizedText.Format("Text.CastingStatFeats.Create.desc", "<i>Casting Attribute · {0}</i>\n\n<b>Effect:</b> Choose one of your spellbooks. It uses {0} as its casting attribute: spell save DCs, bonus spell slots, the minimum score needed to cast each spell level, and concentration all use it.\n\n<b>Settings:</b> Casting Scope can make the feat apply to all your spellbooks instead; Casting Mode can make it apply only when {0} is higher than the spellbook's own attribute.\n\n<b>Restrictions:</b> Each spellbook can have only one casting attribute feat. You can take the feat again for another spellbook.", attributeName);
+            desc = FeatLore.Apply(name, desc);
             var feat = FeatSelection.CastingStat.NewParametrizedFeat(name, guid)
-                .SetDisplayName(Common.L($"{name}.Name", titleEn, titleZh))
-                .SetDescription(Common.L($"{name}.Desc", descEn, descZh, tagEncyclopediaEntries: true))
+                .SetDisplayName(Common.L($"{name}.Name", title))
+                .SetDescription(Common.L($"{name}.Desc", desc, tagEncyclopediaEntries: true))
                 .SetIconIfPresent(name)
                 .SetParameterType(FeatureParameterType.Custom)
                 .AddComponent<CastingAttributeOverride>(c => c.Attribute = attribute)

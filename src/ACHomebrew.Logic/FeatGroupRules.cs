@@ -13,8 +13,9 @@ namespace ACHomebrew.Feats
     {
         public string Id;
         public string SettingId;
+        /// <summary>English name; translations live in the catalog under <see cref="NameKey"/>.</summary>
         public string NameEn;
-        public string NameZh;
+        public string NameKey => "FeatGroup." + SettingId;
         public bool DefaultEnabled = true;
         public int DefaultMax = 1;
         public string Family;
@@ -35,11 +36,11 @@ namespace ACHomebrew.Feats
 
     internal static class FeatGroupRules
     {
-        private static FeatGroup Family(string family, string en, string zh, int max = 1)
-            => new() { Id = family, SettingId = family, Family = family, NameEn = en, NameZh = zh, DefaultMax = max };
+        private static FeatGroup Family(string family, string en, int max = 1)
+            => new() { Id = family, SettingId = family, Family = family, NameEn = en, DefaultMax = max };
 
-        private static FeatGroup Explicit(string id, string en, string zh, int max, bool enabled, params string[] members)
-            => new() { Id = id, SettingId = id, NameEn = en, NameZh = zh, DefaultMax = max, DefaultEnabled = enabled, Members = members };
+        private static FeatGroup Explicit(string id, string en, int max, bool enabled, params string[] members)
+            => new() { Id = id, SettingId = id, NameEn = en, DefaultMax = max, DefaultEnabled = enabled, Members = members };
 
         // Every Main feat whose source is this attribute, plus the retired broad Main feat.
         private static IEnumerable<string> MainFrom(string attribute)
@@ -52,7 +53,6 @@ namespace ACHomebrew.Feats
                 Id = "SameAttribute_" + attribute,
                 SettingId = "SameAttribute",
                 NameEn = "Same attribute across Main, Adept and Stance",
-                NameZh = "主属性、专精与架势同属性互斥",
                 DefaultEnabled = false,
                 Members = members.Concat(MainFrom(attribute)).ToArray(),
             };
@@ -77,36 +77,35 @@ namespace ACHomebrew.Feats
                                 Id = "DistanceStyle_" + index++,
                                 SettingId = "DistanceStyle",
                                 NameEn = "One distance style (close, mid or long range)",
-                                NameZh = "只选一种距离风格（近身、中距、远距）",
                                 Members = new[] { first, second },
                             };
         }
 
         public static readonly FeatGroup[] All = new[]
         {
-            Family("MainAttribute", "Main Attribute Mastery (one per character)", "主属性专精（每角色一个）"),
-            Family("Defensive", "Defensive Adept", "防御专精"),
-            Family("Maneuver", "Maneuver Adept", "战技专精"),
-            Family("Skilled", "Skilled Adept", "技能专精"),
-            Family("Arcane", "Arcane Adept", "奥术专精"),
-            Family("Stance", "Stance", "架势"),
-            Family("WeaponInsight", "Weapon Insight", "武器洞察"),
-            Family("WeaponDamage", "Weapon Damage attribute", "武器伤害属性"),
-            Family("GreaterSummoning", "Greater Summoning", "高等召唤"),
-            Family("SummonerSacrifice", "Summoner Sacrifice", "召唤者献祭"),
-            Family("SpellSchool", "Spell School Specialist", "法术学派专精"),
-            Family("SpellDescriptor", "Spell Descriptor Specialist", "法术描述符专精"),
-            Family("ReactiveArmor", "Reactive Armor", "反应护甲"),
-            Family("Conditional", "Conditional Trigger", "条件触发", max: 2),
-            Explicit("AcReplacement", "Attribute replaces armor class", "属性替代护甲等级", 1, true,
+            Family("MainAttribute", "Main Attribute Mastery (one per character)"),
+            Family("Defensive", "Defensive Adept"),
+            Family("Maneuver", "Maneuver Adept"),
+            Family("Skilled", "Skilled Adept"),
+            Family("Arcane", "Arcane Adept"),
+            Family("Stance", "Stance"),
+            Family("WeaponInsight", "Weapon Insight"),
+            Family("WeaponDamage", "Weapon Damage attribute"),
+            Family("GreaterSummoning", "Greater Summoning"),
+            Family("SummonerSacrifice", "Summoner Sacrifice"),
+            Family("SpellSchool", "Spell School Specialist"),
+            Family("SpellDescriptor", "Spell Descriptor Specialist"),
+            Family("ReactiveArmor", "Reactive Armor"),
+            Family("Conditional", "Conditional Trigger", max: 2),
+            Explicit("AcReplacement", "Attribute replaces armor class", 1, true,
                 Guids.Replacement.Extended.InnerSentinel, Guids.ExtendedReplacement2.LightfootDefense),
-            Explicit("CmdReplacement", "Attribute replaces CMD", "属性替代战技防御", 1, true,
+            Explicit("CmdReplacement", "Attribute replaces CMD", 1, true,
                 Guids.Replacement.Extended.UnyieldingWill, Guids.ExtendedReplacement2.BrutalDefender),
-            Explicit("DerivedAc", "Derived armor class", "衍生护甲等级", 1, true,
+            Explicit("DerivedAc", "Derived armor class", 1, true,
                 Guids.Derived.ArcaneAegis, Guids.Derived.SkilledDefender),
-            Explicit("CasterLevelVitality", "Caster level to hit points", "施法者等级转生命", 1, true,
+            Explicit("CasterLevelVitality", "Caster level to hit points", 1, true,
                 Guids.Derived.MysticVitality, Guids.Derived.SoulBulwark),
-            Explicit("AttributeToAc", "Attribute bonuses to armor class", "属性加护甲等级", 2, true,
+            Explicit("AttributeToAc", "Attribute bonuses to armor class", 2, true,
                 Guids.Specialized.Defensive.Dex, Guids.Specialized.Defensive.Con,
                 Guids.Stance.Feature.Dex, Guids.Stance.Feature.Wis,
                 Guids.Replacement.Extended.InnerSentinel, Guids.ExtendedReplacement2.LightfootDefense,

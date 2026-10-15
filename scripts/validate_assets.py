@@ -8,7 +8,7 @@ import struct
 import zipfile
 from pathlib import Path
 from feat_catalog import ROOT, PROJECT, catalog, calls, split_args, source_file
-from release_delivery import check_sources, check_archive
+from release_delivery import LOCALES, check_sources, check_archive
 
 
 def read(path):
@@ -67,7 +67,7 @@ def main():
     _, entries = check_sources()
     resources = list(entries.values())
     for entry in resources:
-        assert entry['enGB'].strip() and entry['zhCN'].strip(), entry['Key']
+        assert all(entry[locale].strip() for locale in LOCALES), entry['Key']
     for row in rows:
         assert entries[row['key'] + '.Name']['enGB'] == row['en'], row['internal']
         assert entries[row['key'] + '.Name']['zhCN'] == row['zh'], row['internal']
@@ -115,7 +115,7 @@ def main():
     if args.release:
         assert not pending
         check_release_archive(args.release)
-    print(f'{len(entries)} bilingual entries, player delivery files, 92 unique existing feat names, published component calls/inline IDs and {len(manifest)-len(pending)}/{len(manifest)} icons verified (static checks only).')
+    print(f'{len(entries)} entries in {len(LOCALES)} languages, player delivery files, 92 unique existing feat names, published component calls/inline IDs and {len(manifest)-len(pending)}/{len(manifest)} icons verified (static checks only).')
     if args.release: print(f'Release ZIP verified: {args.release}')
 
 

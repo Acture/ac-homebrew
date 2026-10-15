@@ -1,6 +1,8 @@
 name: Publish existing release to Nexus
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       release_tag:
@@ -21,6 +23,11 @@ defaults:
   run:
     shell: bash
 
+env:
+  # A published release uploads after environment approval; prereleases only preview unless run manually.
+  RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || inputs.release_tag }}
+  PUBLISH: ${{ github.event_name == 'release' && !github.event.release.prerelease || github.event_name == 'workflow_dispatch' && inputs.publish }}
+
 concurrency:
   group: nexus-publish
   cancel-in-progress: false
@@ -32,20 +39,29 @@ jobs:
     timeout-minutes: 10
     outputs:
       sha256: ${{ steps.package.outputs.sha256 }}
+      publish: ${{ env.PUBLISH }}
     steps:
       - uses: actions/checkout@v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - name: Require the trusted default-branch workflow
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
-          if [ "$GITHUB_REF" != "refs/heads/$DEFAULT_BRANCH" ]; then
+          # Manual runs use the default branch's workflow; release runs use the tagged commit's,
+          # so that commit must already be on the default branch.
+          if [ "$GITHUB_EVENT_NAME" = release ]; then
+            if ! git merge-base --is-ancestor "$GITHUB_SHA" "origin/$DEFAULT_BRANCH"; then
+              echo "::error::Release tag $RELEASE_TAG is not on $DEFAULT_BRANCH."
+              exit 1
+            fi
+          elif [ "$GITHUB_REF" != "refs/heads/$DEFAULT_BRANCH" ]; then
             echo "::error::Run this workflow from the default branch."
             exit 1
           fi
       - name: Require configured environment reviewers before requesting upload
-        if: ${{ inputs.publish }}
+        if: ${{ env.PUBLISH == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -54,14 +70,11 @@ jobs:
       - name: Read the published release metadata
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
         run: |
           mkdir -p artifacts/nexus-download
           gh api "repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" > artifacts/nexus-release.json
       - name: Select one exact uploaded asset and its GitHub digest
         id: asset
-        env:
-          RELEASE_TAG: ${{ inputs.release_tag }}
         run: |
           python scripts/prepare_nexus_release.py metadata \
             --metadata artifacts/nexus-release.json \
@@ -70,7 +83,7 @@ jobs:
       - name: Read source files from the same release tag
         uses: actions/checkout@v7
         with:
-          ref: refs/tags/${{ inputs.release_tag }}
+          ref: refs/tags/${{ env.RELEASE_TAG }}
           path: release-source
           persist-credentials: false
       - name: Download the exact release asset ID
@@ -84,7 +97,6 @@ jobs:
       - name: Verify the ZIP against its digest and tagged delivery sources
         id: package
         env:
-          RELEASE_TAG: ${{ inputs.release_tag }}
           FILENAME: ${{ steps.asset.outputs.filename }}
         run: |
           python scripts/prepare_nexus_release.py prepare \
@@ -104,7 +116,7 @@ jobs:
 
   upload:
     name: Upload the approved ZIP to Nexus
-    if: ${{ inputs.publish }}
+    if: ${{ needs.prepare.outputs.publish == 'true' }}
     needs: prepare
     environment: nexus-publish
     runs-on: ubuntu-latest
@@ -123,7 +135,6 @@ jobs:
       - name: Recheck the prepared ZIP before exposing the Nexus key
         id: inputs
         env:
-          RELEASE_TAG: ${{ inputs.release_tag }}
           PREPARED_SHA256: ${{ needs.prepare.outputs.sha256 }}
         run: |
           python scripts/prepare_nexus_release.py upload-inputs \

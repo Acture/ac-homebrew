@@ -3,25 +3,34 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Kingmaker.Localization.Shared;
 using Newtonsoft.Json;
 
 namespace ACHomebrew.Feats
 {
     internal static class FeatTextCatalog
     {
-        private static Dictionary<string, string> English;
-        private static Dictionary<string, string> Chinese;
+        // Locales indexed like LocalizedText.Locales; English (index 0) is the fallback for every other locale.
+        private static Dictionary<string, string>[] catalogs;
 
         public static void Initialize(string modDirectory, Action<string> log)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            English = ReadEmbedded(assembly, "AttributeFeats.Localization.FeatText.json", log);
-            Chinese = ReadEmbedded(assembly, "AttributeFeats.Localization.zhCN.json", log);
-            if (string.IsNullOrEmpty(modDirectory)) return;
-            var directory = Path.Combine(modDirectory, "Localization");
-            Overlay(English, Path.Combine(directory, "enGB.json"), log);
-            Overlay(Chinese, Path.Combine(directory, "zhCN.json"), log);
+            var loaded = new Dictionary<string, string>[LocalizedText.Locales.Length];
+            for (var i = 0; i < loaded.Length; i++)
+                loaded[i] = ReadEmbedded(assembly, ResourceName(LocalizedText.Locales[i]), log);
+            if (!string.IsNullOrEmpty(modDirectory))
+            {
+                var directory = Path.Combine(modDirectory, "Localization");
+                for (var i = 0; i < loaded.Length; i++)
+                    Overlay(loaded[i], loaded[0], Path.Combine(directory, LocalizedText.Locales[i] + ".json"), log);
+            }
+            catalogs = loaded;
         }
+
+        // English keeps its historical resource name so older tools that read it keep working.
+        internal static string ResourceName(Locale locale)
+            => locale == Locale.enGB ? "AttributeFeats.Localization.FeatText.json" : $"AttributeFeats.Localization.{locale}.json";
 
         private static Dictionary<string, string> ReadEmbedded(Assembly assembly, string name, Action<string> log)
         {
@@ -57,7 +66,7 @@ namespace ACHomebrew.Feats
             return result;
         }
 
-        private static void Overlay(Dictionary<string, string> embedded, string path, Action<string> log)
+        private static void Overlay(Dictionary<string, string> embedded, Dictionary<string, string> english, string path, Action<string> log)
         {
             if (!File.Exists(path))
             {
@@ -67,12 +76,12 @@ namespace ACHomebrew.Feats
             try
             {
                 var external = Read(File.ReadAllText(path));
-                var missing = embedded.Keys.Count(key => !external.ContainsKey(key));
+                var missing = english.Keys.Count(key => !external.ContainsKey(key));
                 if (missing > 0)
                     log?.Invoke($"AC's Homebrew: {path} is missing {missing} translations; using embedded text for those keys.");
                 foreach (var entry in external)
                 {
-                    if (!embedded.TryGetValue(entry.Key, out var original))
+                    if (!english.TryGetValue(entry.Key, out var original))
                     {
                         log?.Invoke($"AC's Homebrew: unknown localization key {entry.Key} in {path}; ignored.");
                         continue;
@@ -92,17 +101,16 @@ namespace ACHomebrew.Feats
             }
         }
 
-        public static string Get(string key, string fallback, bool chinese)
-        {
-            if (English == null) Initialize(null, message => Mod.Log?.Log(message));
-            English.TryGetValue(key, out var english);
-            Chinese.TryGetValue(key, out var translation);
-            return SelectText(english, translation, fallback, chinese);
-        }
+        /// <summary>Text in <paramref name="locale"/>, then English, then <paramref name="fallback"/>.</summary>
+        public static string Get(string key, string fallback, Locale locale)
+            => Find(key, locale) ?? Find(key, Locale.enGB) ?? fallback;
 
-        internal static string SelectText(string english, string chinese, string fallback, bool useChinese)
-            => useChinese && !string.IsNullOrWhiteSpace(chinese)
-                ? chinese
-                : !string.IsNullOrWhiteSpace(english) ? english : fallback;
+        /// <summary>The nonblank entry for <paramref name="key"/> in exactly <paramref name="locale"/>, or null.</summary>
+        public static string Find(string key, Locale locale)
+        {
+            if (catalogs == null) Initialize(null, message => Mod.Log?.Log(message));
+            return catalogs[LocalizedText.Index(locale)].TryGetValue(key, out var text) && !string.IsNullOrWhiteSpace(text)
+                ? text : null;
+        }
     }
 }

@@ -28,28 +28,32 @@ function Assert-Equal([string]$Expected, [string]$Actual) {
 try {
     $languageDirectory = Join-Path $temporary 'Localization'
     [void][IO.Directory]::CreateDirectory($languageDirectory)
-    Copy-Item -LiteralPath (Join-Path (Split-Path $ModAssembly -Parent) 'Localization\enGB.json') -Destination $languageDirectory
-    $translations = Get-Content -LiteralPath (Join-Path (Split-Path $ModAssembly -Parent) 'Localization\zhCN.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    # Edit one non-English language (German) and keep every other delivered file unchanged.
+    $delivered = Join-Path (Split-Path $ModAssembly -Parent) 'Localization'
+    Get-ChildItem -LiteralPath $delivered -Filter '*.json' | Copy-Item -Destination $languageDirectory
+    $get = $catalog.GetMethod('Get', $flags)
+    $german = [Enum]::Parse($get.GetParameters()[2].ParameterType, 'deDE')
+    $translations = Get-Content -LiteralPath (Join-Path $delivered 'deDE.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     $translations.'MainAttr_Str.Name' = 'External release translation'
     $translations.'Text.FeatBuilders.Desc.Text' = $translations.'Text.FeatBuilders.Desc.Text'.Replace('{1}', 'External rule: {1}')
-    $translations | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $languageDirectory 'zhCN.json') -Encoding UTF8
+    $translations | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $languageDirectory 'deDE.json') -Encoding UTF8
 
     [void]$catalog.GetMethod('Initialize', $flags).Invoke($null, [object[]]@([string]$temporary, $logger))
     if ($messages.Count) { throw ($messages -join "`n") }
-    Assert-Equal 'External release translation' ($catalog.GetMethod('Get', $flags).Invoke($null, [object[]]@('MainAttr_Str.Name', 'fallback', $true)))
+    Assert-Equal 'External release translation' ($get.Invoke($null, [object[]]@('MainAttr_Str.Name', 'fallback', $german)))
 
     $arguments = New-Object object[] 4
     $arguments[0] = 'Text.FeatBuilders.Desc.Text'
     $arguments[1] = 'fallback'
-    $arguments[2] = $true
+    $arguments[2] = $german
     $arguments[3] = [object[]]@('Family', '+1 damage')
     $description = $common.GetMethod('Format', $flags).Invoke($null, $arguments)
     Assert-Equal ([string]::Format($translations.'Text.FeatBuilders.Desc.Text', 'Family', '+1 damage')) $description
-    Set-Content -LiteralPath (Join-Path $languageDirectory 'zhCN.json') -Value '{' -Encoding UTF8
+    Set-Content -LiteralPath (Join-Path $languageDirectory 'deDE.json') -Value '{' -Encoding UTF8
     [void]$catalog.GetMethod('Initialize', $flags).Invoke($null, [object[]]@([string]$temporary, $logger))
     if (!($messages | Where-Object { $_ -like '*cannot load localization*' })) { throw 'Missing malformed-file diagnostic.' }
-    $fallback = $catalog.GetMethod('Get', $flags).Invoke($null, [object[]]@('MainAttr_Str.Name', 'fallback', $true))
-    $embedded = Get-Content -LiteralPath (Join-Path (Split-Path $ModAssembly -Parent) 'Localization\zhCN.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    $fallback = $get.Invoke($null, [object[]]@('MainAttr_Str.Name', 'fallback', $german))
+    $embedded = Get-Content -LiteralPath (Join-Path $delivered 'deDE.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     Assert-Equal $embedded.'MainAttr_Str.Name' $fallback
     'PASS: the merged release DLL reads edited external names and formats edited rule templates, and logs malformed-file fallback, without recompilation or starting Unity. Registration/refresh are covered by production-source tests with API doubles; this check does not execute Unity localization APIs.'
 }

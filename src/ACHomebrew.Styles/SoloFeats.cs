@@ -49,9 +49,8 @@ namespace ACHomebrew.Feats
 
         private static void ConfigureSolo()
         {
-            var buff = Buff("LoneWolfBuff", Guids.Playstyle.LoneWolfBuff, Common.Text("Text.SoloFeats.ConfigureSolo.Text", "Lone Wolf", false), Common.Text("Text.SoloFeats.ConfigureSolo.Text", "孤鸿涉远", true),
-                    Common.Text("Text.SoloFeats.ConfigureSolo.Text.2", "No ally is within 30 feet: dodge bonus to AC, bonus on saving throws and damage of +1 per 4 character levels (minimum +1).", false),
-                    Common.Text("Text.SoloFeats.ConfigureSolo.Text.2", "30尺内没有队友：防御等级获得闪避加值，豁免与伤害获得加值，每4角色等级+1（最低+1）。", true))
+            var buff = Buff("LoneWolfBuff", Guids.Playstyle.LoneWolfBuff, LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text", "Lone Wolf"),
+                    LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text.2", "No ally is within 30 feet: dodge bonus to AC, bonus on saving throws and damage of +1 per 4 character levels (minimum +1)."))
                 .AddContextRankConfig(ContextRankConfigs.CharacterLevel(min: 1).WithDivStepProgression(4))
                 .AddContextStatBonus(StatType.AC, Common.Rank(), descriptor: ModifierDescriptor.Dodge)
                 .AddContextStatBonus(StatType.SaveFortitude, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable)
@@ -59,16 +58,14 @@ namespace ACHomebrew.Feats
                 .AddContextStatBonus(StatType.SaveWill, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable)
                 .AddContextStatBonus(StatType.AdditionalDamage, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable)
                 .Configure();
-            Feat(FeatSelection.Solo, "LoneWolf", Guids.Playstyle.LoneWolf, Common.Text("Text.SoloFeats.ConfigureSolo.Text", "Lone Wolf", false), Common.Text("Text.SoloFeats.ConfigureSolo.Text", "孤鸿涉远", true),
-                    Desc(Common.Text("Text.SoloFeats.ConfigureSolo.Text.3", "Solo", false), Common.Text("Text.SoloFeats.ConfigureSolo.Text.3", "独行", true),
-                        Common.Text("Text.SoloFeats.ConfigureSolo.Text.4", "While no conscious ally is within 30 feet of you, you gain a dodge bonus to AC and a bonus on saving throws and damage rolls equal to +1 per 4 character levels (minimum +1). Summoned creatures and pets count as allies. Checked each round.", false),
-                        Common.Text("Text.SoloFeats.ConfigureSolo.Text.4", "30尺内没有清醒的队友时，你的防御等级获得闪避加值，豁免与伤害骰获得加值，每4角色等级+1（最低+1）。召唤物与宠物算作队友。每轮检查一次。", true)))
+            Feat(FeatSelection.Solo, "LoneWolf", Guids.Playstyle.LoneWolf, LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text", "Lone Wolf"),
+                    Desc(LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text.3", "Solo"),
+                        LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text.4", "While no conscious ally is within 30 feet of you, you gain a dodge bonus to AC and a bonus on saving throws and damage rolls equal to +1 per 4 character levels (minimum +1). Summoned creatures and pets count as allies. Checked each round.")))
                 .AddComponent<LoneWolfCheck>(c => c.Buff = buff.ToReference<BlueprintBuffReference>())
                 .Configure();
 
-            var solo = Buff("TrulySoloBuff", Guids.Solo.TrulySoloBuff, Common.Text("Text.SoloFeats.ConfigureSolo.Text.5", "Truly Solo", false), Common.Text("Text.SoloFeats.ConfigureSolo.Text.5", "真·独行", true),
-                    Common.Text("Text.SoloFeats.ConfigureSolo.Text.6", "Per absent companion: +1 to all ability scores, dodge AC, saving throws, attack and damage.", false),
-                    Common.Text("Text.SoloFeats.ConfigureSolo.Text.6", "每名不在队伍中的同伴：所有属性值、闪避AC、豁免、攻击与伤害+1。", true))
+            var solo = Buff("TrulySoloBuff", Guids.Solo.TrulySoloBuff, LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text.5", "Truly Solo"),
+                    LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text.6", "Per absent companion: +1 to all ability scores, dodge AC, saving throws, attack and damage."))
                 .SetStacking(StackingType.Rank)
                 .SetRanks(5)
                 .AddContextRankConfig(ContextRankConfigs.BuffRank(Guids.Solo.TrulySoloBuff));
@@ -77,10 +74,9 @@ namespace ACHomebrew.Feats
                 StatType.AdditionalAttackBonus, StatType.AdditionalDamage })
                 solo.AddContextStatBonus(stat, Common.Rank(), descriptor: ModifierDescriptor.UntypedStackable);
             var soloBuff = solo.AddContextStatBonus(StatType.AC, Common.Rank(), descriptor: ModifierDescriptor.Dodge).Configure();
-            Feat(FeatSelection.Solo, "TrulySolo", Guids.Solo.TrulySolo, Common.Text("Text.SoloFeats.ConfigureSolo.Text.5", "Truly Solo", false), Common.Text("Text.SoloFeats.ConfigureSolo.Text.5", "真·独行", true),
-                    Desc(Common.Text("Text.SoloFeats.ConfigureSolo.Text.3", "Solo", false), Common.Text("Text.SoloFeats.ConfigureSolo.Text.3", "独行", true),
-                        Common.Text("Text.SoloFeats.ConfigureSolo.Text.7", "For each companion who has joined you but is not in your party (up to 5), you gain +1 to all ability scores, dodge AC, saving throws, attack and damage. Companions who have not joined yet do not count. A setting decides whether pets in the party reduce the count.", false),
-                        Common.Text("Text.SoloFeats.ConfigureSolo.Text.7", "每有一名已加入但不在队伍中的同伴（最多5名），你的所有属性值、闪避AC、豁免、攻击与伤害+1。尚未加入的同伴不计入。设置可决定队伍中的宠物是否抵扣数量。", true)))
+            Feat(FeatSelection.Solo, "TrulySolo", Guids.Solo.TrulySolo, LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text.5", "Truly Solo"),
+                    Desc(LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text.3", "Solo"),
+                        LocalizedText.Text("Text.SoloFeats.ConfigureSolo.Text.7", "For each companion who has joined you but is not in your party (up to 5), you gain +1 to all ability scores, dodge AC, saving throws, attack and damage. Companions who have not joined yet do not count. A setting decides whether pets in the party reduce the count.")))
                 .AddComponent<TrulySoloCheck>(c => c.Buff = soloBuff.ToReference<BlueprintBuffReference>())
                 .Configure();
         }

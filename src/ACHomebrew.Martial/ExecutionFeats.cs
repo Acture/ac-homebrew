@@ -49,45 +49,39 @@ namespace ACHomebrew.Feats
 
         private static void ConfigureExecution()
         {
-            Feat(FeatSelection.Execution, "CorrosiveFinish", Guids.Dota.CorrosiveFinish, Common.Text("Text.ExecutionFeats.ConfigureExecution.Text", "Deepening the Cleft", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text", "乘隙溃创", true),
-                    Desc(Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "处决", true),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.3", "For every 10% of hit points the target is missing (up to 90%), your weapon attacks deal +1 damage plus 1 per 10 character levels.", false),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.3", "目标每损失10%生命值（最多计90%），你的武器攻击对其伤害+1，每10角色等级再+1。", true)))
+            Feat(FeatSelection.Execution, "CorrosiveFinish", Guids.Dota.CorrosiveFinish, LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text", "Deepening the Cleft"),
+                    Desc(LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution"),
+                        LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.3", "For every 10% of hit points the target is missing (up to 90%), your weapon attacks deal +1 damage plus 1 per 10 character levels.")))
                 .AddComponent<MissingHealthDamage>(c => c.UseTarget = true)
                 .Configure();
 
-            Feat(FeatSelection.Execution, "PhoenixFury", Guids.Dota.PhoenixFury, Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.4", "Pyre of Defiance", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.4", "残躯燃焰", true),
-                    Desc(Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "处决", true),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.5", "At the start of each round in combat, enemies within 15 feet take fire damage equal to half your character level (minimum 1), increased by the percentage of hit points you are missing (for example, +50% when you are at half health).", false),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.5", "战斗中每轮开始时，15尺内的敌人受到等于你角色等级一半（最低1）的火焰伤害，并按你已损失生命值的百分比提高（例如半血时+50%）。", true)))
+            Feat(FeatSelection.Execution, "PhoenixFury", Guids.Dota.PhoenixFury, LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.4", "Pyre of Defiance"),
+                    Desc(LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution"),
+                        LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.5", "At the start of each round in combat, enemies within 15 feet take fire damage equal to half your character level (minimum 1), increased by the percentage of hit points you are missing (for example, +50% when you are at half health).")))
                 .AddComponent<BurningAura>()
                 .Configure();
 
-            Feat(FeatSelection.Execution, "Feast", Guids.Dota.Feast, Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.6", "Colossus Reaver", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.6", "猎巨诛命", true),
-                    Desc(Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "处决", true),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.7", "Your weapon hits deal extra damage equal to 2% of the target's maximum hit points (minimum 1, at most three times your character level).", false),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.7", "你的武器命中额外造成目标最大生命值2%的伤害（最低1，最多为角色等级的3倍）。", true)))
+            Feat(FeatSelection.Execution, "Feast", Guids.Dota.Feast, LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.6", "Colossus Reaver"),
+                    Desc(LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution"),
+                        LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.7", "Your weapon hits deal extra damage equal to 2% of the target's maximum hit points (minimum 1, at most three times your character level).")))
                 .AddComponent<PercentHealthDamage>(c => c.FromCurrent = false)
                 .Configure();
 
-            Feat(FeatSelection.Execution, "FeastCurrent", Guids.Dota.FeastCurrent, Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.8", "Vanguard's Sunder", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.8", "挫敌锐芒", true),
-                    Desc(Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "处决", true),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.9", "Your weapon hits deal extra damage equal to 3% of the target's current hit points (minimum 1, at most three times your character level).", false),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.9", "你的武器命中额外造成目标当前生命值3%的伤害（最低1，最多为角色等级的3倍）。", true)))
+            Feat(FeatSelection.Execution, "FeastCurrent", Guids.Dota.FeastCurrent, LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.8", "Vanguard's Sunder"),
+                    Desc(LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution"),
+                        LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.9", "Your weapon hits deal extra damage equal to 3% of the target's current hit points (minimum 1, at most three times your character level).")))
                 .AddComponent<PercentHealthDamage>(c => c.FromCurrent = true)
                 .Configure();
 
-            Feat(FeatSelection.Execution, "FeastSpell", Guids.Dota.FeastSpell, Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.10", "Arcane Resection", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.10", "崩元析命", true),
-                    Desc(Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "处决", true),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.11", "When your spell damages an enemy, it takes extra damage equal to 2% of its maximum hit points (minimum 1, at most three times your character level). Once per target for each spell you cast.", false),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.11", "你的法术伤害敌人时，其额外受到最大生命值2%的伤害（最低1，最多为角色等级的3倍）。你每施放一次法术，每个目标只触发一次。", true)))
+            Feat(FeatSelection.Execution, "FeastSpell", Guids.Dota.FeastSpell, LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.10", "Arcane Resection"),
+                    Desc(LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution"),
+                        LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.11", "When your spell damages an enemy, it takes extra damage equal to 2% of its maximum hit points (minimum 1, at most three times your character level). Once per target for each spell you cast.")))
                 .AddComponent<SpellFeastDamage>()
                 .Configure();
 
-            Feat(FeatSelection.Execution, "FeastNatural", Guids.Dota.FeastNatural, Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.12", "Primal Gluttony", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.12", "荒蛮撕嚼", true),
-                    Desc(Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "处决", true),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.13", "Your natural attacks deal extra damage equal to 2% of the target's maximum hit points (minimum 1, at most three times your character level), and you heal the same amount.", false),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.13", "你的天生武器攻击额外造成目标最大生命值2%的伤害（最低1，最多为角色等级的3倍），并回复等量生命。", true)))
+            Feat(FeatSelection.Execution, "FeastNatural", Guids.Dota.FeastNatural, LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.12", "Primal Gluttony"),
+                    Desc(LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution"),
+                        LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.13", "Your natural attacks deal extra damage equal to 2% of the target's maximum hit points (minimum 1, at most three times your character level), and you heal the same amount.")))
                 .AddComponent<PercentHealthDamage>(c =>
                 {
                     c.FromCurrent = false;
@@ -96,10 +90,9 @@ namespace ACHomebrew.Feats
                 })
                 .Configure();
 
-            Feat(FeatSelection.Execution, "Lifesteal", Guids.Dota.Lifesteal, Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.14", "Sanguine Tithe", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.14", "饮血淬芒", true),
-                    Desc(Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution", false), Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "处决", true),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.15", "You heal 15% of the damage your weapon attacks deal.", false),
-                        Common.Text("Text.ExecutionFeats.ConfigureExecution.Text.15", "你回复武器攻击所造成伤害的15%。", true)))
+            Feat(FeatSelection.Execution, "Lifesteal", Guids.Dota.Lifesteal, LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.14", "Sanguine Tithe"),
+                    Desc(LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.2", "Execution"),
+                        LocalizedText.Text("Text.ExecutionFeats.ConfigureExecution.Text.15", "You heal 15% of the damage your weapon attacks deal.")))
                 .AddComponent<WeaponLifesteal>()
                 .Configure();
         }

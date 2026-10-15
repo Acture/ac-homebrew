@@ -1,6 +1,6 @@
 # Validation
 
-Run these checks from the repository root. GitHub Actions runs the first nine
+Run these checks from the repository root. GitHub Actions runs the first ten
 commands on Windows and Linux.
 
 ```powershell
@@ -13,20 +13,24 @@ dotnet run --project tests/AssemblyInspector.Tests --configuration Release
 python scripts/validate_assets.py
 python scripts/test_release_delivery.py
 python scripts/test_nexus_release.py
+python scripts/test_draft_release.py
 ```
 
 Use PowerShell 7, the .NET 10 SDK and Python 3.10 or newer. Localization tests
 declare Newtonsoft.Json as a NuGet dependency; they need no game assemblies.
 They compile the production text loader and registration/refresh methods with
-an in-memory replacement for the external localization APIs. They check all
-all bilingual resource entries, every menu, weapon and budget key, EN → zhCN → EN
-refresh, runtime budget text, English fallback, compiled fallback and
-encyclopedia tagging calls. They edit external language files through the
+an in-memory replacement for the external localization APIs. They check every
+resource entry in all eight language files (same keys, compatible placeholders,
+markup and links), every menu, weapon and budget key, a refresh round trip
+through every locale, per-locale template composition, localized list joining,
+runtime budget text, English fallback for unsupported locales, compiled fallback
+and encyclopedia tagging calls. They edit external language files through the
 production loader and assert that edited names and rule templates reach
 localized strings without recompilation; missing, malformed, duplicate,
 blank and structurally invalid translations have fallback diagnostics.
-Roslyn source checks cover literal resource references and compiled fallback
-agreement, including the templates formerly inside feat builders.
+Roslyn source checks cover literal resource references in every language,
+English compiled-fallback agreement, and reject translated (CJK) literals or
+`Locale.zhCN` special cases in source: translations live only in the language files.
 
 The [assembly inspector](type-inspection.md) checks type and member metadata
 without executing target code. Its fixture controls cover hazardous initializers,
@@ -58,7 +62,15 @@ powershell -NoProfile -File tests/VerifyHarmonyTargets.ps1 -WrathInstallDir "<ga
 dotnet build ACHomebrew.slnx -c Release -p:DeployToGame=false
 powershell.exe -NoProfile -File tests\VerifyExternalLocalization.ps1 -WrathInstallDir "<game directory>"
 python scripts/validate_assets.py --release artifacts/packages/ACHomebrew-0.2.1.zip
+pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1 -WotrInputRoot "<game directory>"
 ```
+
+The offline mechanics tests (`external/wotr-testing`, initialize the submodule
+first) load the mod into a real offline game session. Besides feat mechanics,
+`LocalizationTests` checks every string the mod registers in all eight locales:
+nonblank, no Chinese outside `zhCN`, and longer texts translated rather than
+copied from English. The multi-locale refactor was checked against a dump of all
+520 registered strings taken before it: English and Chinese were byte-identical.
 
 The reflection checks run in Windows PowerShell 5.1 against installed
 assemblies without starting the game. VerifyHarmonyTargets resolves every
@@ -70,7 +82,7 @@ precedence and malformed-file diagnostics without rebuilding or touching the
 installed mod. It does not invoke Unity localization APIs; registration and
 refresh are covered separately by the production-source tests with API doubles.
 The package check verifies loader metadata and version, icon coverage and bytes,
-both player guides and changelogs, both license files and the canonical bilingual
+both player guides and changelogs, both license files and all eight canonical
 language files. It rejects missing delivery files, invalid language resources,
 different package/source bytes, dependency/game DLLs and contributor directories.
 CI runs positive and negative delivery fixtures without building against licensed

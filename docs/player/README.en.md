@@ -25,8 +25,8 @@ subject to their prerequisites, exclusion groups and any budget you enable.
   feats are off by default.
 
 Names, lore and complete rule text—including shared description templates—are
-readable in `Localization/enGB.json` and `Localization/zhCN.json`. The same files
-are used by the mod, not a separate preview. Text changes do not change effects.
+readable in the `Localization` folder, one JSON file per game language. The same
+files are used by the mod, not a separate preview. Text changes do not change effects.
 
 ## Install
 
@@ -89,8 +89,16 @@ read each feat's rules before planning a build.
 
 ## Language files and translation
 
-The game locale selects Simplified Chinese (`zhCN`) or English (`enGB`); other
-locales use English. Edit the appropriate UTF-8 JSON file inside the installed
+The game language selects the file: English (`enGB`), Simplified Chinese
+(`zhCN`), German (`deDE`), French (`frFR`), Spanish (`esES`), Italian (`itIT`),
+Brazilian Portuguese (`ptBR`) or Russian (`ruRU`). Any text missing from a file
+falls back to English.
+
+**German, French, Spanish, Italian, Portuguese and Russian are machine
+translations** that no native speaker has reviewed yet. Names and terms may read
+awkwardly or differ from the game's official wording. Corrections are welcome:
+edit the file as described below and send the change through
+[GitHub](https://github.com/Acture/ac-homebrew/issues) or the Nexus page. Edit the appropriate UTF-8 JSON file inside the installed
 mod's `Localization` folder, save it, and **restart the game**. No DLL rebuild
 is needed. Locale switching refreshes strings already registered in that session;
 it does not reread edited files.

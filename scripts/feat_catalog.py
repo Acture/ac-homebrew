@@ -54,10 +54,10 @@ def calls(source, method):
 
 
 def literal(expr):
-    # Common.Text keeps the original literal as an emergency fallback.
-    if expr.startswith("Common.Text("):
-        return literal(split_args(expr[len("Common.Text("):-1])[1])
     return json.loads(expr)
+
+
+NAME = re.compile(r'^(?:\w+:\s*)?LocalizedText\.Text\(("[^"]+\.Name"), ("(?:\\.|[^"\\])*")\)$')
 
 
 def named(args):
@@ -76,102 +76,55 @@ def source_file(name):
 
 
 def catalog(sources=None):
+    """The 92 original feats: source file, family, blueprint name, text key and English/Chinese names.
+
+    English comes from the compiled fallback beside the name key; Chinese from the canonical zhCN catalog.
+    """
     sources = sources or {p.name: p.read_text(encoding="utf-8-sig") for p in source_files()}
+    chinese = json.loads((ROOT / "src/ACHomebrew.Core/Localization/zhCN.json").read_text(encoding="utf-8-sig"))
     records = []
 
-    def add(file, family, internal, prefix, en, zh, lore_en, lore_zh):
-        records.append(dict(file=file, family=family, internal=internal, key=prefix,
-                            en=en, zh=zh, lore_en=lore_en, lore_zh=lore_zh))
+    def add(file, family, internal, name_key, english):
+        key = name_key.removesuffix(".Name")
+        records.append(dict(file=file, family=family, internal=internal, key=key,
+                            en=english, zh=chinese[name_key]))
 
     specs = [
-        ("AttributeFeats.cs", "Main", "CreateOne", 1, 3, 4, 5, 7, 3),
-        ("StatReplacementFeats.cs", "Weapon Insight", "CreateWeaponInsight", 1, 3, 4, 5, 7, 2),
-        ("StatReplacementFeats.cs", "Extended", "CreateExtendedFeat", 2, 4, 5, 6, 8, 2),
+        ("AttributeFeats.cs", "Main", "CreateOne"),
+        ("StatReplacementFeats.cs", "Weapon Insight", "CreateWeaponInsight"),
+        ("StatReplacementFeats.cs", "Extended", "CreateExtendedFeat"),
+        ("SpecializedFeats.cs", None, "CreateSpecialized"),
+        ("StanceFeats.cs", "Stance", "CreateStance"),
+        ("ConditionalFeats.cs", "Conditional", "NewFeature"),
+        ("DerivedStatFeats.cs", "Derived", "NewFeature"),
+        ("GreaterSummoningFeats.cs", "Summon", "CreateFeat"),
+        ("SummonerSacrificeFeats.cs", "Sacrifice", "CreateFeat"),
+        ("DistanceDamageFeats.cs", "Distance", "CreateFeat"),
+        ("SpellTagFeats.cs", "School", "new SchoolFeatDefinition"),
+        ("SpellTagFeats.cs", "Descriptor", "new DescriptorFeatDefinition"),
     ]
-    for file, family, method, internal_i, key_i, en_i, zh_i, desc_i, lore_i in specs:
+    for file, family, method in specs:
         for body, _, _ in calls(sources[file], method):
             args = split_args(body)
-            if not args[internal_i].startswith('"'):
-                continue
-            desc = args[desc_i]
-            desc_args = split_args(desc[desc.index("(") + 1:-1])
-            if family == "Main":
-                lore_en = literal(desc_args[2]) + " " + literal(desc_args[3])
-                lore_zh = literal(desc_args[4]) + " " + literal(desc_args[5])
+            fields = {k: v.strip() for k, v in named(args).items()}
+            if "internalName" in fields:
+                internal = fields["internalName"]
             else:
-                lore_en, lore_zh = map(literal, desc_args[lore_i:lore_i + 2])
-            add(file, family, literal(args[internal_i]), literal(args[key_i]).removesuffix(".Name"),
-                literal(args[en_i]), literal(args[zh_i]), lore_en, lore_zh)
-
-    file = "SpecializedFeats.cs"
-    attrs = {"Strength": "Str", "Dexterity": "Dex", "Constitution": "Con", "Intelligence": "Int", "Wisdom": "Wis", "Charisma": "Cha"}
-    for body, _, _ in calls(sources[file], "CreateSpecialized"):
-        args = split_args(body)
-        if not args[4].startswith('"'):
-            continue
-        family, attr = args[0].split(".")[-1], attrs[args[1].split(".")[-1]]
-        add(file, family, literal(args[4]), family + "_" + attr,
-            *map(literal, args[5:9]))
-
-    specs = [
-        ("StanceFeats.cs", "Stance", "CreateStance", "displayNameEn", "displayNameZh", "description", 3),
-        ("ConditionalFeats.cs", "Conditional", "NewFeature", "nameEn", "nameZh", "desc", 2),
-        ("DerivedStatFeats.cs", "Derived", "NewFeature", "nameEn", "nameZh", "desc", 2),
-        ("GreaterSummoningFeats.cs", "Summon", "CreateFeat", "nameEn", "nameZh", "desc", 2),
-        ("SummonerSacrificeFeats.cs", "Sacrifice", "CreateFeat", "nameEn", "nameZh", "desc", 2),
-        ("DistanceDamageFeats.cs", "Distance", "CreateFeat", "nameEn", "nameZh", "desc", 2),
-    ]
-    for file, family, method, en_field, zh_field, desc_field, lore_i in specs:
-        for body, _, _ in calls(sources[file], method):
-            fields = {k: v.strip() for k, v in named(split_args(body)).items()}
-            if "internalName" not in fields:
-                continue
-            internal = literal(fields["internalName"])
-            if family == "Stance":
-                prefix = literal(fields["keyPrefix"])
-            elif "nameKey" in fields:
-                prefix = literal(fields["nameKey"]).removesuffix(".Name")
-            else:
-                prefix = {"Summon": "Summon_", "Sacrifice": "SummonerSacrifice_", "Distance": "DistanceDamage_"}[family] + internal
-            desc = fields[desc_field]
-            desc_args = split_args(desc[desc.index("(") + 1:-1])
-            desc_fields = {k: v.strip() for k, v in named(desc_args).items()}
-            if desc_fields:
-                lore_en, lore_zh = literal(desc_fields["loreEn"]), literal(desc_fields["loreZh"])
-            elif family == "Stance":
-                lore_en = literal(desc_args[2]) + " " + literal(desc_args[3])
-                lore_zh = literal(desc_args[4]) + " " + literal(desc_args[5])
-            else:
-                lore_en, lore_zh = map(literal, desc_args[lore_i:lore_i + 2])
-            add(file, family, internal, prefix, literal(fields[en_field]), literal(fields[zh_field]), lore_en, lore_zh)
-
-    file = "SpellTagFeats.cs"
-    for method, family, key_part in [("SchoolFeatDefinition", "School", "School"), ("DescriptorFeatDefinition", "Descriptor", "Descriptor")]:
-        for body, _, _ in calls(sources[file], method):
-            fields = {k: v.strip() for k, v in named(split_args(body)).items()}
-            if "internalName" not in fields:
-                continue
-            internal = literal(fields["internalName"])
-            add(file, family, internal, f"SpellTag_{key_part}_{internal}",
-                *[literal(fields[k]) for k in ["nameEn", "nameZh", "loreEn", "loreZh"]])
+                internal = next((arg for arg in args if STRING.fullmatch(arg) and "." not in arg), None)
+            names = [match for match in map(NAME.match, args) if match]
+            if internal is None or not internal.startswith('"') or len(names) != 1:
+                continue  # helper declarations and non-catalog calls
+            group = family or args[0].split(".")[-1]
+            add(file, group, literal(internal), literal(names[0].group(1)), literal(names[0].group(2)))
 
     for file, family, items in [
-        ("ReactiveArmorFeats.cs", "Reactive Armor", [("SpikedDefense", "BuildSpikedDefenseDescription"), ("BulwarkOfSteel", "BuildBulwarkOfSteelDescription")]),
-        ("PolearmMasterFeats.cs", "Reach", [("PolearmMaster", "BuildDescription")]),
+        ("ReactiveArmorFeats.cs", "Reactive Armor", [("SpikedDefense", "ReactiveArmor_SpikedDefense"), ("BulwarkOfSteel", "ReactiveArmor_BulwarkOfSteel")]),
+        ("PolearmMasterFeats.cs", "Reach", [("PolearmMaster", "PolearmMaster")]),
     ]:
-        source = sources[file]
-        for internal, builder in items:
-            prefix = "ReactiveArmor_" + internal if family == "Reactive Armor" else internal
-            name_call = next(body for body, _, _ in calls(source, "Common.L") if body.startswith('"' + prefix + '.Name"'))
-            args = split_args(name_call)
-            lore = []
-            resource_calls = [split_args(body) for body, _, _ in calls(source, "Common.Text")]
-            for chinese in [False, True]:
-                lore_args = next(values for values in resource_calls
-                                 if literal(values[0]) == prefix + ".Lore"
-                                 and (len(values) > 2 and values[2] == "true") == chinese)
-                lore.append(literal(lore_args[1]))
-            add(file, family, internal, prefix, literal(args[1]), literal(args[2]), *lore)
+        for internal, prefix in items:
+            body = next(body for body, _, _ in calls(sources[file], "Common.L") if body.startswith(f'"{prefix}.Name"'))
+            match = NAME.match(split_args(body)[1])
+            add(file, family, internal, literal(match.group(1)), literal(match.group(2)))
 
     assert len(records) == 92, f"Expected 92 feats, found {len(records)}"
     assert len({r["internal"] for r in records}) == 92

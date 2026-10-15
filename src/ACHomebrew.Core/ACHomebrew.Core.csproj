@@ -4,7 +4,7 @@
 	<ItemGroup>
 		<ProjectReference Include="../ACHomebrew.Logic/ACHomebrew.Logic.csproj" />
 		<EmbeddedResource Include="Localization/enGB.json" LogicalName="AttributeFeats.Localization.FeatText.json" />
-		<EmbeddedResource Include="Localization/zhCN.json" LogicalName="AttributeFeats.Localization.zhCN.json" />
+		<EmbeddedResource Include="Localization/*.json" Exclude="Localization/enGB.json" LogicalName="AttributeFeats.Localization.%(Filename).json" />
 	</ItemGroup>
 	<ItemGroup>
 		<InternalsVisibleTo Include="ACHomebrew" />

@@ -5,6 +5,8 @@
 ### Added
 - The release ZIP now includes English and Simplified Chinese player readmes, versioned changelogs, `LICENSE` and `LICENSE-EXCEPTION.md`.
 - Editable `Localization/enGB.json` and `Localization/zhCN.json` cover feat names, lore, full rules and shared description templates, plus the optional ModMenu's static setting labels. Restart after editing; no DLL rebuild is needed.
+- German, French, Spanish, Italian, Brazilian Portuguese and Russian follow the game language. **These six are unreviewed machine translations**; corrections are welcome. Missing text falls back to English, and switching language in game switches all feat text.
+- Exclusion group names in the budget tooltips and ModMenu follow the game language.
 
 ### Changed
 - External text takes precedence over embedded text in the same language. Missing files/keys, blank translations, malformed JSON and invalid placeholders, rich text or encyclopedia links produce diagnostics and fall back.

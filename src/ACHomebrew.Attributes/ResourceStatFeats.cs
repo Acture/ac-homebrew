@@ -33,12 +33,12 @@ namespace ACHomebrew.Feats
             if (Initialized) return;
             Initialized = true;
 
-            Create(StatType.Strength, "Str", Common.Text("Text.ResourceStatFeats.ConfigureAll.Text", "Strength", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text", "力量", true), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.2", "Reservoir of Might", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.2", "巨力盈渊", true), Guids.ResourceStat.Str);
-            Create(StatType.Dexterity, "Dex", Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.3", "Dexterity", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.3", "敏捷", true), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.4", "Springs of Agility", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.4", "灵动渊源", true), Guids.ResourceStat.Dex);
-            Create(StatType.Constitution, "Con", Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.5", "Constitution", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.5", "体质", true), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.6", "Font of Endurance", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.6", "骨髓蓄沛", true), Guids.ResourceStat.Con);
-            Create(StatType.Intelligence, "Int", Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.7", "Intelligence", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.7", "智力", true), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.8", "Well of Thought", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.8", "识海蕴灵", true), Guids.ResourceStat.Int);
-            Create(StatType.Wisdom, "Wis", Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.9", "Wisdom", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.9", "感知", true), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.10", "Meditative Spring", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.10", "澄心源流", true), Guids.ResourceStat.Wis);
-            Create(StatType.Charisma, "Cha", Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.11", "Charisma", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.11", "魅力", true), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.12", "Sovereign Font", false), Common.Text("Text.ResourceStatFeats.ConfigureAll.Text.12", "华威盈座", true), Guids.ResourceStat.Cha);
+            Create(StatType.Strength, "Str", LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text", "Strength"), LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.2", "Reservoir of Might"), Guids.ResourceStat.Str);
+            Create(StatType.Dexterity, "Dex", LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.3", "Dexterity"), LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.4", "Springs of Agility"), Guids.ResourceStat.Dex);
+            Create(StatType.Constitution, "Con", LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.5", "Constitution"), LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.6", "Font of Endurance"), Guids.ResourceStat.Con);
+            Create(StatType.Intelligence, "Int", LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.7", "Intelligence"), LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.8", "Well of Thought"), Guids.ResourceStat.Int);
+            Create(StatType.Wisdom, "Wis", LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.9", "Wisdom"), LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.10", "Meditative Spring"), Guids.ResourceStat.Wis);
+            Create(StatType.Charisma, "Cha", LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.11", "Charisma"), LocalizedText.Text("Text.ResourceStatFeats.ConfigureAll.Text.12", "Sovereign Font"), Guids.ResourceStat.Cha);
         }
 
         public static bool TryGetAttribute(BlueprintFeature feature, out StatType attribute)
@@ -47,15 +47,14 @@ namespace ACHomebrew.Feats
             return feature != null && Feats.TryGetValue(feature.AssetGuid, out attribute);
         }
 
-        private static void Create(StatType attribute, string key, string en, string zh, string titleEn, string titleZh, string guid)
+        private static void Create(StatType attribute, string key, LocalizedText attributeName, LocalizedText title, string guid)
         {
             var name = $"ResourceStat_{key}";
-            var descEn = Common.Format("Text.ResourceStatFeats.Create.desc", "<i>Resource Attribute · {0}</i>\n\n<b>Effect:</b> Choose one of your resources whose uses grow with an ability modifier, such as channel energy, ki, lay on hands, performance rounds, or bloodline and domain powers. Its bonus uses come from your {0} modifier instead. The new maximum applies the next time the resource is restored, for example after resting.\n\n<b>Restrictions:</b> Each resource can have only one resource attribute feat. You can take the feat again for another resource.", false, en);
-            var descZh = Common.Format("Text.ResourceStatFeats.Create.desc", "<i>资源属性 · {0}</i>\n\n<b>效果：</b>选择你的一项按属性调整值增加次数的资源，例如引导能量、气、圣疗、表演轮数、血统或领域能力。其额外次数改由你的{0}调整值计算。新的上限在资源下次恢复时（例如休息后）生效。\n\n<b>限制：</b>每项资源只能有一个资源属性专长。可再次选取本专长用于另一项资源。", true, zh);
-            (descEn, descZh) = FeatLore.Apply(name, (descEn, descZh));
+            var desc = LocalizedText.Format("Text.ResourceStatFeats.Create.desc", "<i>Resource Attribute · {0}</i>\n\n<b>Effect:</b> Choose one of your resources whose uses grow with an ability modifier, such as channel energy, ki, lay on hands, performance rounds, or bloodline and domain powers. Its bonus uses come from your {0} modifier instead. The new maximum applies the next time the resource is restored, for example after resting.\n\n<b>Restrictions:</b> Each resource can have only one resource attribute feat. You can take the feat again for another resource.", attributeName);
+            desc = FeatLore.Apply(name, desc);
             var feat = FeatSelection.ResourceStat.NewParametrizedFeat(name, guid)
-                .SetDisplayName(Common.L($"{name}.Name", titleEn, titleZh))
-                .SetDescription(Common.L($"{name}.Desc", descEn, descZh, tagEncyclopediaEntries: true))
+                .SetDisplayName(Common.L($"{name}.Name", title))
+                .SetDescription(Common.L($"{name}.Desc", desc, tagEncyclopediaEntries: true))
                 .SetIconIfPresent(name)
                 .SetParameterType(FeatureParameterType.Custom)
                 .AddComponent<ResourceAttributeOverride>(c => c.Attribute = attribute)
