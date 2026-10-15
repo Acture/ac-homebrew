@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.1 — 2026-10-12
+
+### Added
+- The release ZIP now includes English and Simplified Chinese player readmes, versioned changelogs, `LICENSE` and `LICENSE-EXCEPTION.md`.
+- Editable `Localization/enGB.json` and `Localization/zhCN.json` cover feat names, lore, full rules and shared description templates, plus the optional ModMenu's static setting labels. Restart after editing; no DLL rebuild is needed.
+
+### Changed
+- External text takes precedence over embedded text in the same language. Missing files/keys, blank translations, malformed JSON and invalid placeholders, rich text or encyclopedia links produce diagnostics and fall back.
+- Release checks require player materials, matching language keys/template arguments and consistent package/loader versions.
+- No feat mechanics, numerical effects, UMM identity, installed folder, settings identity or published blueprint IDs change in this release. Existing characters need no respec for this text update.
+
 ## 0.2.0 — 2026-10-11 (Public beta)
 
 ### Changed

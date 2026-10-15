@@ -165,14 +165,12 @@ def catalog(sources=None):
             name_call = next(body for body, _, _ in calls(source, "Common.L") if body.startswith('"' + prefix + '.Name"'))
             args = split_args(name_call)
             lore = []
-            for lang in ["En", "Zh"]:
-                match = re.search(builder + lang + r'\(\)\s*=>\s*(.*?);', source, re.S)
-                resource_calls = [split_args(body) for body, _, _ in calls(match.group(1), "Common.Text")]
-                if resource_calls:
-                    lore.append(literal(resource_calls[0][1]))
-                else:
-                    desc = literal(match.group(1).strip())
-                    lore.append(desc.split("\n", 1)[1].split("\n\n", 1)[0])
+            resource_calls = [split_args(body) for body, _, _ in calls(source, "Common.Text")]
+            for chinese in [False, True]:
+                lore_args = next(values for values in resource_calls
+                                 if literal(values[0]) == prefix + ".Lore"
+                                 and (len(values) > 2 and values[2] == "true") == chinese)
+                lore.append(literal(lore_args[1]))
             add(file, family, internal, prefix, literal(args[1]), literal(args[2]), *lore)
 
     assert len(records) == 92, f"Expected 92 feats, found {len(records)}"

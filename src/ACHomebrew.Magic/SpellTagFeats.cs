@@ -419,8 +419,8 @@ namespace ACHomebrew.Feats
             var attrEn = GetAttributeName(def.Attribute, false);
             var attrZh = GetAttributeName(def.Attribute, true);
 
-            var en = $"<i>Spell Tag · School Specialist · {schoolEn} · {attrEn}</i>\n{def.LoreEn}\n\n<b>Effect:</b> When their corresponding mod settings are enabled, adds half your {attrEn} modifier (rounded down, minimum 0, untyped) to matching {schoolEn} spell and ability save DC and caster level, while all other schools take an equal penalty.\n\n<b>Restrictions:</b> While its exclusion group is on (configurable in mod settings), you can have only one Spell Tag School Specialist feat, but can stack with Descriptor Specialist feats. Your mastery comes at a price — DC and caster level of all other schools suffer an equal penalty.";
-            var zh = $"<i>法术专精 · 学派特化 · {schoolZh} · {attrZh}</i>\n{def.LoreZh}\n\n<b>效果：</b>对应模组设置启用时，将你的{attrZh}调整值的一半（向下取整、最低0）作为无类型加值附加至{schoolZh}法术及能力的豁免难度（DC）与施法者等级，但所有其他学派的法术及能力承受等额减值。\n\n<b>限制：</b>启用该互斥组时（可在模组设置中调整），只能拥有一个“学派特化”专长，但可与“描述符特化”专长叠加。极致的专精伴随代价——其他学派的法术及能力DC与施法者等级将承受等额减值惩罚。";
+            var en = Common.Format("Text.SpellTagFeats.BuildSchoolDescription.Description", "<i>Spell Tag · School Specialist · {0} · {1}</i>\n{2}\n\n<b>Effect:</b> When their corresponding mod settings are enabled, adds half your {1} modifier (rounded down, minimum 0, untyped) to matching {0} spell and ability save DC and caster level, while all other schools take an equal penalty.\n\n<b>Restrictions:</b> While its exclusion group is on (configurable in mod settings), you can have only one Spell Tag School Specialist feat, but can stack with Descriptor Specialist feats. Your mastery comes at a price — DC and caster level of all other schools suffer an equal penalty.", false, schoolEn, attrEn, def.LoreEn);
+            var zh = Common.Format("Text.SpellTagFeats.BuildSchoolDescription.Description", "<i>法术专精 · 学派特化 · {0} · {1}</i>\n{2}\n\n<b>效果：</b>对应模组设置启用时，将你的{1}调整值的一半（向下取整、最低0）作为无类型加值附加至{0}法术及能力的豁免难度（DC）与施法者等级，但所有其他学派的法术及能力承受等额减值。\n\n<b>限制：</b>启用该互斥组时（可在模组设置中调整），只能拥有一个“学派特化”专长，但可与“描述符特化”专长叠加。极致的专精伴随代价——其他学派的法术及能力DC与施法者等级将承受等额减值惩罚。", true, schoolZh, attrZh, def.LoreZh);
             return (en, zh);
         }
 
@@ -433,8 +433,8 @@ namespace ACHomebrew.Feats
             var otherEn = GetOtherDescriptorList(def.Descriptor, false);
             var otherZh = GetOtherDescriptorList(def.Descriptor, true);
 
-            var en = $"<i>Spell Tag · Descriptor Specialist · {descEn} · {attrEn}</i>\n{def.LoreEn}\n\n<b>Effect:</b> When their corresponding mod settings are enabled, adds half your {attrEn} modifier (rounded down, minimum 0, untyped) to save DC and caster level for spells and abilities with the {descEn} descriptor group. Subtracts the same amount for EACH other matching group ({otherEn}). Bonuses and penalties combine on spells and abilities with multiple matching groups.\n\n<b>Restrictions:</b> While its exclusion group is on (configurable in mod settings), you can have only one Spell Tag Descriptor Specialist feat, but can stack with School Specialist feats. Your mastery comes at a price — DC and caster level of {otherEn} spells and abilities suffer an equal penalty.";
-            var zh = $"<i>法术专精 · 描述符特化 · {descZh} · {attrZh}</i>\n{def.LoreZh}\n\n<b>效果：</b>对应模组设置启用时，将你的{attrZh}调整值的一半（向下取整、最低0）作为无类型加值附加至匹配{descZh}描述符组的法术及能力豁免DC与施法者等级。每匹配一个其他描述符组（{otherZh}），便承受等额减值；多描述符法术及能力同时计算相应加值与减值。\n\n<b>限制：</b>启用该互斥组时（可在模组设置中调整），只能拥有一个“描述符特化”专长，但可与“学派特化”专长叠加。极致的专精伴随代价——{otherZh}法术及能力的DC与施法者等级将承受等额减值惩罚。";
+            var en = Common.Format("Text.SpellTagFeats.BuildDescriptorDescription.Description", "<i>Spell Tag · Descriptor Specialist · {0} · {1}</i>\n{2}\n\n<b>Effect:</b> When their corresponding mod settings are enabled, adds half your {1} modifier (rounded down, minimum 0, untyped) to save DC and caster level for spells and abilities with the {0} descriptor group. Subtracts the same amount for EACH other matching group ({3}). Bonuses and penalties combine on spells and abilities with multiple matching groups.\n\n<b>Restrictions:</b> While its exclusion group is on (configurable in mod settings), you can have only one Spell Tag Descriptor Specialist feat, but can stack with School Specialist feats. Your mastery comes at a price — DC and caster level of {3} spells and abilities suffer an equal penalty.", false, descEn, attrEn, def.LoreEn, otherEn);
+            var zh = Common.Format("Text.SpellTagFeats.BuildDescriptorDescription.Description", "<i>法术专精 · 描述符特化 · {0} · {1}</i>\n{2}\n\n<b>效果：</b>对应模组设置启用时，将你的{1}调整值的一半（向下取整、最低0）作为无类型加值附加至匹配{0}描述符组的法术及能力豁免DC与施法者等级。每匹配一个其他描述符组（{3}），便承受等额减值；多描述符法术及能力同时计算相应加值与减值。\n\n<b>限制：</b>启用该互斥组时（可在模组设置中调整），只能拥有一个“描述符特化”专长，但可与“学派特化”专长叠加。极致的专精伴随代价——{3}法术及能力的DC与施法者等级将承受等额减值惩罚。", true, descZh, attrZh, def.LoreZh, otherZh);
             return (en, zh);
         }
 
@@ -444,27 +444,27 @@ namespace ACHomebrew.Feats
             {
                 switch (school)
                 {
-                    case SpellSchool.Abjuration: return "防护系";
-                    case SpellSchool.Conjuration: return "咒法系";
-                    case SpellSchool.Divination: return "预言系";
-                    case SpellSchool.Enchantment: return "惑控系";
-                    case SpellSchool.Evocation: return "塑能系";
-                    case SpellSchool.Illusion: return "幻术系";
-                    case SpellSchool.Necromancy: return "死灵系";
-                    case SpellSchool.Transmutation: return "变化系";
+                    case SpellSchool.Abjuration: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text", "防护系", true);
+                    case SpellSchool.Conjuration: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.2", "咒法系", true);
+                    case SpellSchool.Divination: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.3", "预言系", true);
+                    case SpellSchool.Enchantment: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.4", "惑控系", true);
+                    case SpellSchool.Evocation: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.5", "塑能系", true);
+                    case SpellSchool.Illusion: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.6", "幻术系", true);
+                    case SpellSchool.Necromancy: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.7", "死灵系", true);
+                    case SpellSchool.Transmutation: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.8", "变化系", true);
                     default: return school.ToString();
                 }
             }
             switch (school)
             {
-                case SpellSchool.Abjuration: return "Abjuration";
-                case SpellSchool.Conjuration: return "Conjuration";
-                case SpellSchool.Divination: return "Divination";
-                case SpellSchool.Enchantment: return "Enchantment";
-                case SpellSchool.Evocation: return "Evocation";
-                case SpellSchool.Illusion: return "Illusion";
-                case SpellSchool.Necromancy: return "Necromancy";
-                case SpellSchool.Transmutation: return "Transmutation";
+                case SpellSchool.Abjuration: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text", "Abjuration", false);
+                case SpellSchool.Conjuration: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.2", "Conjuration", false);
+                case SpellSchool.Divination: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.3", "Divination", false);
+                case SpellSchool.Enchantment: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.4", "Enchantment", false);
+                case SpellSchool.Evocation: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.5", "Evocation", false);
+                case SpellSchool.Illusion: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.6", "Illusion", false);
+                case SpellSchool.Necromancy: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.7", "Necromancy", false);
+                case SpellSchool.Transmutation: return Common.Text("Text.SpellTagFeats.GetSchoolName.Text.8", "Transmutation", false);
                 default: return school.ToString();
             }
         }
@@ -475,29 +475,29 @@ namespace ACHomebrew.Feats
             {
                 switch (descriptor)
                 {
-                    case SpellDescriptor.Fire: return "火焰";
-                    case SpellDescriptor.Cold: return "寒冷";
-                    case SpellDescriptor.Electricity: return "电击";
-                    case SpellDescriptor.Acid: return "强酸";
-                    case SpellDescriptor.Sonic: return "音波";
-                    case SpellDescriptor.Force: return "力场";
-                    case PositiveEnergyDescriptor: return "正能量";
-                    case NegativeEnergyDescriptor: return "负能量";
-                    case SpellDescriptor.MindAffecting: return "影响心灵";
+                    case SpellDescriptor.Fire: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text", "火焰", true);
+                    case SpellDescriptor.Cold: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.2", "寒冷", true);
+                    case SpellDescriptor.Electricity: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.3", "电击", true);
+                    case SpellDescriptor.Acid: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.4", "强酸", true);
+                    case SpellDescriptor.Sonic: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.5", "音波", true);
+                    case SpellDescriptor.Force: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.6", "力场", true);
+                    case PositiveEnergyDescriptor: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.7", "正能量", true);
+                    case NegativeEnergyDescriptor: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.8", "负能量", true);
+                    case SpellDescriptor.MindAffecting: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.9", "影响心灵", true);
                     default: return descriptor.ToString();
                 }
             }
             switch (descriptor)
             {
-                case SpellDescriptor.Fire: return "Fire";
-                case SpellDescriptor.Cold: return "Cold";
-                case SpellDescriptor.Electricity: return "Electricity";
-                case SpellDescriptor.Acid: return "Acid";
-                case SpellDescriptor.Sonic: return "Sonic";
-                case SpellDescriptor.Force: return "Force";
-                case PositiveEnergyDescriptor: return "Positive Energy";
-                case NegativeEnergyDescriptor: return "Negative Energy";
-                case SpellDescriptor.MindAffecting: return "Mind-Affecting";
+                case SpellDescriptor.Fire: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text", "Fire", false);
+                case SpellDescriptor.Cold: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.2", "Cold", false);
+                case SpellDescriptor.Electricity: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.3", "Electricity", false);
+                case SpellDescriptor.Acid: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.4", "Acid", false);
+                case SpellDescriptor.Sonic: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.5", "Sonic", false);
+                case SpellDescriptor.Force: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.6", "Force", false);
+                case PositiveEnergyDescriptor: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.7", "Positive Energy", false);
+                case NegativeEnergyDescriptor: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.8", "Negative Energy", false);
+                case SpellDescriptor.MindAffecting: return Common.Text("Text.SpellTagFeats.GetDescriptorName.Text.9", "Mind-Affecting", false);
                 default: return descriptor.ToString();
             }
         }
@@ -539,23 +539,23 @@ namespace ACHomebrew.Feats
             {
                 switch (baseStat)
                 {
-                    case StatType.Strength: return "力量";
-                    case StatType.Dexterity: return "敏捷";
-                    case StatType.Constitution: return "体质";
-                    case StatType.Intelligence: return "智力";
-                    case StatType.Wisdom: return "感知";
-                    case StatType.Charisma: return "魅力";
+                    case StatType.Strength: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text", "力量", true);
+                    case StatType.Dexterity: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.2", "敏捷", true);
+                    case StatType.Constitution: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.3", "体质", true);
+                    case StatType.Intelligence: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.4", "智力", true);
+                    case StatType.Wisdom: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.5", "感知", true);
+                    case StatType.Charisma: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.6", "魅力", true);
                     default: return baseStat.ToString();
                 }
             }
             switch (baseStat)
             {
-                case StatType.Strength: return "Strength";
-                case StatType.Dexterity: return "Dexterity";
-                case StatType.Constitution: return "Constitution";
-                case StatType.Intelligence: return "Intelligence";
-                case StatType.Wisdom: return "Wisdom";
-                case StatType.Charisma: return "Charisma";
+                case StatType.Strength: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text", "Strength", false);
+                case StatType.Dexterity: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.2", "Dexterity", false);
+                case StatType.Constitution: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.3", "Constitution", false);
+                case StatType.Intelligence: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.4", "Intelligence", false);
+                case StatType.Wisdom: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.5", "Wisdom", false);
+                case StatType.Charisma: return Common.Text("Text.SpellTagFeats.GetAttributeName.Text.6", "Charisma", false);
                 default: return baseStat.ToString();
             }
         }

@@ -34,12 +34,12 @@ namespace ACHomebrew.Feats
                     nameEn: Common.Text("SummonerSacrifice_BodyOfMyPact.Name", "Martyr's Transference"),
                     nameZh: Common.Text("SummonerSacrifice_BodyOfMyPact.Name", "形神替生", true),
                     desc: BuildDescription(
-                        modeEn: "1:1 Trade",
-                        modeZh: "等价献祭",
+                        modeEn: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.modeEn", "1:1 Trade", false),
+                        modeZh: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.modeEn", "等价献祭", true),
                         loreEn: Common.Text("SummonerSacrifice_BodyOfMyPact.Lore", "You accept a body's burden so that the creatures bound to your call may stand stronger."),
                         loreZh: Common.Text("SummonerSacrifice_BodyOfMyPact.Lore", "你甘愿让自身承受负担，使回应你召唤的生物更加强健。", true),
-                        effectEn: "You take a -4 untyped penalty to Strength, Dexterity, and Constitution. Your summoned creatures gain a +4 untyped bonus to Strength, Dexterity, and Constitution.",
-                        effectZh: "你的力量、敏捷和体质承受-4无类型减值。你召唤的生物的力量、敏捷和体质获得+4无类型加值。"),
+                        effectEn: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.effectEn", "You take a -4 untyped penalty to Strength, Dexterity, and Constitution. Your summoned creatures gain a +4 untyped bonus to Strength, Dexterity, and Constitution.", false),
+                        effectZh: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.effectEn", "你的力量、敏捷和体质承受-4无类型减值。你召唤的生物的力量、敏捷和体质获得+4无类型加值。", true)),
                     selfBonuses: CreateUniformBonuses(-4),
                     summonBonuses: CreateUniformBonuses(4)),
                 CreateFeat(
@@ -50,12 +50,12 @@ namespace ACHomebrew.Feats
                     nameEn: Common.Text("SummonerSacrifice_DoubledBond.Name", "Eldritch Crucible"),
                     nameZh: Common.Text("SummonerSacrifice_DoubledBond.Name", "双生法炼", true),
                     desc: BuildDescription(
-                        modeEn: "1:2 Amplification",
-                        modeZh: "倍率谐振",
+                        modeEn: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.modeEn.2", "1:2 Amplification", false),
+                        modeZh: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.modeEn.2", "倍率谐振", true),
                         loreEn: Common.Text("SummonerSacrifice_DoubledBond.Lore", "An exacting pact magnifies what you surrender, letting sacrifice feed a companion's strength."),
                         loreZh: Common.Text("SummonerSacrifice_DoubledBond.Lore", "严密的契约放大你付出的代价，让牺牲转为伙伴的力量。", true),
-                        effectEn: "You take a -2 untyped penalty to Strength, Dexterity, and Constitution. Your summoned creatures gain a +4 untyped bonus to Strength, Dexterity, and Constitution.",
-                        effectZh: "你的力量、敏捷和体质承受-2无类型减值。你召唤的生物的力量、敏捷和体质获得+4无类型加值。"),
+                        effectEn: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.effectEn.2", "You take a -2 untyped penalty to Strength, Dexterity, and Constitution. Your summoned creatures gain a +4 untyped bonus to Strength, Dexterity, and Constitution.", false),
+                        effectZh: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.effectEn.2", "你的力量、敏捷和体质承受-2无类型减值。你召唤的生物的力量、敏捷和体质获得+4无类型加值。", true)),
                     selfBonuses: CreateUniformBonuses(-2),
                     summonBonuses: CreateUniformBonuses(4)),
                 CreateFeat(
@@ -66,12 +66,12 @@ namespace ACHomebrew.Feats
                     nameEn: Common.Text("SummonerSacrifice_EmpoweredSacrifice.Name", "Tribute of Iron Dominion"),
                     nameZh: Common.Text("SummonerSacrifice_EmpoweredSacrifice.Name", "夺冕化蛮", true),
                     desc: BuildDescription(
-                        modeEn: "Focused Trade",
-                        modeZh: "极意倾注",
+                        modeEn: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.modeEn.3", "Focused Trade", false),
+                        modeZh: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.modeEn.3", "极意倾注", true),
                         loreEn: Common.Text("SummonerSacrifice_EmpoweredSacrifice.Lore", "You yield some commanding presence to give a summoned body greater physical force."),
                         loreZh: Common.Text("SummonerSacrifice_EmpoweredSacrifice.Lore", "你让渡部分统御的气势，为召来的躯体换取更强的筋骨之力。", true),
-                        effectEn: "You take a -4 untyped penalty to Charisma. Your summoned creatures gain a +8 untyped bonus to Strength.",
-                        effectZh: "你的魅力承受-4无类型减值。你召唤的生物获得+8无类型力量加值。"),
+                        effectEn: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.effectEn.3", "You take a -4 untyped penalty to Charisma. Your summoned creatures gain a +8 untyped bonus to Strength.", false),
+                        effectZh: Common.Text("Text.SummonerSacrificeFeats.ConfigureAll.effectEn.3", "你的魅力承受-4无类型减值。你召唤的生物获得+8无类型力量加值。", true)),
                     selfBonuses: new[] { new StatBonus(StatType.Charisma, -4) },
                     summonBonuses: new[] { new StatBonus(StatType.Strength, 8) }),
             };
@@ -144,8 +144,8 @@ namespace ACHomebrew.Feats
             string effectEn,
             string effectZh)
         {
-            var en = $"<i>Summoner Sacrifice · {modeEn}</i>\n{loreEn}\n\n<b>Effect:</b> {effectEn}\n\n<b>Restrictions:</b> While its exclusion group is on (configurable in mod settings), you can have only one Summoner Sacrifice feat.";
-            var zh = $"<i>召唤献祭 · {modeZh}</i>\n{loreZh}\n\n<b>效果：</b>{effectZh}\n\n<b>限制：</b>启用该互斥组时（可在模组设置中调整），只能拥有一个“召唤献祭”专长。";
+            var en = Common.Format("Text.SummonerSacrificeFeats.BuildDescription.Description", "<i>Summoner Sacrifice · {0}</i>\n{1}\n\n<b>Effect:</b> {2}\n\n<b>Restrictions:</b> While its exclusion group is on (configurable in mod settings), you can have only one Summoner Sacrifice feat.", false, modeEn, loreEn, effectEn);
+            var zh = Common.Format("Text.SummonerSacrificeFeats.BuildDescription.Description", "<i>召唤献祭 · {0}</i>\n{1}\n\n<b>效果：</b>{2}\n\n<b>限制：</b>启用该互斥组时（可在模组设置中调整），只能拥有一个“召唤献祭”专长。", true, modeZh, loreZh, effectZh);
             return (en, zh);
         }
 

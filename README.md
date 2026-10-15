@@ -227,7 +227,7 @@ Main Attribute Mastery uses **inherent** bonuses, so it does not stack with tome
 ## Installation (Unity Mod Manager)
 
 1. Install [Unity Mod Manager](https://www.nexusmods.com/site/mods/21) for Pathfinder: Wrath of the Righteous.
-2. Build or download `ACHomebrew-0.2.0.zip`.
+2. Build or download `ACHomebrew-0.2.1.zip`.
 3. Drop the zip into UMM.
 4. Enable the mod in-game.
 
@@ -292,7 +292,12 @@ is shared by the Mod and test projects and must not be committed.
 
 ## Text and Icons
 
-Every feat and selection menu has English and Simplified Chinese names and descriptions. The original 92 feats and 60 feats added in AC's Homebrew have individual 128×128 PNG icons ([contact sheet](docs/feat-icons.png)). Main Attribute Mastery feats reuse their source attribute's icon; the six Weapon Damage feats do not yet have bespoke artwork. Names and lore, along with the new menu and Weapon Damage descriptions, live in the embedded [FeatText.json](src/ACHomebrew.Core/Localization/FeatText.json). Other rule templates remain with their implementations.
+Every feat and selection menu has English and Simplified Chinese names and descriptions. The original 92 feats and 60 feats added in AC's Homebrew have individual 128×128 PNG icons ([contact sheet](docs/feat-icons.png)). Main Attribute Mastery feats reuse their source attribute's icon; the six Weapon Damage feats do not yet have bespoke artwork. Names, lore and complete rule templates live in [enGB.json](src/ACHomebrew.Core/Localization/enGB.json) and [zhCN.json](src/ACHomebrew.Core/Localization/zhCN.json). These canonical files are both embedded and shipped in `Localization/`; the loader prefers valid external translations and logs fallbacks. Edit the installed files and restart—no recompilation is needed. See [localization and release delivery](docs/localization-and-release.md).
+
+The release ZIP also includes [English](docs/player/README.en.md) and
+[Simplified Chinese](docs/player/README.zh-CN.md) player readmes, versioned
+changelogs and both license files. These player guides explain installation,
+upgrades, settings, known issues and feedback without contributor-only material.
 
 See the [icon contact sheet](docs/feat-icons.png), [asset manifest](docs/icon-manifest.json), and [validation commands and limits](docs/validation.md). The settings UI remains in English. Source checks and builds do not establish actual combat effects or in-game text layout.
 

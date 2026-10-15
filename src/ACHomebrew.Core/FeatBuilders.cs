@@ -9,7 +9,7 @@ namespace ACHomebrew.Feats
     internal static class FeatBuilders
     {
         public static (string en, string zh) Desc(string familyEn, string familyZh, string effectEn, string effectZh)
-            => ($"<i>{familyEn}</i>\n\n<b>Effect:</b> {effectEn}", $"<i>{familyZh}</i>\n\n<b>效果：</b>{effectZh}");
+            => (Common.Format("Text.FeatBuilders.Desc.Text", "<i>{0}</i>\n\n<b>Effect:</b> {1}", false, familyEn, effectEn), Common.Format("Text.FeatBuilders.Desc.Text", "<i>{0}</i>\n\n<b>效果：</b>{1}", true, familyZh, effectZh));
 
         public static FeatureConfigurator Feat(FeatSelection family, string name, string guid, string nameEn, string nameZh, (string en, string zh) desc)
         {

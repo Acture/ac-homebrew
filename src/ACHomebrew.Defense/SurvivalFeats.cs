@@ -21,16 +21,15 @@ namespace ACHomebrew.Feats
             if (Initialized) return;
             Initialized = true;
 
-            var undying = Buff("UndyingBuff", Guids.Survival.UndyingBuff, "Undying", "向死而生",
-                    "You cannot die and keep acting at negative hit points. When this ends, you die if your hit points are still at or below the negative of your Constitution score.",
-                    "你不会死亡，生命值为负时仍可行动。效果结束时，若生命值仍不高于负的体质值，你将死亡。")
+            var undying = Buff("UndyingBuff", Guids.Survival.UndyingBuff, Common.Text("Text.SurvivalFeats.ConfigureAll.Text", "Undying", false), Common.Text("Text.SurvivalFeats.ConfigureAll.Text", "向死而生", true),
+                    Common.Text("Text.SurvivalFeats.ConfigureAll.Text.2", "You cannot die and keep acting at negative hit points. When this ends, you die if your hit points are still at or below the negative of your Constitution score.", false),
+                    Common.Text("Text.SurvivalFeats.ConfigureAll.Text.2", "你不会死亡，生命值为负时仍可行动。效果结束时，若生命值仍不高于负的体质值，你将死亡。", true))
                 .AddComponent<UndyingState>()
                 .Configure();
-            Feat(FeatSelection.Survival, "Undying", Guids.Survival.Undying, "Undying", "向死而生",
-                    Desc("Survival", "生存",
-                        "When damage reduces you to 0 hit points or fewer, you become Undying for 1 hour: you cannot die and keep acting at negative hit points. " +
-                        "If you are not healed above the death threshold (negative Constitution score) before it ends, you die. It can trigger again after it ends.",
-                        "伤害使你的生命值降至0或以下时，你进入不死状态1小时：不会死亡，生命值为负时仍可行动。若结束前未被治疗到死亡阈值（负的体质值）之上，你将死亡。结束后可再次触发。"))
+            Feat(FeatSelection.Survival, "Undying", Guids.Survival.Undying, Common.Text("Text.SurvivalFeats.ConfigureAll.Text", "Undying", false), Common.Text("Text.SurvivalFeats.ConfigureAll.Text", "向死而生", true),
+                    Desc(Common.Text("Text.SurvivalFeats.ConfigureAll.Text.3", "Survival", false), Common.Text("Text.SurvivalFeats.ConfigureAll.Text.3", "生存", true),
+                        Common.Text("Text.SurvivalFeats.ConfigureAll.Text.4", "When damage reduces you to 0 hit points or fewer, you become Undying for 1 hour: you cannot die and keep acting at negative hit points. If you are not healed above the death threshold (negative Constitution score) before it ends, you die. It can trigger again after it ends.", false),
+                        Common.Text("Text.SurvivalFeats.ConfigureAll.Text.4", "伤害使你的生命值降至0或以下时，你进入不死状态1小时：不会死亡，生命值为负时仍可行动。若结束前未被治疗到死亡阈值（负的体质值）之上，你将死亡。结束后可再次触发。", true)))
                 .AddComponent<UndyingTrigger>(c => c.Buff = undying.ToReference<BlueprintBuffReference>())
                 .Configure();
         }

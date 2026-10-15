@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using BlueprintCore.Utils;
 using HarmonyLib;
 using Kingmaker.Localization;
@@ -12,6 +13,9 @@ namespace ACHomebrew.Feats
 
         public static string Text(string key, string fallback, bool chinese = false)
             => FeatTextCatalog.Get(key, fallback, chinese);
+
+        public static string Format(string key, string fallback, bool chinese, params object[] arguments)
+            => string.Format(CultureInfo.CurrentCulture, Text(key, fallback, chinese), arguments);
 
         /// <summary>Text for runtime-built UI strings in the active game locale.</summary>
         public static string CurrentText(string key, string fallback)

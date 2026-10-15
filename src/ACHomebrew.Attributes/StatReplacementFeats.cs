@@ -43,8 +43,8 @@ namespace ACHomebrew.Feats
                     Common.Text("WeaponInsight_Str.Name", "巨灵摧破", true),
                     "WeaponInsight_Str.Desc",
                     BuildWeaponInsightDescription(
-                        "Strength",
-                        "力量",
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text", "Strength", false),
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text", "力量", true),
                         Common.Text("WeaponInsight_Str.Lore", "Rather than chase delicate openings, you commit your weight to a weapon's path and trust its momentum."),
                         Common.Text("WeaponInsight_Str.Lore", "你不追逐细小的空隙，而将身量压入兵刃的轨迹，借其惯势出手。", true))),
                 CreateWeaponInsight(
@@ -56,8 +56,8 @@ namespace ACHomebrew.Feats
                     Common.Text("WeaponInsight_Dex.Name", "阿尔多里绝诣", true),
                     "WeaponInsight_Dex.Desc",
                     BuildWeaponInsightDescription(
-                        "Dexterity",
-                        "敏捷",
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.2", "Dexterity", false),
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.2", "敏捷", true),
                         Common.Text("WeaponInsight_Dex.Lore", "Inspired by Aldori dueling traditions, you guide the blade with balance and exacting footwork."),
                         Common.Text("WeaponInsight_Dex.Lore", "你借鉴阿尔多里的决斗传统，以重心与精确步法驾驭剑锋。", true))),
                 CreateWeaponInsight(
@@ -69,8 +69,8 @@ namespace ACHomebrew.Feats
                     Common.Text("WeaponInsight_Con.Name", "磐固千钧", true),
                     "WeaponInsight_Con.Desc",
                     BuildWeaponInsightDescription(
-                        "Constitution",
-                        "体质",
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.3", "Constitution", false),
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.3", "体质", true),
                         Common.Text("WeaponInsight_Con.Lore", "A steady breath and a planted stance keep your weapon true even when fatigue begins to bite."),
                         Common.Text("WeaponInsight_Con.Lore", "即使疲惫袭来，沉稳的呼吸与扎实的站姿仍让兵刃沿着预定轨迹前行。", true))),
                 CreateWeaponInsight(
@@ -82,8 +82,8 @@ namespace ACHomebrew.Feats
                     Common.Text("WeaponInsight_Int.Name", "规矩之锋", true),
                     "WeaponInsight_Int.Desc",
                     BuildWeaponInsightDescription(
-                        "Intelligence",
-                        "智力",
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.4", "Intelligence", false),
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.4", "智力", true),
                         Common.Text("WeaponInsight_Int.Lore", "You see the duel as intersecting lines, choosing each stroke by angle rather than impulse."),
                         Common.Text("WeaponInsight_Int.Lore", "你将交锋视作交错的线条，依角度而非冲动选择每一次出手。", true))),
                 CreateWeaponInsight(
@@ -95,8 +95,8 @@ namespace ACHomebrew.Feats
                     Common.Text("WeaponInsight_Wis.Name", "因果断隙", true),
                     "WeaponInsight_Wis.Desc",
                     BuildWeaponInsightDescription(
-                        "Wisdom",
-                        "感知",
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.5", "Wisdom", false),
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.5", "感知", true),
                         Common.Text("WeaponInsight_Wis.Lore", "You watch the intention behind a motion and meet your opponent where their next step will lead."),
                         Common.Text("WeaponInsight_Wis.Lore", "你察看动作背后的意图，在对手下一步将至之处迎击。", true))),
                 CreateWeaponInsight(
@@ -108,8 +108,8 @@ namespace ACHomebrew.Feats
                     Common.Text("WeaponInsight_Cha.Name", "游侠华彩", true),
                     "WeaponInsight_Cha.Desc",
                     BuildWeaponInsightDescription(
-                        "Charisma",
-                        "魅力",
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.6", "Charisma", false),
+                        Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.6", "魅力", true),
                         Common.Text("WeaponInsight_Cha.Lore", "A flourish invites the eye to follow one story while your weapon pursues another."),
                         Common.Text("WeaponInsight_Cha.Lore", "华丽的虚招引导敌人的目光，兵刃则沿另一条轨迹逼近。", true))),
             };
@@ -125,14 +125,14 @@ namespace ACHomebrew.Feats
                 Common.Text("Extended_InnerSentinel.Name", "云水自真", true),
                 "Extended_InnerSentinel.Desc",
                 BuildExtendedDescription(
-                    "Wisdom",
-                    "感知",
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.5", "Wisdom", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.5", "感知", true),
                     Common.Text("Extended_InnerSentinel.Lore", "Lightly burdened, you guard yourself through a traveler's quiet awareness and measured movement."),
                     Common.Text("Extended_InnerSentinel.Lore", "轻装行走时，你凭旅人的沉静觉察与适度挪移守护自身。", true),
-                    "Adds your Wisdom modifier as an untyped bonus to AC while wearing no armor or light armor.",
-                    "在未着甲或穿着轻甲时，将你的感知调整值作为无类型加值附加至防御等级（AC）。",
-                    "Applies only while wearing no armor or light armor. This feat can be combined with other Extended Replacement feats.",
-                    "仅在未着甲或穿着轻甲时生效。此专长可与其他“属性延展”专长正常叠加。"),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.7", "Adds your Wisdom modifier as an untyped bonus to AC while wearing no armor or light armor.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.7", "在未着甲或穿着轻甲时，将你的感知调整值作为无类型加值附加至防御等级（AC）。", true),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.8", "Applies only while wearing no armor or light armor. This feat can be combined with other Extended Replacement feats.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.8", "仅在未着甲或穿着轻甲时生效。此专长可与其他“属性延展”专长正常叠加。", true)),
                 CreateLightOrNoArmorRestriction());
 
             CreateExtendedFeat(
@@ -145,14 +145,14 @@ namespace ACHomebrew.Feats
                 Common.Text("Extended_CalculatedGrip.Name", "筋络推演", true),
                 "Extended_CalculatedGrip.Desc",
                 BuildExtendedDescription(
-                    "Intelligence",
-                    "智力",
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.4", "Intelligence", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.4", "智力", true),
                     Common.Text("Extended_CalculatedGrip.Lore", "Anatomy turns a grapple into a study of joints, leverage, and the direction of resistance."),
                     Common.Text("Extended_CalculatedGrip.Lore", "关节、杠杆与抵抗的方向，使每一次擒抱都成为对身体结构的实践。", true),
-                    "Adds your Intelligence modifier as an untyped bonus to CMB.",
-                    "将你的智力调整值作为无类型加值附加至战技加值（CMB）。",
-                    "This feat can be combined with other Extended Replacement feats.",
-                    "此专长可与其他“属性延展”专长正常叠加。"));
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.9", "Adds your Intelligence modifier as an untyped bonus to CMB.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.9", "将你的智力调整值作为无类型加值附加至战技加值（CMB）。", true),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.10", "This feat can be combined with other Extended Replacement feats.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.10", "此专长可与其他“属性延展”专长正常叠加。", true)));
 
             CreateExtendedFeat(
                 StatType.Charisma,
@@ -164,14 +164,14 @@ namespace ACHomebrew.Feats
                 Common.Text("Extended_UnyieldingWill.Name", "帝胄岳立", true),
                 "Extended_UnyieldingWill.Desc",
                 BuildExtendedDescription(
-                    "Charisma",
-                    "魅力",
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.6", "Charisma", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.6", "魅力", true),
                     Common.Text("Extended_UnyieldingWill.Lore", "You hold your ground with the bearing of someone who expects to be obeyed."),
                     Common.Text("Extended_UnyieldingWill.Lore", "你以不容轻忽的威仪站稳阵地，令自己的坚持清晰可见。", true),
-                    "Adds your Charisma modifier as an untyped bonus to CMD.",
-                    "将你的魅力调整值作为无类型加值附加至战技防御（CMD）。",
-                    "This feat can be combined with other Extended Replacement feats.",
-                    "此专长可与其他“属性延展”专长正常叠加。"));
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.11", "Adds your Charisma modifier as an untyped bonus to CMD.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.11", "将你的魅力调整值作为无类型加值附加至战技防御（CMD）。", true),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.10", "This feat can be combined with other Extended Replacement feats.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.10", "此专长可与其他“属性延展”专长正常叠加。", true)));
 
             CreateExtendedFeat(
                 StatType.Strength,
@@ -183,14 +183,14 @@ namespace ACHomebrew.Feats
                 Common.Text("Extended_BrutalDefender.Name", "巨灵固步", true),
                 "Extended_BrutalDefender.Desc",
                 BuildExtendedDescription(
-                    "Strength",
-                    "力量",
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text", "Strength", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text", "力量", true),
                     Common.Text("Extended_BrutalDefender.Lore", "Strong legs and a deliberate stance let you answer force without surrendering your footing."),
                     Common.Text("Extended_BrutalDefender.Lore", "强健的双腿与审慎的站姿，让你在抵抗外力时守住立足之处。", true),
-                    "Adds your Strength modifier as an untyped bonus to CMD.",
-                    "将你的力量调整值作为无类型加值附加至战技防御（CMD）。",
-                    "This feat can be combined with other Extended Replacement feats.",
-                    "此专长可与其他“属性延展”专长正常叠加。"));
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.12", "Adds your Strength modifier as an untyped bonus to CMD.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.12", "将你的力量调整值作为无类型加值附加至战技防御（CMD）。", true),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.10", "This feat can be combined with other Extended Replacement feats.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.10", "此专长可与其他“属性延展”专长正常叠加。", true)));
 
             CreateExtendedFeat(
                 StatType.Dexterity,
@@ -202,14 +202,14 @@ namespace ACHomebrew.Feats
                 Common.Text("Extended_LightfootDefense.Name", "穿风灵步", true),
                 "Extended_LightfootDefense.Desc",
                 BuildExtendedDescription(
-                    "Dexterity",
-                    "敏捷",
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.2", "Dexterity", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.2", "敏捷", true),
                     Common.Text("Extended_LightfootDefense.Lore", "With little armor to hamper you, every small shift of weight becomes part of your guard."),
                     Common.Text("Extended_LightfootDefense.Lore", "少了重甲的牵制，每一次细微的重心转移都成为防守的一部分。", true),
-                    "Adds your Dexterity modifier as an untyped bonus to AC while wearing no armor or light armor.",
-                    "在未着甲或穿着轻甲时，将你的敏捷调整值作为无类型加值附加至防御等级（AC）。",
-                    "Applies only while wearing no armor or light armor. This feat can be combined with other Extended Replacement feats.",
-                    "仅在未着甲或穿着轻甲时生效。此专长可与其他“属性延展”专长正常叠加。"),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.13", "Adds your Dexterity modifier as an untyped bonus to AC while wearing no armor or light armor.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.13", "在未着甲或穿着轻甲时，将你的敏捷调整值作为无类型加值附加至防御等级（AC）。", true),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.8", "Applies only while wearing no armor or light armor. This feat can be combined with other Extended Replacement feats.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.8", "仅在未着甲或穿着轻甲时生效。此专长可与其他“属性延展”专长正常叠加。", true)),
                 CreateLightOrNoArmorRestriction());
 
             CreateExtendedFeat(
@@ -222,14 +222,14 @@ namespace ACHomebrew.Feats
                 Common.Text("Extended_IronEndurance.Name", "生机洪炉", true),
                 "Extended_IronEndurance.Desc",
                 BuildExtendedDescription(
-                    "Constitution",
-                    "体质",
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.3", "Constitution", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.3", "体质", true),
                     Common.Text("Extended_IronEndurance.Lore", "You have learned to carry hardship in your flesh as a forge carries the day's heat."),
                     Common.Text("Extended_IronEndurance.Lore", "你学会如熔炉蓄热般承受艰辛，让磨砺沉淀于血肉之中。", true),
-                    "Adds your Constitution modifier as an untyped bonus to Hit Points.",
-                    "将你的体质调整值作为无类型加值附加至生命值上限（HP）。",
-                    "This feat can be combined with other Extended Replacement feats.",
-                    "此专长可与其他“属性延展”专长正常叠加。"));
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.14", "Adds your Constitution modifier as an untyped bonus to Hit Points.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.14", "将你的体质调整值作为无类型加值附加至生命值上限（HP）。", true),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.10", "This feat can be combined with other Extended Replacement feats.", false),
+                    Common.Text("Text.StatReplacementFeats.ConfigureAll.Text.10", "此专长可与其他“属性延展”专长正常叠加。", true)));
         }
 
         private static BlueprintFeature CreateWeaponInsight(
@@ -305,8 +305,8 @@ namespace ACHomebrew.Feats
             string loreEn,
             string loreZh)
         {
-            var en = $"<i>Weapon Insight · {statEn}</i>\n{loreEn}\n\n<b>Effect:</b> Your weapon attack rolls use your {statEn} modifier instead of Strength or Dexterity whenever {statEn} would be better.\n\n<b>Restrictions:</b> While its exclusion group is on (configurable in mod settings), you can have only one Weapon Insight feat.";
-            var zh = $"<i>武器洞察 · {statZh}</i>\n{loreZh}\n\n<b>效果：</b>当你的{statZh}调整值更高时，所有武器攻击检定均使用{statZh}调整值替代力量或敏捷调整值。\n\n<b>限制：</b>启用该互斥组时（可在模组设置中调整），只能拥有一个“武器洞察”专长。";
+            var en = Common.Format("Text.StatReplacementFeats.BuildWeaponInsightDescription.Description", "<i>Weapon Insight · {0}</i>\n{1}\n\n<b>Effect:</b> Your weapon attack rolls use your {0} modifier instead of Strength or Dexterity whenever {0} would be better.\n\n<b>Restrictions:</b> While its exclusion group is on (configurable in mod settings), you can have only one Weapon Insight feat.", false, statEn, loreEn);
+            var zh = Common.Format("Text.StatReplacementFeats.BuildWeaponInsightDescription.Description", "<i>武器洞察 · {0}</i>\n{1}\n\n<b>效果：</b>当你的{0}调整值更高时，所有武器攻击检定均使用{0}调整值替代力量或敏捷调整值。\n\n<b>限制：</b>启用该互斥组时（可在模组设置中调整），只能拥有一个“武器洞察”专长。", true, statZh, loreZh);
             return (en, zh);
         }
 
@@ -320,8 +320,8 @@ namespace ACHomebrew.Feats
             string restrictionEn,
             string restrictionZh)
         {
-            var en = $"<i>Extended Replacement · {statEn}</i>\n{loreEn}\n\n<b>Effect:</b> {effectEn} Attribute modifiers used for these bonuses and matching penalties have a minimum of 0.\n\n<b>Restrictions:</b> {restrictionEn}";
-            var zh = $"<i>属性延展 · {statZh}</i>\n{loreZh}\n\n<b>效果：</b>{effectZh}这些加值及对应减值均以属性调整值最低0计算。\n\n<b>限制：</b>{restrictionZh}";
+            var en = Common.Format("Text.StatReplacementFeats.BuildExtendedDescription.Description", "<i>Extended Replacement · {0}</i>\n{1}\n\n<b>Effect:</b> {2} Attribute modifiers used for these bonuses and matching penalties have a minimum of 0.\n\n<b>Restrictions:</b> {3}", false, statEn, loreEn, effectEn, restrictionEn);
+            var zh = Common.Format("Text.StatReplacementFeats.BuildExtendedDescription.Description", "<i>属性延展 · {0}</i>\n{1}\n\n<b>效果：</b>{2}这些加值及对应减值均以属性调整值最低0计算。\n\n<b>限制：</b>{3}", true, statZh, loreZh, effectZh, restrictionZh);
             return (en, zh);
         }
     }

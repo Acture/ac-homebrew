@@ -25,25 +25,25 @@ namespace ACHomebrew.Feats
         // Each Adept covers two or three themed targets for its attribute.
         private static readonly Dictionary<StatType, (StatType[] stats, string en, string zh)> DefensiveThemes = new()
         {
-            [StatType.Strength] = (new[] { StatType.AdditionalCMD, StatType.SaveFortitude }, "CMD and Fortitude saves", "战技防御（CMD）与强韧豁免"),
-            [StatType.Dexterity] = (new[] { StatType.AC, StatType.SaveReflex }, "AC and Reflex saves", "防御等级（AC）与反射豁免"),
-            [StatType.Constitution] = (new[] { StatType.AC, StatType.SaveFortitude }, "AC and Fortitude saves", "防御等级（AC）与强韧豁免"),
-            [StatType.Intelligence] = (new[] { StatType.Initiative, StatType.SaveReflex }, "Initiative and Reflex saves", "先攻与反射豁免"),
-            [StatType.Wisdom] = (new[] { StatType.SaveWill, StatType.Initiative }, "Will saves and Initiative", "意志豁免与先攻"),
-            [StatType.Charisma] = (new[] { StatType.SaveWill, StatType.AdditionalCMD }, "Will saves and CMD", "意志豁免与战技防御（CMD）"),
+            [StatType.Strength] = (new[] { StatType.AdditionalCMD, StatType.SaveFortitude }, Common.Text("Text.SpecializedFeats.Labels.Text", "CMD and Fortitude saves", false), Common.Text("Text.SpecializedFeats.Labels.Text", "战技防御（CMD）与强韧豁免", true)),
+            [StatType.Dexterity] = (new[] { StatType.AC, StatType.SaveReflex }, Common.Text("Text.SpecializedFeats.Labels.Text.2", "AC and Reflex saves", false), Common.Text("Text.SpecializedFeats.Labels.Text.2", "防御等级（AC）与反射豁免", true)),
+            [StatType.Constitution] = (new[] { StatType.AC, StatType.SaveFortitude }, Common.Text("Text.SpecializedFeats.Labels.Text.3", "AC and Fortitude saves", false), Common.Text("Text.SpecializedFeats.Labels.Text.3", "防御等级（AC）与强韧豁免", true)),
+            [StatType.Intelligence] = (new[] { StatType.Initiative, StatType.SaveReflex }, Common.Text("Text.SpecializedFeats.Labels.Text.4", "Initiative and Reflex saves", false), Common.Text("Text.SpecializedFeats.Labels.Text.4", "先攻与反射豁免", true)),
+            [StatType.Wisdom] = (new[] { StatType.SaveWill, StatType.Initiative }, Common.Text("Text.SpecializedFeats.Labels.Text.5", "Will saves and Initiative", false), Common.Text("Text.SpecializedFeats.Labels.Text.5", "意志豁免与先攻", true)),
+            [StatType.Charisma] = (new[] { StatType.SaveWill, StatType.AdditionalCMD }, Common.Text("Text.SpecializedFeats.Labels.Text.6", "Will saves and CMD", false), Common.Text("Text.SpecializedFeats.Labels.Text.6", "意志豁免与战技防御（CMD）", true)),
         };
 
         private static readonly Dictionary<StatType, (StatType[] stats, string en, string zh)> SkilledThemes = new()
         {
-            [StatType.Strength] = (new[] { StatType.SkillAthletics, StatType.CheckIntimidate }, "Athletics and Intimidate checks", "运动与威吓检定"),
-            [StatType.Dexterity] = (new[] { StatType.SkillMobility, StatType.SkillStealth, StatType.SkillThievery }, "Mobility, Stealth and Thievery", "灵活、潜行与巧手"),
-            [StatType.Constitution] = (new[] { StatType.SkillAthletics, StatType.SkillPerception }, "Athletics and Perception", "运动与察觉"),
+            [StatType.Strength] = (new[] { StatType.SkillAthletics, StatType.CheckIntimidate }, Common.Text("Text.SpecializedFeats.Labels.Text.7", "Athletics and Intimidate checks", false), Common.Text("Text.SpecializedFeats.Labels.Text.7", "运动与威吓检定", true)),
+            [StatType.Dexterity] = (new[] { StatType.SkillMobility, StatType.SkillStealth, StatType.SkillThievery }, Common.Text("Text.SpecializedFeats.Labels.Text.8", "Mobility, Stealth and Thievery", false), Common.Text("Text.SpecializedFeats.Labels.Text.8", "灵活、潜行与巧手", true)),
+            [StatType.Constitution] = (new[] { StatType.SkillAthletics, StatType.SkillPerception }, Common.Text("Text.SpecializedFeats.Labels.Text.9", "Athletics and Perception", false), Common.Text("Text.SpecializedFeats.Labels.Text.9", "运动与察觉", true)),
             [StatType.Intelligence] = (new[] { StatType.SkillKnowledgeArcana, StatType.SkillKnowledgeWorld, StatType.SkillUseMagicDevice },
-                "Knowledge (Arcana), Knowledge (World) and Use Magic Device", "知识（奥秘）、知识（世界）与使用魔法装置"),
+                Common.Text("Text.SpecializedFeats.Labels.Text.10", "Knowledge (Arcana), Knowledge (World) and Use Magic Device", false), Common.Text("Text.SpecializedFeats.Labels.Text.10", "知识（奥秘）、知识（世界）与使用魔法装置", true)),
             [StatType.Wisdom] = (new[] { StatType.SkillPerception, StatType.SkillLoreNature, StatType.SkillLoreReligion },
-                "Perception, Lore (Nature) and Lore (Religion)", "察觉、学识（自然）与学识（宗教）"),
+                Common.Text("Text.SpecializedFeats.Labels.Text.11", "Perception, Lore (Nature) and Lore (Religion)", false), Common.Text("Text.SpecializedFeats.Labels.Text.11", "察觉、学识（自然）与学识（宗教）", true)),
             [StatType.Charisma] = (new[] { StatType.SkillPersuasion, StatType.CheckBluff, StatType.CheckDiplomacy },
-                "Persuasion plus Bluff and Diplomacy checks", "说服，以及欺诈与交涉检定"),
+                Common.Text("Text.SpecializedFeats.Labels.Text.12", "Persuasion plus Bluff and Diplomacy checks", false), Common.Text("Text.SpecializedFeats.Labels.Text.12", "说服，以及欺诈与交涉检定", true)),
         };
 
         private static bool Initialized;
@@ -443,13 +443,13 @@ namespace ACHomebrew.Feats
         {
             var familyNameEn = GetFamilyDisplayName(family);
             var familyNameZh = GetFamilyDisplayNameZh(family);
-            var effectEn = GetEffectText(family, baseStat, attributeNameEn) + " Attribute-based bonuses use a minimum modifier of 0 and apply only when their corresponding mod settings are enabled.";
-            var effectZh = GetEffectTextZh(family, baseStat, attributeNameZh) + " 属性加值以调整值最低0计算，且仅在对应模组设置启用时生效。";
+            var effectEn = Common.Format("Text.SpecializedFeats.BuildDescription.effect", "{0} Attribute-based bonuses use a minimum modifier of 0 and apply only when their corresponding mod settings are enabled.", false, GetEffectText(family, baseStat, attributeNameEn));
+            var effectZh = Common.Format("Text.SpecializedFeats.BuildDescription.effect", "{0} 属性加值以调整值最低0计算，且仅在对应模组设置启用时生效。", true, GetEffectTextZh(family, baseStat, attributeNameZh));
             var restrictionEn = GetRestrictionText(family);
             var restrictionZh = GetRestrictionTextZh(family);
 
-            var en = $"<i>{familyNameEn} · {attributeNameEn}</i>\n{loreTextEn}\n\n<b>Effect:</b> {effectEn}\n\n<b>Restrictions:</b> {restrictionEn}";
-            var zh = $"<i>{familyNameZh} · {attributeNameZh}</i>\n{loreTextZh}\n\n<b>效果：</b>{effectZh}\n\n<b>限制：</b>{restrictionZh}";
+            var en = Common.Format("Text.SpecializedFeats.BuildDescription.Description", "<i>{0} · {1}</i>\n{2}\n\n<b>Effect:</b> {3}\n\n<b>Restrictions:</b> {4}", false, familyNameEn, attributeNameEn, loreTextEn, effectEn, restrictionEn);
+            var zh = Common.Format("Text.SpecializedFeats.BuildDescription.Description", "<i>{0} · {1}</i>\n{2}\n\n<b>效果：</b>{3}\n\n<b>限制：</b>{4}", true, familyNameZh, attributeNameZh, loreTextZh, effectZh, restrictionZh);
             return (en, zh);
         }
 
@@ -458,13 +458,13 @@ namespace ACHomebrew.Feats
             switch (family)
             {
                 case SpecializedFamily.Defensive:
-                    return $"Adds your {attributeName} modifier (untyped) to {DefensiveThemes[baseStat].en}.";
+                    return Common.Format("Text.SpecializedFeats.GetEffectText.Text", "Adds your {0} modifier (untyped) to {1}.", false, attributeName, DefensiveThemes[baseStat].en);
                 case SpecializedFamily.Maneuver:
-                    return $"Adds your {attributeName} modifier (untyped) to CMB.";
+                    return Common.Format("Text.SpecializedFeats.GetEffectText.Text.2", "Adds your {0} modifier (untyped) to CMB.", false, attributeName);
                 case SpecializedFamily.Skilled:
-                    return $"Adds your {attributeName} modifier (untyped) to {SkilledThemes[baseStat].en}.";
+                    return Common.Format("Text.SpecializedFeats.GetEffectText.Text", "Adds your {0} modifier (untyped) to {1}.", false, attributeName, SkilledThemes[baseStat].en);
                 case SpecializedFamily.Arcane:
-                    return $"Adds your {attributeName} modifier (untyped) to caster level and spell penetration checks, plus half your {attributeName} modifier (rounded down) to spell and ability save DCs in Balanced mode, or the full modifier in Legacy_AllFull mode.";
+                    return Common.Format("Text.SpecializedFeats.GetEffectText.Text.3", "Adds your {0} modifier (untyped) to caster level and spell penetration checks, plus half your {0} modifier (rounded down) to spell and ability save DCs in Balanced mode, or the full modifier in Legacy_AllFull mode.", false, attributeName);
                 default:
                     return string.Empty;
             }
@@ -475,13 +475,13 @@ namespace ACHomebrew.Feats
             switch (family)
             {
                 case SpecializedFamily.Defensive:
-                    return $"将你的{attributeZh}调整值（无类型加值）附加至{DefensiveThemes[baseStat].zh}。";
+                    return Common.Format("Text.SpecializedFeats.GetEffectText.Text", "将你的{0}调整值（无类型加值）附加至{1}。", true, attributeZh, DefensiveThemes[baseStat].zh);
                 case SpecializedFamily.Maneuver:
-                    return $"将你的{attributeZh}调整值（无类型加值）附加至战技加值（CMB）。";
+                    return Common.Format("Text.SpecializedFeats.GetEffectText.Text.2", "将你的{0}调整值（无类型加值）附加至战技加值（CMB）。", true, attributeZh);
                 case SpecializedFamily.Skilled:
-                    return $"将你的{attributeZh}调整值（无类型加值）附加至{SkilledThemes[baseStat].zh}。";
+                    return Common.Format("Text.SpecializedFeats.GetEffectText.Text", "将你的{0}调整值（无类型加值）附加至{1}。", true, attributeZh, SkilledThemes[baseStat].zh);
                 case SpecializedFamily.Arcane:
-                    return $"将你的{attributeZh}调整值（无类型加值）附加至施法者等级与法术抗力穿透检定，在Balanced模式下将半数{attributeZh}调整值（向下取整）附加至法术及能力豁免DC，在Legacy_AllFull模式下使用完整调整值。";
+                    return Common.Format("Text.SpecializedFeats.GetEffectText.Text.3", "将你的{0}调整值（无类型加值）附加至施法者等级与法术抗力穿透检定，在Balanced模式下将半数{0}调整值（向下取整）附加至法术及能力豁免DC，在Legacy_AllFull模式下使用完整调整值。", true, attributeZh);
                 default:
                     return string.Empty;
             }
@@ -492,13 +492,13 @@ namespace ACHomebrew.Feats
             switch (family)
             {
                 case SpecializedFamily.Defensive:
-                    return "While its exclusion group is on (configurable in mod settings), you can have only one Defensive Adept feat.";
+                    return Common.Text("Text.SpecializedFeats.GetRestrictionText.Text", "While its exclusion group is on (configurable in mod settings), you can have only one Defensive Adept feat.", false);
                 case SpecializedFamily.Maneuver:
-                    return "While its exclusion group is on (configurable in mod settings), you can have only one Maneuver Adept feat.";
+                    return Common.Text("Text.SpecializedFeats.GetRestrictionText.Text.2", "While its exclusion group is on (configurable in mod settings), you can have only one Maneuver Adept feat.", false);
                 case SpecializedFamily.Skilled:
-                    return "While its exclusion group is on (configurable in mod settings), you can have only one Skilled feat.";
+                    return Common.Text("Text.SpecializedFeats.GetRestrictionText.Text.3", "While its exclusion group is on (configurable in mod settings), you can have only one Skilled feat.", false);
                 case SpecializedFamily.Arcane:
-                    return "While its exclusion group is on (configurable in mod settings), you can have only one Arcane Insight feat.";
+                    return Common.Text("Text.SpecializedFeats.GetRestrictionText.Text.4", "While its exclusion group is on (configurable in mod settings), you can have only one Arcane Insight feat.", false);
                 default:
                     return string.Empty;
             }
@@ -509,13 +509,13 @@ namespace ACHomebrew.Feats
             switch (family)
             {
                 case SpecializedFamily.Defensive:
-                    return "启用该互斥组时（可在模组设置中调整），只能拥有一个防御行家专长。";
+                    return Common.Text("Text.SpecializedFeats.GetRestrictionText.Text", "启用该互斥组时（可在模组设置中调整），只能拥有一个防御行家专长。", true);
                 case SpecializedFamily.Maneuver:
-                    return "启用该互斥组时（可在模组设置中调整），只能拥有一个战技行家专长。";
+                    return Common.Text("Text.SpecializedFeats.GetRestrictionText.Text.2", "启用该互斥组时（可在模组设置中调整），只能拥有一个战技行家专长。", true);
                 case SpecializedFamily.Skilled:
-                    return "启用该互斥组时（可在模组设置中调整），只能拥有一个技能行家专长。";
+                    return Common.Text("Text.SpecializedFeats.GetRestrictionText.Text.3", "启用该互斥组时（可在模组设置中调整），只能拥有一个技能行家专长。", true);
                 case SpecializedFamily.Arcane:
-                    return "启用该互斥组时（可在模组设置中调整），只能拥有一个奥术洞察专长。";
+                    return Common.Text("Text.SpecializedFeats.GetRestrictionText.Text.4", "启用该互斥组时（可在模组设置中调整），只能拥有一个奥术洞察专长。", true);
                 default:
                     return string.Empty;
             }
@@ -543,13 +543,13 @@ namespace ACHomebrew.Feats
             switch (family)
             {
                 case SpecializedFamily.Defensive:
-                    return "Defensive Adept";
+                    return Common.Text("Text.SpecializedFeats.GetFamilyDisplayName.Text", "Defensive Adept", false);
                 case SpecializedFamily.Maneuver:
-                    return "Maneuver Adept";
+                    return Common.Text("Text.SpecializedFeats.GetFamilyDisplayName.Text.2", "Maneuver Adept", false);
                 case SpecializedFamily.Skilled:
-                    return "Skilled";
+                    return Common.Text("Text.SpecializedFeats.GetFamilyDisplayName.Text.3", "Skilled", false);
                 case SpecializedFamily.Arcane:
-                    return "Arcane Insight";
+                    return Common.Text("Text.SpecializedFeats.GetFamilyDisplayName.Text.4", "Arcane Insight", false);
                 default:
                     return family.ToString();
             }
@@ -560,13 +560,13 @@ namespace ACHomebrew.Feats
             switch (family)
             {
                 case SpecializedFamily.Defensive:
-                    return "防御行家";
+                    return Common.Text("Text.SpecializedFeats.GetFamilyDisplayName.Text", "防御行家", true);
                 case SpecializedFamily.Maneuver:
-                    return "战技行家";
+                    return Common.Text("Text.SpecializedFeats.GetFamilyDisplayName.Text.2", "战技行家", true);
                 case SpecializedFamily.Skilled:
-                    return "技能行家";
+                    return Common.Text("Text.SpecializedFeats.GetFamilyDisplayName.Text.3", "技能行家", true);
                 case SpecializedFamily.Arcane:
-                    return "奥术洞察";
+                    return Common.Text("Text.SpecializedFeats.GetFamilyDisplayName.Text.4", "奥术洞察", true);
                 default:
                     return family.ToString();
             }
@@ -598,17 +598,17 @@ namespace ACHomebrew.Feats
             switch (baseStat)
             {
                 case StatType.Strength:
-                    return "Strength";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text", "Strength", false);
                 case StatType.Dexterity:
-                    return "Dexterity";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.2", "Dexterity", false);
                 case StatType.Constitution:
-                    return "Constitution";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.3", "Constitution", false);
                 case StatType.Intelligence:
-                    return "Intelligence";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.4", "Intelligence", false);
                 case StatType.Wisdom:
-                    return "Wisdom";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.5", "Wisdom", false);
                 case StatType.Charisma:
-                    return "Charisma";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.6", "Charisma", false);
                 default:
                     return baseStat.ToString();
             }
@@ -619,17 +619,17 @@ namespace ACHomebrew.Feats
             switch (baseStat)
             {
                 case StatType.Strength:
-                    return "力量";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text", "力量", true);
                 case StatType.Dexterity:
-                    return "敏捷";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.2", "敏捷", true);
                 case StatType.Constitution:
-                    return "体质";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.3", "体质", true);
                 case StatType.Intelligence:
-                    return "智力";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.4", "智力", true);
                 case StatType.Wisdom:
-                    return "感知";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.5", "感知", true);
                 case StatType.Charisma:
-                    return "魅力";
+                    return Common.Text("Text.SpecializedFeats.GetAttributeName.Text.6", "魅力", true);
                 default:
                     return baseStat.ToString();
             }

@@ -35,8 +35,14 @@ jobs:
         run: dotnet run --project tests/Initialization.Tests --configuration Release
       - name: Check localization registration, refresh and fallbacks
         run: dotnet run --project tests/FeatText --configuration Release
+      - name: Check metadata-only inspection safety and dependency failures
+        run: dotnet run --project tests/AssemblyInspector.Tests --configuration Release
       - name: Check bilingual catalog and icon assets
         run: python scripts/validate_assets.py
+      - name: Check required release materials and invalid-package failure controls
+        run: python scripts/test_release_delivery.py
+      - name: Check Nexus preparation and upload failure controls without publishing
+        run: python scripts/test_nexus_release.py
       - name: Upload contract report
         if: always()
         uses: actions/upload-artifact@v7

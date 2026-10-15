@@ -6,9 +6,9 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<Version>0.2.0</Version>
-		<AssemblyVersion>0.2.0</AssemblyVersion>
-		<FileVersion>0.2.0</FileVersion>
+		<Version>0.2.1</Version>
+		<AssemblyVersion>0.2.1</AssemblyVersion>
+		<FileVersion>0.2.1</FileVersion>
 		<Authors>Acture</Authors>
 		<AssemblyName>ACHomebrew</AssemblyName>
 		<!-- UMM Id and install folder stay AttributeFeats so existing installs and settings keep working. -->
@@ -57,6 +57,12 @@
 	<ItemGroup>
 	  <None Update="Info.json" CopyToOutputDirectory="PreserveNewest" />
 	  <None Update="Icons\*.png" CopyToOutputDirectory="PreserveNewest" />
+	  <None Include="../../docs/player/README.en.md;../../docs/player/README.zh-CN.md;../../docs/player/CHANGELOG.zh-CN.md"
+	        Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+	  <None Include="../../CHANGELOG.md;../../LICENSE;../../LICENSE-EXCEPTION.md"
+	        Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+	  <None Include="../ACHomebrew.Core/Localization/enGB.json;../ACHomebrew.Core/Localization/zhCN.json"
+	        Link="Localization/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
 	  <None Update="Properties\Settings.settings">
 	    <Generator>SettingsSingleFileGenerator</Generator>
 	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
