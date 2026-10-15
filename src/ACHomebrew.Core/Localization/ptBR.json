@@ -605,7 +605,7 @@
   "Text.StanceFeats.ConfigureAll.Text.5": "Constituição",
   "Text.StanceFeats.ConfigureAll.Text.6": "Ao ativar, você recebe pontos de vida temporários iguais ao seu modificador de Constituição (mínimo 0); esta postura não os renova a cada rodada. Suas jogadas de ataque e seu número de ataques de oportunidade são reduzidos pelo seu modificador de Constituição (mínimo 0).",
   "Text.StanceFeats.ConfigureAll.Text.7": "Inteligência",
-  "Text.StanceFeats.ConfigureAll.Text.8": "Enquanto ativa, os ataques de oportunidade e o número deles recebem um bônus sem tipo igual ao seu modificador de Inteligência, mínimo 0. As demais jogadas de ataque recebem um bônus sem tipo igual ao negativo do seu modificador de Inteligência, mínimo 0.",
+  "Text.StanceFeats.ConfigureAll.Text.8": "Enquanto ativa, os ataques de oportunidade e o número deles recebem um bônus sem tipo igual ao seu modificador de Inteligência, mínimo 0. As demais jogadas de ataque sofrem uma penalidade igual.",
   "Text.StanceFeats.ConfigureAll.Text.9": "Sabedoria",
   "Text.StanceFeats.ConfigureAll.Text.10": "Enquanto ativa, adiciona seu modificador de Sabedoria (mínimo 0, sem tipo) à CA e aos testes de resistência de Vontade. As jogadas de ataque e o dano sofrem uma penalidade igual; esta postura não reduz a iniciativa.",
   "Text.StanceFeats.ConfigureAll.Text.11": "Carisma",

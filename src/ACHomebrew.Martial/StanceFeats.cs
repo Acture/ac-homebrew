@@ -97,7 +97,7 @@ namespace ACHomebrew.Feats
                         LocalizedText.Text("Text.StanceFeats.ConfigureAll.Text.7", "Intelligence"),
                         LocalizedText.Text("Stance_Int.LoreTitle", "The Waiting Blade."),
                         LocalizedText.Text("Stance_Int.Lore", "You study the openings left by passing foes, keeping a careful account of their movement."),
-                        LocalizedText.Text("Text.StanceFeats.ConfigureAll.Text.8", "While active, attacks of opportunity and their count gain an untyped bonus equal to your Intelligence modifier, minimum 0. Other attack rolls gain an untyped bonus equal to the negative of your Intelligence modifier, minimum 0.")),
+                        LocalizedText.Text("Text.StanceFeats.ConfigureAll.Text.8", "While active, attacks of opportunity and their count gain an untyped bonus equal to your Intelligence modifier, minimum 0. Other attack rolls take an equal penalty.")),
                     includeNegativeRank: true,
                     configureBuff: buff => buff
                         .AddAttackOfOpportunityAttackBonus(Common.Rank(), descriptor: Desc, notAttackOfOpportunity: false)
@@ -181,8 +181,10 @@ namespace ACHomebrew.Feats
             cfg.AddContextRankConfig(ContextRankConfigs.StatBonus(baseStat, Desc, AbilityRankType.Default, min: 0));
             if (includeNegativeRank)
             {
+                // The game clamps after the progression, so the negated modifier is capped at 0 (max), not floored:
+                // a positive modifier becomes an equal penalty, and a negative one never turns into a bonus.
                 cfg.AddContextRankConfig(
-                    ContextRankConfigs.StatBonus(baseStat, Desc, AbilityRankType.StatBonus, min: 0)
+                    ContextRankConfigs.StatBonus(baseStat, Desc, AbilityRankType.StatBonus, max: 0)
                         .WithMultiplyByModifierProgression(-1));
             }
         }

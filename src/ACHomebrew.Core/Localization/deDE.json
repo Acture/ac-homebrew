@@ -605,7 +605,7 @@
   "Text.StanceFeats.ConfigureAll.Text.5": "Konstitution",
   "Text.StanceFeats.ConfigureAll.Text.6": "Bei Aktivierung erhältst du temporäre Trefferpunkte in Höhe deines Konstitutionsmodifikators (mindestens 0); diese Haltung frischt sie nicht jede Runde auf. Deine Angriffswürfe und die Anzahl deiner Gelegenheitsangriffe werden um deinen Konstitutionsmodifikator (mindestens 0) verringert.",
   "Text.StanceFeats.ConfigureAll.Text.7": "Intelligenz",
-  "Text.StanceFeats.ConfigureAll.Text.8": "Solange aktiv, erhalten Gelegenheitsangriffe und deren Anzahl einen Bonus ohne Typ in Höhe deines Intelligenzmodifikators, mindestens 0. Andere Angriffswürfe erhalten einen Bonus ohne Typ in Höhe des negativen Werts deines Intelligenzmodifikators, mindestens 0.",
+  "Text.StanceFeats.ConfigureAll.Text.8": "Solange aktiv, erhalten Gelegenheitsangriffe und deren Anzahl einen Bonus ohne Typ in Höhe deines Intelligenzmodifikators, mindestens 0. Andere Angriffswürfe erhalten einen Malus in gleicher Höhe.",
   "Text.StanceFeats.ConfigureAll.Text.9": "Weisheit",
   "Text.StanceFeats.ConfigureAll.Text.10": "Solange aktiv, wird dein Weisheitsmodifikator (mindestens 0, ohne Typ) auf RK und Willenswürfe addiert. Angriffswürfe und Schaden erhalten einen gleich hohen Malus; diese Haltung verringert die Initiative nicht.",
   "Text.StanceFeats.ConfigureAll.Text.11": "Charisma",

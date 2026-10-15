@@ -11,7 +11,8 @@
 ### Changed
 - External text takes precedence over embedded text in the same language. Missing files/keys, blank translations, malformed JSON and invalid placeholders, rich text or encyclopedia links produce diagnostics and fall back.
 - Release checks require player materials, matching language keys/template arguments and consistent package/loader versions.
-- No feat mechanics, numerical effects, UMM identity, installed folder, settings identity or published blueprint IDs change in this release. Existing characters need no respec for this text update.
+- **Fixed Grandmaster's Gambit** (Intelligence stance): other attack rolls now take the intended penalty equal to your Intelligence modifier (minimum 0). Previously the penalty never applied, and an Intelligence below 10 even turned it into a bonus. The description is corrected in every language. Characters using this stance attack slightly worse outside attacks of opportunity; no respec is required.
+- No other feat mechanics or numbers change. UMM identity, installed folder, settings identity and published blueprint IDs are unchanged.
 
 ## 0.2.0 — 2026-10-11 (Public beta)
 

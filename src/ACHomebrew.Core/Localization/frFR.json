@@ -605,7 +605,7 @@
   "Text.StanceFeats.ConfigureAll.Text.5": "Constitution",
   "Text.StanceFeats.ConfigureAll.Text.6": "À l'activation, vous gagnez des points de vie temporaires égaux à votre modificateur de Constitution (minimum 0) ; cette posture ne les renouvelle pas à chaque round. Vos jets d'attaque et votre nombre d'attaques d'opportunité sont réduits de votre modificateur de Constitution (minimum 0).",
   "Text.StanceFeats.ConfigureAll.Text.7": "Intelligence",
-  "Text.StanceFeats.ConfigureAll.Text.8": "Tant qu'elle est active, les attaques d'opportunité et leur nombre gagnent un bonus sans type égal à votre modificateur d'Intelligence (minimum 0). Les autres jets d'attaque gagnent un bonus sans type égal à l'opposé de votre modificateur d'Intelligence (minimum 0).",
+  "Text.StanceFeats.ConfigureAll.Text.8": "Tant qu'elle est active, les attaques d'opportunité et leur nombre gagnent un bonus sans type égal à votre modificateur d'Intelligence (minimum 0). Les autres jets d'attaque subissent un malus équivalent.",
   "Text.StanceFeats.ConfigureAll.Text.9": "Sagesse",
   "Text.StanceFeats.ConfigureAll.Text.10": "Tant qu'elle est active, ajoute votre modificateur de Sagesse (minimum 0, sans type) à la CA et aux jets de Volonté. Les jets d'attaque et les dégâts subissent un malus égal ; cette posture ne réduit pas l'initiative.",
   "Text.StanceFeats.ConfigureAll.Text.11": "Charisme",

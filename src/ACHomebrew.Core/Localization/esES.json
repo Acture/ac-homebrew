@@ -605,7 +605,7 @@
   "Text.StanceFeats.ConfigureAll.Text.5": "Constitución",
   "Text.StanceFeats.ConfigureAll.Text.6": "Al activarla, obtienes puntos de golpe temporales iguales a tu modificador de Constitución (mínimo 0); esta postura no los renueva cada asalto. Tus tiradas de ataque y tu número de ataques de oportunidad se reducen en tu modificador de Constitución (mínimo 0).",
   "Text.StanceFeats.ConfigureAll.Text.7": "Inteligencia",
-  "Text.StanceFeats.ConfigureAll.Text.8": "Mientras está activa, los ataques de oportunidad y su número obtienen un bonificador sin tipo igual a tu modificador de Inteligencia, mínimo 0. Las demás tiradas de ataque obtienen un bonificador sin tipo igual al negativo de tu modificador de Inteligencia, mínimo 0.",
+  "Text.StanceFeats.ConfigureAll.Text.8": "Mientras está activa, los ataques de oportunidad y su número obtienen un bonificador sin tipo igual a tu modificador de Inteligencia, mínimo 0. Las demás tiradas de ataque sufren un penalizador igual.",
   "Text.StanceFeats.ConfigureAll.Text.9": "Sabiduría",
   "Text.StanceFeats.ConfigureAll.Text.10": "Mientras está activa, suma tu modificador de Sabiduría (mínimo 0, sin tipo) a la CA y a las salvaciones de Voluntad. Las tiradas de ataque y el daño sufren un penalizador igual; esta postura no reduce la iniciativa.",
   "Text.StanceFeats.ConfigureAll.Text.11": "Carisma",

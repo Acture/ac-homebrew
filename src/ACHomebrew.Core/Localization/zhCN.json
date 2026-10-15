@@ -605,7 +605,7 @@
   "Text.StanceFeats.ConfigureAll.Text.5": "体质",
   "Text.StanceFeats.ConfigureAll.Text.6": "启动时获得等同于体质调整值（最低0）的临时生命值；此姿态不会每轮刷新它们。你的攻击检定与借机攻击次数承受等同于体质调整值（最低0）的减值。",
   "Text.StanceFeats.ConfigureAll.Text.7": "智力",
-  "Text.StanceFeats.ConfigureAll.Text.8": "激活时，借机攻击的攻击检定与次数获得等同于智力调整值（最低0）的无类型加值。其他攻击检定获得等同于智力调整值相反数（最低0）的无类型加值。",
+  "Text.StanceFeats.ConfigureAll.Text.8": "激活时，借机攻击的攻击检定与次数获得等同于智力调整值（最低0）的无类型加值。其他攻击检定承受等量减值。",
   "Text.StanceFeats.ConfigureAll.Text.9": "感知",
   "Text.StanceFeats.ConfigureAll.Text.10": "激活时，将你的感知调整值（最低0，无类型加值）附加至防御等级（AC）与意志豁免。你的攻击检定与伤害检定承受等同于感知调整值（最低0）的减值；此姿态不降低先攻。",
   "Text.StanceFeats.ConfigureAll.Text.11": "魅力",
