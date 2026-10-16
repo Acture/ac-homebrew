@@ -2,6 +2,3 @@
 	path = notes
 	url = https://github.com/Acture/obsidian-vault.git
 	branch = project/ac-homebrew
-[submodule "external/wotr-testing"]
-	path = external/wotr-testing
-	url = https://github.com/Acture/wotr-testing.git

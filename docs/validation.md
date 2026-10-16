@@ -63,10 +63,11 @@ dotnet build ACHomebrew.slnx -c Release -p:DeployToGame=false
 powershell.exe -NoProfile -File tests\VerifyExternalLocalization.ps1 -WrathInstallDir "<game directory>"
 python scripts/validate_assets.py --release artifacts/packages/ACHomebrew-0.2.1.zip
 pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1 -WotrInputRoot "<game directory>"
+pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1 -WotrInputRoot "<game directory>" -Harmony game
 ```
 
-The offline mechanics tests (`external/wotr-testing`, initialize the submodule
-first) load the mod into a real offline game session. Besides feat mechanics,
+The offline mechanics tests (the `WotR.Testing.Offline` package) load the mod
+into a real offline game session. Besides feat mechanics,
 `LocalizationTests` checks every string the mod registers in all eight locales:
 nonblank, no Chinese outside `zhCN`, and longer texts translated rather than
 copied from English. The multi-locale refactor was checked against a dump of all
@@ -99,11 +100,13 @@ download comparison are still needed to verify account permissions and delivery.
 pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1
 ```
 
-This Windows-only check needs the public `external/wotr-testing` submodule
-(`git submodule update --init -- external/wotr-testing`). It loads the installed
+This Windows-only check uses the public `WotR.Testing.Offline` NuGet package,
+restored with the test project. It loads the installed
 (or `vendor/wotr/` snapshot) game
-assemblies, vanilla blueprints and settings in a .NET Framework test process
-without starting the game. It applies Main Attribute Mastery and the retired
+assemblies, vanilla blueprints and settings in a test process on the game's own
+Unity Mono runtime without starting the game. The default run uses
+UnityModManager's Harmony 2.3.6 and warns about Harmony members missing from the
+game's own 2.0.4; `-Harmony game` runs on 2.0.4 itself. It applies Main Attribute Mastery and the retired
 Titan's Apotheosis to a vanilla unit and removes them, runs a failure control and probes Bloodline of Beasts through the
 game's summon rule. Reports are written to `artifacts/test-results/offline-mechanics/`.
 See [offline-mechanics-testing.md](offline-mechanics-testing.md) for the inputs,

@@ -20,11 +20,11 @@
 - Build outputs, intermediate files, packages and test reports go in ignored
   `artifacts/`. Keep the shared local `GamePath.props` at the root and untracked.
 - Keep `Repository.json` at the root for existing release metadata consumers.
-- Offline game tests use the public `external/wotr-testing` submodule
-  (https://github.com/Acture/wotr-testing). Change the library there and update the
-  gitlink here only to a published commit. Keep local game-file snapshots in ignored
-  `vendor/wotr/` (`external/wotr-testing/scripts/New-WotrSnapshot.ps1`); never
-  commit or publish them.
+- Offline game tests use the public `WotR.Testing.Offline` NuGet package from
+  wotr-testing (https://github.com/Acture/wotr-testing). Change the library there,
+  publish it, then update the `PackageReference` in `tests/OfflineMechanics.Tests`.
+  Keep local game-file snapshots in ignored `vendor/wotr/` (the package's
+  `New-WotrSnapshot.ps1`); never commit or publish them.
 - Build for verification with `dotnet build ACHomebrew.slnx -p:DeployMod=false`
   to avoid copying files into the installed game. Repository contracts run with
   `pwsh -NoProfile -File scripts/Test-RepositoryContracts.ps1`.
