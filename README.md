@@ -257,7 +257,7 @@ cd ac-homebrew
 - Run initialization failure checks with `dotnet run --project tests/Initialization.Tests`. These exercise the real registry and menu orchestration with stand-ins for game/BlueprintCore APIs and family creation; they do not start Unity or verify in-game UI behavior.
 - With Windows PowerShell 5.1, check settings compatibility using `powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/VerifySettings.ps1 -WrathInstallDir "<game directory>"`.
 - After compiling, verify live mode switching on an existing component with `powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/VerifyLiveWeaponDamageMode.ps1 -WrathInstallDir "<game directory>"`. This loads the compiled mod and game types without starting Unity.
-- With a local game installation, run `pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1`. It uses the public [wotr-testing](https://github.com/Acture/wotr-testing) submodule (`git submodule update --init -- external/wotr-testing`), loads the real game assemblies and blueprint pack in a test process without starting the game, and applies feats to vanilla units. See [offline mechanics tests](docs/offline-mechanics-testing.md) for inputs, adaptations and limits.
+- With a local game installation, run `pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1`. It uses the public [wotr-testing](https://github.com/Acture/wotr-testing) NuGet package `WotR.Testing.Offline`, loads the real game assemblies and blueprint pack on the game's own Unity Mono runtime without starting the game, and applies feats to vanilla units. See [offline mechanics tests](docs/offline-mechanics-testing.md) for inputs, adaptations and limits.
 
 GitHub Actions runs the repository checks on Windows and Linux. GitHub-managed
 CodeQL default setup scans C# and Actions for security issues; review its results
@@ -280,7 +280,6 @@ replace in-game behavior tests.
 | `src/ACHomebrew.Styles/` | Stealth, Solo and Growth |
 | `src/WrathMod.props` | Shared game references and `WrathInstallDir` resolution |
 | `tests/` | Test projects and compatibility baselines |
-| `external/wotr-testing/` | Public submodule with the offline game test library and runner |
 | `scripts/`, `.github/` | Local commands and CI workflows |
 | [docs/](docs/README.md) | Public documentation |
 | `artifacts/` | Ignored build outputs, intermediate files, packages and test reports |

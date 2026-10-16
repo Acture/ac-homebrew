@@ -208,7 +208,7 @@ namespace ACHomebrew.Feats
                     if (argument >= 0 && instruction.LoadsField(field))
                     {
                         // Stack: spellbook blueprint -> push caster context -> resolved attribute.
-                        var load = CodeInstruction.LoadArgument(argument);
+                        var load = LoadArgument(argument);
                         load.MoveLabelsFrom(instruction);
                         load.MoveBlocksFrom(instruction);
                         yield return load;
@@ -221,6 +221,18 @@ namespace ACHomebrew.Feats
                 if (replaced == 0)
                     Mod.Log?.Log($"AttributeFeats: casting attribute read not found in {original.DeclaringType?.Name}.{original.Name}.");
             }
+
+            // Not CodeInstruction.LoadArgument: Harmony 2.0.4, which the game ships and some games load
+            // instead of UnityModManager's copy, does not have it. Operands match what Harmony reads from IL.
+            private static CodeInstruction LoadArgument(int index) => index switch
+            {
+                0 => new CodeInstruction(OpCodes.Ldarg_0),
+                1 => new CodeInstruction(OpCodes.Ldarg_1),
+                2 => new CodeInstruction(OpCodes.Ldarg_2),
+                3 => new CodeInstruction(OpCodes.Ldarg_3),
+                <= byte.MaxValue => new CodeInstruction(OpCodes.Ldarg_S, (byte)index),
+                _ => new CodeInstruction(OpCodes.Ldarg, (short)index),
+            };
         }
 
         // Parameter lists show only the unit's own spellbooks without a casting attribute feat.

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- AC's Homebrew (UMM Id AttributeFeats) mechanics tests on WotR.Testing.Offline (external/wotr-testing): real game assemblies and blueprints, no game process. -->
+  <!-- AC's Homebrew (UMM Id AttributeFeats) mechanics tests on the WotR.Testing.Offline package: real game assemblies and blueprints, no game process. -->
   <Import Project="$(ACHomebrewRepositoryRoot)GamePath.props" Condition="Exists('$(ACHomebrewRepositoryRoot)GamePath.props')" />
 
   <PropertyGroup>
@@ -17,9 +17,8 @@
     <WotrReportDirectory>$(ACHomebrewRepositoryRoot)artifacts/test-results/offline-mechanics/</WotrReportDirectory>
   </PropertyGroup>
 
-  <Import Project="../../external/wotr-testing/src/WotR.Testing.Offline/build/WotR.Testing.Offline.targets" />
-
   <ItemGroup>
+    <PackageReference Include="WotR.Testing.Offline" Version="0.1.0-preview.1" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="xunit" Version="2.9.2" />
@@ -28,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../external/wotr-testing/src/WotR.Testing.Offline/WotR.Testing.Offline.csproj" AdditionalProperties="WotrInputRoot=$(WotrInputRoot)" />
     <!-- Build the mod from source first, without deploying it, against the same game inputs. -->
     <ProjectReference Include="../../src/ACHomebrew/ACHomebrew.csproj"
                       ReferenceOutputAssembly="false"
