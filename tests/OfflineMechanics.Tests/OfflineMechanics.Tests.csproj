@@ -13,7 +13,8 @@
 
     <WotrModAssembly>$(ACHomebrewRepositoryRoot)artifacts/bin/ACHomebrew/$(Configuration)/ACHomebrew.dll</WotrModAssembly>
     <WotrSnapshotDirectory>$(ACHomebrewRepositoryRoot)vendor/wotr</WotrSnapshotDirectory>
-    <WotrWorkDirectory>$(ACHomebrewRepositoryRoot)artifacts/obj/OfflineMechanics.Tests/wotr/</WotrWorkDirectory>
+    <!-- Short on purpose: the game's Mono cannot open paths over 260 characters, and the runtime cache adds up to 126. -->
+    <WotrWorkDirectory>$(ACHomebrewRepositoryRoot)artifacts/wotr/</WotrWorkDirectory>
     <WotrReportDirectory>$(ACHomebrewRepositoryRoot)artifacts/test-results/offline-mechanics/</WotrReportDirectory>
   </PropertyGroup>
 

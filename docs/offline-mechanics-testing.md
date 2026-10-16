@@ -31,8 +31,9 @@ and what they found.
   `vendor/wotr/` is ignored by Git. These are licensed game files: never commit,
   package or upload them. The Mono runtime comes from the game's `MonoBleedingEdge`
   folder; recreate snapshots made without it.
-- A checkout path of about 90 characters or less. The game's Mono does not support
-  paths over 260 characters, and the run's folder adds about 170 to the checkout path.
+- A checkout path of about 115 characters or less. The game's Mono does not support
+  paths over 260 characters, and the runtime cache in `artifacts/wotr/` adds up to
+  about 140 to the checkout path.
 
 ## Running
 
