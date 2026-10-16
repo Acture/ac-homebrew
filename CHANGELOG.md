@@ -9,6 +9,7 @@
 - Exclusion group names in the budget tooltips and ModMenu follow the game language.
 
 ### Changed
+- **Fixed the mod not loading in some games** (UnityModManager shows it as not loaded, and its log has `MissingMethodException` for `CodeInstruction.LoadArgument`). The mod no longer uses Harmony functions missing from Harmony 2.0.4, the copy the game ships, so it loads with that copy as well as with UnityModManager's newer one.
 - External text takes precedence over embedded text in the same language. Missing files/keys, blank translations, malformed JSON and invalid placeholders, rich text or encyclopedia links produce diagnostics and fall back.
 - Release checks require player materials, matching language keys/template arguments and consistent package/loader versions.
 - **Fixed Grandmaster's Gambit** (Intelligence stance): other attack rolls now take the intended penalty equal to your Intelligence modifier (minimum 0). Previously the penalty never applied, and an Intelligence below 10 even turned it into a bonus. The description is corrected in every language. Characters using this stance attack slightly worse outside attacks of opportunity; no respec is required.
