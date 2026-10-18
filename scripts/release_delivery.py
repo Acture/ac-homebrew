@@ -100,6 +100,13 @@ def language_entries(packs):
     return {key: {"Key": key, **{locale: pack[key] for locale, pack in packs.items()}} for key in english}
 
 
+def check_changelog(text, version, name):
+    headings = [line for line in text.splitlines() if line.startswith("## ")]
+    if headings and headings[0] in ("## Unreleased", "## 尚未发布"):
+        headings = headings[1:]
+    assert headings and headings[0].startswith(f"## {version} "), f"outdated changelog: {name}"
+
+
 def check_sources(root=ROOT):
     version = parse_json((root / REQUIRED["Info.json"]).read_bytes())["Version"]
     project_path = root / "src/ACHomebrew/ACHomebrew.csproj"
@@ -107,7 +114,7 @@ def check_sources(root=ROOT):
     for name in ("Version", "AssemblyVersion", "FileVersion"):
         assert project.findtext(f"./PropertyGroup/{name}") == version, f"{name} differs from Info.json"
     releases = parse_json((root / "Repository.json").read_bytes())["Releases"]
-    assert any(r["Id"] == "AttributeFeats" and r["Version"] == version for r in releases), "repository version"
+    assert any(r["Id"] == "ACHomebrew" and r["Version"] == version for r in releases), "repository version"
     outputs = {}
     for item in project.findall("./ItemGroup/None"):
         if item.get("CopyToOutputDirectory") not in ("Always", "PreserveNewest"):
@@ -127,9 +134,7 @@ def check_sources(root=ROOT):
         assert f"ACHomebrew-{version}.zip" in text, f"outdated download name: {name}"
         assert "Validation scope" not in text and "tests/" not in text, f"developer report in player guide: {name}"
     for name in ("CHANGELOG.md", "CHANGELOG.zh-CN.md"):
-        headings = [line for line in (root / REQUIRED[name]).read_text(encoding="utf-8").splitlines()
-                    if line.startswith("## ")]
-        assert headings and headings[0].startswith(f"## {version} "), f"outdated changelog: {name}"
+        check_changelog((root / REQUIRED[name]).read_text(encoding="utf-8"), version, name)
     entries = language_entries({locale: parse_json((root / REQUIRED[f"Localization/{locale}.json"]).read_bytes())
                                 for locale in LOCALES})
     return version, entries

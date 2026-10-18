@@ -3,7 +3,7 @@
   "sourceCommit": "2e16f3dfa4108a89b14782dc4e09d923fc76b113",
   "purpose": "Published feat component calls and inline identities, excluding UI text/icons. Do not regenerate to accept gameplay changes.",
   "files": {
-    "AttributeFeats.cs": {
+    "MainAttributeMasteryFeats.cs": {
       "mechanics": [
         [
           "AddRank",

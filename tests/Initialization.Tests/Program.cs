@@ -24,7 +24,7 @@ void Expect(bool condition, string message)
 void ExpectRoot()
 {
     Expect(World.Published.Count == 1, "Expected one root menu in outer feat lists");
-    Expect(World.Published[0].AssetGuid.Value == Guids.AttributeFeatsSelection, "Wrong root published");
+    Expect(World.Published[0].AssetGuid.Value == Guids.ACHomebrewSelection, "Wrong root published");
 }
 
 Check("normal registration publishes a nested hierarchy", () =>
@@ -83,7 +83,7 @@ Check("Main source menus nest under Main Attribute Mastery", () =>
 
 Check("a failed family menu does not stop later menus or root publication", () =>
 {
-    World.FailedMenu = "AttributeFeatsSelection_Stance";
+    World.FailedMenu = "ACHomebrewSelection_Stance";
     FeatRegistry.ConfigureAll();
     ExpectRoot();
     Expect(!World.RootContains(Guids.FeatSelections.Stance), "Failed menu was published");
@@ -124,7 +124,7 @@ Check("a failed direct-root feat is removed without losing family menus", () =>
 Check("simultaneous registration and menu failures preserve healthy choices", () =>
 {
     World.FailedRegistrations.Add("WeaponDamageFeats");
-    World.FailedMenu = "AttributeFeatsSelection_Stance";
+    World.FailedMenu = "ACHomebrewSelection_Stance";
     FeatRegistry.ConfigureAll();
     ExpectRoot();
     Expect(World.RootContains(Guids.FeatSelections.MainAttribute), "Main menu was lost");
@@ -136,7 +136,7 @@ Check("root publication failure is reported without claiming full initialization
     World.FailRootPublication = true;
     FeatRegistry.ConfigureAll();
     Expect(World.Published.Count == 0, "Root unexpectedly published");
-    Expect(World.Logs.Any(log => log.Contains("AttributeFeatsSelection_Root") && log.Contains("injected root publication failure")), "Root failure was not identified");
+    Expect(World.Logs.Any(log => log.Contains("ACHomebrewSelection_Root") && log.Contains("injected root publication failure")), "Root failure was not identified");
     Expect(!World.Logs.Any(log => log.Contains("registry initialized")), "Reported success after root failure");
 });
 
@@ -159,7 +159,7 @@ internal static class World
 {
     internal static readonly string[] RegistrationNames =
     {
-        "MainAbilityToEverything_Feats", "SpecializedFeats", "StanceFeats", "ConditionalFeats",
+        "MainAbilityToEverything_Feats", "SpecializedFeats", "ManeuverFeats", "StanceFeats", "ConditionalFeats",
         "StatReplacementFeats", "ReactiveArmorFeats", "DerivedStatFeats", "GreaterSummoningFeats",
         "SpellTagFeats", "SummonerSacrificeFeats", "PolearmMasterFeats", "DistanceDamageFeats",
         "WeaponDamageFeats", "CastingStatFeats", "ResourceStatFeats", "RetaliationFeats", "MomentumFeats", "ExecutionFeats", "ArcanaFeats", "SummonerFeats", "StealthFeats", "SoloFeats", "GrowthFeats", "SurvivalFeats", "MemeFeats", "PenetrationFeats", "WeaponPenetrationFeats", "MutexPass",

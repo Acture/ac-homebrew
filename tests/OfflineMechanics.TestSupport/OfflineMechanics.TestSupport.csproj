@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(ACHomebrewRepositoryRoot)GamePath.props" Condition="Exists('$(ACHomebrewRepositoryRoot)GamePath.props')" />
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>false</IsPackable>
+    <WotrIsLibrary>true</WotrIsLibrary>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="WotR.Testing.Offline" Version="0.1.0-preview.1" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

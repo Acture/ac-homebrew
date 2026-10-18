@@ -90,7 +90,7 @@ def catalog(sources=None):
                             en=english, zh=chinese[name_key]))
 
     specs = [
-        ("AttributeFeats.cs", "Main", "CreateOne"),
+        ("MainAttributeMasteryFeats.cs", "Main", "CreateOne"),
         ("StatReplacementFeats.cs", "Weapon Insight", "CreateWeaponInsight"),
         ("StatReplacementFeats.cs", "Extended", "CreateExtendedFeat"),
         ("SpecializedFeats.cs", None, "CreateSpecialized"),

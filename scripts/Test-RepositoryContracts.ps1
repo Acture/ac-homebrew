@@ -84,6 +84,8 @@ Invoke-Contract 'Published blueprint identities remain stable' {
 Invoke-Contract 'Loader metadata matches the project artifact' {
     $info = Get-Content -LiteralPath (Join-Path $RepositoryRoot 'src/ACHomebrew/Info.json') -Raw | ConvertFrom-Json
     [xml]$project = Get-Content -LiteralPath (Join-Path $RepositoryRoot 'src/ACHomebrew/ACHomebrew.csproj') -Raw
+    $modId = $project.SelectSingleNode('/Project/PropertyGroup/ModId').InnerText
+    if ($info.Id -cne 'ACHomebrew' -or $modId -cne 'ACHomebrew') { throw 'UMM Id and install folder must both be ACHomebrew.' }
     $assemblyName = $project.SelectSingleNode('/Project/PropertyGroup/AssemblyName').InnerText
     $version = $project.SelectSingleNode('/Project/PropertyGroup/Version').InnerText
     if ($info.AssemblyName -cne "$assemblyName.dll") {

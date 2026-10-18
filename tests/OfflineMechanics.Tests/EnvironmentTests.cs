@@ -4,15 +4,15 @@ using System.Linq;
 using WotR.Testing.Offline;
 using Xunit;
 
-namespace AttributeFeats.OfflineTests
+namespace ACHomebrew.OfflineTests
 {
     /// <summary>Stage evidence only: these prove the environment, not that any feat works.</summary>
-    [Collection(AttributeFeatsGameCollection.Name)]
+    [Collection(ACHomebrewGameCollection.Name)]
     public sealed class EnvironmentTests
     {
-        private readonly AttributeFeatsGame fixture;
+        private readonly ACHomebrewGame fixture;
 
-        public EnvironmentTests(AttributeFeatsGame fixture) => this.fixture = fixture;
+        public EnvironmentTests(ACHomebrewGame fixture) => this.fixture = fixture;
 
         [Fact]
         public void GameAndModAssembliesComeFromTheDeclaredInputsAndThisBuild()
@@ -58,7 +58,7 @@ namespace AttributeFeats.OfflineTests
             fixture.RequireGame();
             Assert.All(fixture.Session.Stages, stage => Assert.True(stage.Passed, stage.Stage));
             Assert.Contains(fixture.Session.Stages, stage => stage.Stage == "mod-verification");
-            Assert.Contains(fixture.Session.ModLog, line => line.Contains("AttributeFeats: registry initialized."));
+            Assert.Contains(fixture.Session.ModLog, line => line.Contains("ACHomebrew: registry initialized."));
             Assert.DoesNotContain(fixture.Session.ModLog, line => line.Contains(" failed - "));
         }
     }

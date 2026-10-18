@@ -108,7 +108,9 @@ Unity Mono runtime without starting the game. The default run uses
 UnityModManager's Harmony 2.3.6 and warns about Harmony members missing from the
 game's own 2.0.4; `-Harmony game` runs on 2.0.4 itself. It applies Main Attribute Mastery and the retired
 Titan's Apotheosis to a vanilla unit and removes them, runs a failure control and probes Bloodline of Beasts through the
-game's summon rule. Reports are written to `artifacts/test-results/offline-mechanics/`.
+game's summon rule. Maneuver tests also execute ability commands, action spending,
+combat-maneuver rules and timed buffs, with allowance serialization and
+third-party blueprint controls. Reports are written to `artifacts/test-results/offline-mechanics/`.
 See [offline-mechanics-testing.md](offline-mechanics-testing.md) for the inputs,
 every environment adaptation, result classes and limits. Public CI does not run
 it because it needs licensed game files.

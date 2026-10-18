@@ -11,8 +11,8 @@
 		<FileVersion>0.2.1</FileVersion>
 		<Authors>Acture</Authors>
 		<AssemblyName>ACHomebrew</AssemblyName>
-		<!-- UMM Id and install folder stay AttributeFeats so existing installs and settings keep working. -->
-		<ModId>AttributeFeats</ModId>
+		<!-- UMM identity, installation directory and assembly share the ACHomebrew name. -->
+		<ModId>ACHomebrew</ModId>
 		<DeployToGame Condition="'$(DeployToGame)'==''">true</DeployToGame>
 	</PropertyGroup>
 

@@ -68,7 +68,7 @@ internal static class Program
 
         var menus = new[] { "Root", "MainAttribute", "Defensive", "Maneuver", "Skilled", "Arcane", "Stance", "Conditional", "WeaponInsight", "ExtendedReplacement", "GreaterSummoning", "SummonerSacrifice", "ReactiveArmor", "DerivedStat", "SpellSchool", "SpellDescriptor", "DistanceDamage", "WeaponDamage", "MainAttribute_Str", "MainAttribute_Dex", "MainAttribute_Con", "MainAttribute_Int", "MainAttribute_Wis", "MainAttribute_Cha", "CastingStat", "ResourceStat", "Retaliation", "Momentum", "Stealth", "Solo", "Growth", "Execution", "Arcana", "Summoner", "Survival", "Meme", "Penetration" };
         var attributes = new[] { "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" };
-        var newKeys = menus.Select(m => "AttributeFeatsSelection_" + m)
+        var newKeys = menus.Select(m => "ACHomebrewSelection_" + m)
             .Concat(attributes.Select(a => "WeaponDamage_" + a))
             .SelectMany(prefix => new[] { prefix + ".Name", prefix + ".Description" })
             .Concat(new[] { "Count", "Points", "CountFull", "PointsShort", "OverBudget" }.Select(k => "FeatBudget." + k).Append("FeatGroups.Member")).ToArray();
@@ -118,10 +118,10 @@ internal static class Program
         Equal("以感知计算武器伤害", LocalizationManager.CurrentPack.GetString("WeaponDamage_Wisdom.Name"));
 
         // Templates compose per locale; LocalizedText arguments resolve in the same locale.
-        var family = LocalizedText.Text("AttributeFeatsSelection_Arcana.Name", "fallback");
+        var family = LocalizedText.Text("ACHomebrewSelection_Arcana.Name", "fallback");
         var rule = LocalizedText.Format("Text.FeatBuilders.Desc.Text", "fallback", family, 3);
         foreach (var (locale, pack) in packs)
-            Equal(string.Format((string)pack["Text.FeatBuilders.Desc.Text"], (string)pack["AttributeFeatsSelection_Arcana.Name"], 3), rule[locale]);
+            Equal(string.Format((string)pack["Text.FeatBuilders.Desc.Text"], (string)pack["ACHomebrewSelection_Arcana.Name"], 3), rule[locale]);
         Equal(rule[Locale.enGB], rule[Locale.Sound]);
 
         // Localized lists keep the previous English and Chinese wording.
@@ -213,6 +213,15 @@ internal static class Program
             LocalizationManager.CurrentLocale = Locale.enGB;
             Common.RefreshLocale();
             Equal("Edited external name", LocalizationManager.CurrentPack.GetString("MainAttr_Str.Name"));
+
+            // User-edited translations from the old install keep working after the identity rename.
+            var legacyEnglish = (JObject)english.DeepClone();
+            legacyEnglish.Remove("ACHomebrewSelection_Root.Name");
+            legacyEnglish["AttributeFeatsSelection_Root.Name"] = "My old translated menu";
+            Write(legacyEnglish.ToString(), chinese.ToString());
+            Load();
+            Equal("My old translated menu", FeatTextCatalog.Get("ACHomebrewSelection_Root.Name", "fallback", Locale.enGB));
+            Equal("5", messages.Count.ToString());
 
             editedChinese.Remove("MainAttr_Str.Name");
             editedChinese["FeatBudget.PointsShort"] = "无效占位符 {9}";

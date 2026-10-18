@@ -3,12 +3,13 @@ More ways to build your commander in Pathfinder: Wrath of the Righteous.
 
 AC's Homebrew adds selectable feats for attribute conversion, weapon styles, retaliation, summoning, spellcasting and other builds. It is an independent mod, separate from Homebrew Archetypes.
 
-[b]Version 0.2.0 — Public beta[/b]
-This is a substantial update to AttributeFeats. Balance values are still being evaluated. Automated checks cover identifiers, calculations, localization and packaging; offline tests exercise selected mechanics against the real game files. Full combat, UI and compatibility testing in the Unity game runtime remains incomplete. Please report the feat, settings, game version and other installed mods when reporting a problem.
+[b]Version 0.2.1 — Public beta[/b]
+This update adds two combat-maneuver feats, fixes loading with the game's bundled Harmony library, and completes the rename to ACHomebrew. Balance is still being refined. When reporting a problem, please include the feat, your settings, game version and other installed mods.
 
 [b]What you can build[/b]
 [list]
 [*]Attribute conversions: use different attributes for weapon attacks and damage, improve one attribute from another, or change the attribute used by a selected spellbook or resource.
+[*]Combat maneuvers: Seize the Opening grants free-action maneuvers with per-round and encounter limits. Lingering Disruption doubles eligible timed effects, adding at least two rounds. Both have adjustable settings and support compatible mod-added maneuvers.
 [*]Weapon styles: specialize in close, reach or ranged combat, with additional momentum, execution and retaliation options.
 [*]Magic and summoning: explore spell-slot interactions, immunity piercing and summon-focused feats.
 [*]Other approaches: stealth, solo play, survival and growth. A separate optional meme menu is disabled by default.
@@ -21,25 +22,24 @@ Optional settings limit the number of Homebrew feats, their total point cost, or
 [b]Installation[/b]
 [list=1]
 [*]Install Unity Mod Manager for Pathfinder: Wrath of the Righteous.
-[*]Download ACHomebrew-0.2.0.zip and install it through Unity Mod Manager's Mods tab.
+[*]Download ACHomebrew-0.2.1.zip and install it through Unity Mod Manager's Mods tab.
 [*]Enable AC's Homebrew and review its settings in the UMM window.
 [/list]
 Game assemblies used for development and offline validation: WotR 2.7.0. No other content mod is required. BlueprintCore is bundled. ModMenu is optional and adds the settings to the game's options screen; ModTagEx is optional and labels this mod's content.
 
 [b]Updating from AttributeFeats / WotR Homebrew[/b]
-The UMM Id and installation folder remain [b]AttributeFeats[/b]. The assembly is now [b]ACHomebrew.dll[/b]. Install as an update to the existing mod, not as a second copy. Existing blueprint identifiers and the settings format are preserved.
+The UMM Id, assembly and installation folder now use [b]ACHomebrew[/b] ([b]ACHomebrew.dll[/b], [b]Mods/ACHomebrew[/b]). Disable the old AttributeFeats entry in UMM before installing this version, then restart the game. Keep the old Settings.xml until your settings have been imported; the new installation reads it automatically if it has no settings of its own. Existing blueprint identifiers are preserved. Do not enable both installations together.
 
 Several effects have changed. The six broad Main Attribute feats are retired from selection and have narrower effects on existing characters. New Main Attribute Mastery feats improve one chosen target attribute. Aptitudes, some stances and summoning effects were narrowed; distance styles were rebuilt. Existing characters receive the revised effects. Back up your saves before updating, and use respec if you want to replace retired choices.
 
 [b]Languages and known limits[/b]
-Feat names, lore and descriptions support English and Simplified Chinese. Some UMM setting labels remain English. The spellbook header can still show its original casting attribute. A changed resource attribute updates maximum uses when the resource is next restored. Six Weapon Damage feats do not yet have bespoke icons. Individual feat interactions, save/respec behavior and compatibility with large modlists still need further game testing.
+Editable language files are included under Localization/. English and Simplified Chinese have been reviewed; German, Spanish, French, Italian, Portuguese and Russian translations still need community review. Some UMM setting labels remain English. The spellbook header can still show its original casting attribute. A changed resource attribute updates maximum uses when the resource is next restored. Six Weapon Damage feats do not yet have bespoke icons. Individual feat interactions, save/respec behavior and compatibility with large modlists still need further game testing.
 
 [b]中文简介[/b]
-AC 的房规手册提供属性转换、武器流派、反击、召唤、施法等可单独选择的专长，并允许配置总数量、点数额度和互斥组。它是独立模组，与 Homebrew Archetypes 不是同一个项目。0.2.0 为公测版本，数值和部分游戏内交互仍待验证。旧版玩家请先备份存档，再通过 UMM 更新；安装目录仍为 AttributeFeats。
+AC 的房规手册提供属性转换、武器流派、反击、召唤、施法等可单独选择的专长，并允许配置总数量、点数额度和互斥组。它是独立模组，与 Homebrew Archetypes 不是同一个项目。0.2.1 新增“乘隙制敌”和“余势未消”两项战技专长，并修复游戏自带 Harmony 的加载兼容问题。旧版玩家请先在 UMM 中禁用 AttributeFeats，再安装新版并重启游戏。新安装目录为 Mods/ACHomebrew；请先保留旧 Settings.xml，新版会在没有自身设置时自动读取。
 
 [b]Source, full feature list and support[/b]
 [url=https://github.com/Acture/ac-homebrew]GitHub and full feature list[/url]
 [url=https://github.com/Acture/ac-homebrew/issues]Report an issue[/url]
-[url=https://github.com/Acture/ac-homebrew/blob/master/docs/validation.md]Validation scope[/url]
 
 Source license: AGPL-3.0 with an additional permission for linking to the game and Unity assemblies. Game files are not included.

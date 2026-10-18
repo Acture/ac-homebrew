@@ -1,6 +1,6 @@
 # AC's Homebrew
 
-> Formerly **AttributeFeats**. The UMM mod Id and install folder (`AttributeFeats`) and all feat IDs are unchanged, so existing settings and saves keep working. The assembly is now `ACHomebrew.dll`.
+> UMM Id: `ACHomebrew` · Install folder: `Mods/ACHomebrew` · Assembly: `ACHomebrew.dll`. Upgrading from the old identity requires disabling the old installation; see the [upgrade instructions](docs/player/README.en.md#upgrade-and-existing-characters). Published feat GUIDs are unchanged.
 
 A Pathfinder: Wrath of the Righteous mod of homebrew feats that open up play styles: attribute conversion, close-quarters and long-range fighting, retaliation, stealth, solo play, summoning swarms, spell-slot tricks, immunity piercing and more.
 
@@ -56,6 +56,10 @@ Families are grouped by play theme below. Numbers are first-pass values, and **n
 **Casting Attribute (3)** — Somatic Force (力擎法脉, Strength), Sleight of Arcana (巧指弄玄, Dexterity) or Sanguine Incantation (气血炼真, Constitution): choose one of your spellbooks; it uses that attribute for save DCs, bonus spell slots, the minimum score to cast and concentration. Settings: *Casting Scope* (selected spellbook or all spellbooks) and *Casting Mode* (always, or only when higher). The spellbook screen header may still show the original attribute.
 
 **Resource Attribute (6)** — one per attribute (Reservoir of Might 巨力盈渊, Springs of Agility 灵动渊源, Font of Endurance 骨髓蓄沛, Well of Thought 识海蕴灵, Meditative Spring 澄心源流, Sovereign Font 华威盈座): choose one of your resources whose uses grow with an ability modifier (channel energy, ki, lay on hands, performance, bloodline or domain powers, including resources from other mods); its bonus uses come from that attribute. The new maximum applies the next time the resource is restored.
+
+### Maneuver Tactics
+
+**Seize the Opening (乘隙制敌)** makes one active combat maneuver per round a free action, with three extra uses per encounter for a second free maneuver in a round. **Lingering Disruption (余势未消)** doubles timed maneuver effects, adding at least two rounds. Both can be selected together and alongside Maneuver aptitudes; each costs 2 budget points. [Rules, settings and mod compatibility](docs/maneuver-tactics.md).
 
 ### Aptitudes
 
@@ -169,7 +173,7 @@ Maneuver adds the modifier to CMB. Arcane adds it to caster level and spell pene
 
 ## Settings
 
-> Applied immediately: Weapon Damage Mode, the feat budget, exclusion groups, Casting Scope/Mode and Truly Solo pets. Other settings require restarting. With [ModMenu](https://www.nexusmods.com/pathfinderwrathoftherighteous) installed, the same settings also appear on an AC's Homebrew page in the game's options screen; both write the same settings file.
+> Applied immediately: Weapon Damage Mode, the feat budget, exclusion groups, Casting Scope/Mode, Truly Solo pets and Maneuver Tactics settings. Other settings require restarting. With [ModMenu](https://www.nexusmods.com/pathfinderwrathoftherighteous) installed, the same settings also appear on an AC's Homebrew page in the game's options screen; both write the same settings file.
 
 | Setting | Default | Effect |
 |---|---|---|
@@ -180,6 +184,7 @@ Maneuver adds the modifier to CMB. Arcane adds it to caster level and spell pene
 | Casting Scope (`CastingScope`) | `SelectedSpellbook` | Casting Attribute feats change the chosen spellbook, or all spellbooks. |
 | Casting Mode (`CastingMode`) | `Always` | Use the feat's attribute always, or only when it is higher than the spellbook's own. |
 | Truly Solo pets (`TrulySoloCountsPets`) | OFF | Pets in the party reduce the number of absent companions. |
+| Maneuver Tactics | 1 free/round, 3 extra/encounter, at most 2/round; duration ×2, at least +2 rounds | Configure action allowances and new effect durations. See [Maneuver Tactics](docs/maneuver-tactics.md). |
 | Meme feats (`EnableMemeFeats`) | OFF | Registers the Meme menu (restart required). |
 | Power Level | `Balanced` | `Balanced`: full scaling for attributes, defenses, maneuvers, skills, caster level and spell penetration; reduced scaling for spell DC, BAB and Power Mode bonuses. `Legacy_AllFull`: all rank-based bonuses use full scaling. |
 | Include Self in Attribute Stack | OFF | A retired broad Main feat may add its attribute to itself. |
@@ -194,7 +199,7 @@ The optional feat budget limits each character's Homebrew feats across all famil
 | Cost | Families |
 |---|---|
 | 3 | Retired broad Main feats |
-| 2 | Main Attribute Mastery, Weapon Insight, Extended Replacement, Derived Stat Conversion, Weapon Damage, Casting Attribute, Stance, Greater Summoning, Summoner Sacrifice, Spell School/Descriptor Specialist, Arcana, Stealth, Solo, Survival, Penetration |
+| 2 | Maneuver Tactics, Main Attribute Mastery, Weapon Insight, Extended Replacement, Derived Stat Conversion, Weapon Damage, Casting Attribute, Stance, Greater Summoning, Summoner Sacrifice, Spell School/Descriptor Specialist, Arcana, Stealth, Solo, Survival, Penetration |
 | 1 | Defensive, Maneuver, Skilled and Arcane aptitudes, Resource Attribute, Conditional Trigger, Distance Damage, Long-Reach Gambit, Momentum, Execution, Reactive Armor, Retaliation, Summoner, Growth |
 | 0 | Meme |
 

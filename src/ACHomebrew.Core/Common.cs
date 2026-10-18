@@ -38,7 +38,7 @@ namespace ACHomebrew.Feats
             var key = $"{baseStat}:{type}";
             if (!registrations.Add(key))
             {
-                Mod.Log?.Log($"AttributeFeats: duplicate ContextRankConfig skipped for {baseStat}/{type}.");
+                Mod.Log?.Log($"ACHomebrew: duplicate ContextRankConfig skipped for {baseStat}/{type}.");
                 return;
             }
 
@@ -54,7 +54,7 @@ namespace ACHomebrew.Feats
                     config = config.WithHalfMoreProgression();
                     break;
                 default:
-                    Mod.Log?.Log($"AttributeFeats: unsupported progression {prog}, falling back to AsIs.");
+                    Mod.Log?.Log($"ACHomebrew: unsupported progression {prog}, falling back to AsIs.");
                     break;
             }
 

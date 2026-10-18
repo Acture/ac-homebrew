@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- AC's Homebrew (UMM Id AttributeFeats) mechanics tests on the WotR.Testing.Offline package: real game assemblies and blueprints, no game process. -->
+  <!-- AC's Homebrew (UMM Id ACHomebrew) mechanics tests on the WotR.Testing.Offline package: real game assemblies and blueprints, no game process. -->
   <Import Project="$(ACHomebrewRepositoryRoot)GamePath.props" Condition="Exists('$(ACHomebrewRepositoryRoot)GamePath.props')" />
 
   <PropertyGroup>
@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../OfflineMechanics.TestSupport/OfflineMechanics.TestSupport.csproj" />
     <!-- Build the mod from source first, without deploying it, against the same game inputs. -->
     <ProjectReference Include="../../src/ACHomebrew/ACHomebrew.csproj"
                       ReferenceOutputAssembly="false"
@@ -36,5 +37,9 @@
 
   <ItemGroup>
     <None Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(WotrInputRoot)/Wrath_Data/Managed/Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 </Project>

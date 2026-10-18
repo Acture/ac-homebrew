@@ -6,17 +6,17 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace AttributeFeats.OfflineTests
+namespace ACHomebrew.OfflineTests
 {
     /// <summary>
     /// Every string the mod registers during real initialization, in every supported locale:
     /// nonblank, no Chinese outside zhCN, and longer texts actually translated.
     /// </summary>
-    [Collection(AttributeFeatsGameCollection.Name)]
+    [Collection(ACHomebrewGameCollection.Name)]
     public sealed class LocalizationTests
     {
-        private readonly AttributeFeatsGame fixture;
-        public LocalizationTests(AttributeFeatsGame fixture) => this.fixture = fixture;
+        private readonly ACHomebrewGame fixture;
+        public LocalizationTests(ACHomebrewGame fixture) => this.fixture = fixture;
 
         [Fact]
         public void EveryRegisteredStringIsTranslatedInEverySupportedLocale()

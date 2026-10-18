@@ -17,7 +17,7 @@ namespace ACHomebrew.Feats
 {
     /// <summary>
     /// Applies the per-character feat budget and exclusion groups to registered
-    /// AttributeFeats leaves. Both read the unit's current features and live
+    /// ACHomebrew leaves. Both read the unit's current features and live
     /// settings, so the level-up preview, cancelled choices, respec, loaded saves
     /// and setting changes need no separate bookkeeping.
     /// </summary>
@@ -61,7 +61,7 @@ namespace ACHomebrew.Feats
                 configurator.Configure();
             }
             SyncVisibility();
-            Mod.Log?.Log($"AttributeFeats: feat budget covers {Costs.Count} feats; {GroupPrerequisites.Count} belong to exclusion groups.");
+            Mod.Log?.Log($"ACHomebrew: feat budget covers {Costs.Count} feats; {GroupPrerequisites.Count} belong to exclusion groups.");
         }
 
         /// <summary>Hides tooltip lines for limits and groups that are currently off.</summary>
@@ -80,7 +80,7 @@ namespace ACHomebrew.Feats
             return feature != null && Costs.TryGetValue(feature.AssetGuid, out cost);
         }
 
-        /// <summary>Counts AttributeFeats leaves the unit owns; vanilla and other mods' feats are ignored.</summary>
+        /// <summary>Counts ACHomebrew leaves the unit owns; vanilla and other mods' feats are ignored.</summary>
         public static FeatBudgetUsage Usage(UnitDescriptor unit)
         {
             var owned = new List<(int cost, int rank)>();

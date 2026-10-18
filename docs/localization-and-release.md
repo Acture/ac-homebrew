@@ -8,9 +8,9 @@ resources, one per supported game locale: `enGB`, `zhCN`, `deDE`, `frFR`, `esES`
 are unreviewed machine translations; say so wherever they are presented. Each is a JSON object mapping stable text keys to strings.
 The Core project embeds these exact files; the entry project copies them to
 `Localization/` in the output and release ZIP. Do not maintain a second
-hand-written export. English retains the historical embedded resource name
-`AttributeFeats.Localization.FeatText.json`; this is a resource alias, not a
-third source file.
+hand-written export. The embedded English resource is `ACHomebrew.Localization.FeatText.json`;
+this is a resource name, not a third source file. Older external menu keys
+are accepted by the migration reader.
 
 Feat builders compose `LocalizedText` values: `LocalizedText.Text(key, english)`
 and `LocalizedText.Format(key, english, args...)` resolve the catalog once per
