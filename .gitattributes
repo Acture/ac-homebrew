@@ -1,7 +1,7 @@
 ###############################################################################
-# Set default behavior to automatically normalize line endings.
+# Use LF for text on every platform; leave binary files unchanged.
 ###############################################################################
-* text=auto
+* text=auto eol=lf
 
 ###############################################################################
 # Set default behavior for command prompt diff.
