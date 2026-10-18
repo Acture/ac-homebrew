@@ -1,4 +1,4 @@
-# AC's Homebrew development (formerly AttributeFeats)
+# AC's Homebrew development
 
 ## Repository layout
 
@@ -11,9 +11,10 @@
   `.Defense`, `.Magic`, `.Summoning` and `.Styles`, one file per feat family.
   Group new families by play theme, not by inspiration source. The entry
   project merges every project and BlueprintCore into `ACHomebrew.dll`
-  with ILRepack after build. Keep the UMM Id `AttributeFeats`, the install
-  folder `Mods/AttributeFeats` and the settings XML root unchanged so
-  existing installs, settings and saves keep working. Shared game references live in `src/WrathMod.props`.
+  with ILRepack after build. Use `ACHomebrew` for the UMM Id,
+  `Mods/ACHomebrew` for the install folder and `ACHomebrewSettings` for new
+  settings. Read legacy settings through the migration loader. Preserve all
+  published blueprint GUID values for existing characters. Shared game references live in `src/WrathMod.props`.
   Open `ACHomebrew.slnx` from the repository root.
 - Keep tests in `tests/`, CLI tools in `scripts/`, and workflows in `.github/`.
 - Use `docs/` for mod documentation.

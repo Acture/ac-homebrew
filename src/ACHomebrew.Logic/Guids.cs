@@ -3,7 +3,14 @@ namespace ACHomebrew.Feats
 {
     public static class Guids
     {
-        public const string AttributeFeatsSelection = "849a4e94-bfaa-4c16-9d49-d5fd2096ac05";
+        public const string ACHomebrewSelection = "849a4e94-bfaa-4c16-9d49-d5fd2096ac05";
+
+        public static class ManeuverTactics
+        {
+            public const string SeizeOpening = "f35f427c-c793-4f79-9aa0-61b1c088a2df";
+            public const string LingeringDisruption = "5a566030-8086-4ce4-9ce4-5d8ce7443967";
+            public const string Selection = "974ae1af-6659-4c5c-ad57-7e15ed6165bd";
+        }
 
         public static class FeatSelections
         {

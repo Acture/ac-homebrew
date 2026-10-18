@@ -1,19 +1,23 @@
 # Changelog
 
-## 0.2.1 — 2026-10-12
+## 0.2.1 — 2026-10-18
 
 ### Added
+- **Maneuver Tactics:** Seize the Opening grants one free-action maneuver per round, plus three extra free uses per encounter with a limit of two per round. Lingering Disruption doubles timed maneuver effects with at least two extra rounds. Both feats can be selected together and cost 2 budget points each.
+- Configurable maneuver allowances and duration, localized in all eight supported languages.
+- Recognition of standalone maneuvers built with standard game actions, and an opt-in API for custom maneuvers and timed effects from other mods.
 - The release ZIP now includes English and Simplified Chinese player readmes, versioned changelogs, `LICENSE` and `LICENSE-EXCEPTION.md`.
 - Editable `Localization/enGB.json` and `Localization/zhCN.json` cover feat names, lore, full rules and shared description templates, plus the optional ModMenu's static setting labels. Restart after editing; no DLL rebuild is needed.
 - German, French, Spanish, Italian, Brazilian Portuguese and Russian follow the game language. **These six are unreviewed machine translations**; corrections are welcome. Missing text falls back to English, and switching language in game switches all feat text.
 - Exclusion group names in the budget tooltips and ModMenu follow the game language.
 
 ### Changed
+- Unified the UMM Id, install directory and assembly as `ACHomebrew`. New settings use `ACHomebrewSettings`; the loader reads old settings without overwriting them and blocks simultaneous loading with the old installation. Published feat GUIDs stay unchanged. See the upgrade steps in the player readme.
 - **Fixed the mod not loading in some games** (UnityModManager shows it as not loaded, and its log has `MissingMethodException` for `CodeInstruction.LoadArgument`). The mod no longer uses Harmony functions missing from Harmony 2.0.4, the copy the game ships, so it loads with that copy as well as with UnityModManager's newer one.
 - External text takes precedence over embedded text in the same language. Missing files/keys, blank translations, malformed JSON and invalid placeholders, rich text or encyclopedia links produce diagnostics and fall back.
 - Release checks require player materials, matching language keys/template arguments and consistent package/loader versions.
 - **Fixed Grandmaster's Gambit** (Intelligence stance): other attack rolls now take the intended penalty equal to your Intelligence modifier (minimum 0). Previously the penalty never applied, and an Intelligence below 10 even turned it into a bonus. The description is corrected in every language. Characters using this stance attack slightly worse outside attacks of opportunity; no respec is required.
-- No other feat mechanics or numbers change. UMM identity, installed folder, settings identity and published blueprint IDs are unchanged.
+- Other existing feat mechanics and numbers are unchanged; the new Maneuver Tactics feats are optional.
 
 ## 0.2.0 — 2026-10-11 (Public beta)
 

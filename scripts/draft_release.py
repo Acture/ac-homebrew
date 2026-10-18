@@ -18,7 +18,7 @@ def release_notes(root, tag):
         sections.append(f"## {title}\n\n{body.strip()}")
     title = f"AC's Homebrew {version}"
     notes = "\n\n".join(sections) + (
-        f"\n\nDownload `ACHomebrew-{version}.zip` and extract it into the game's `Mods` folder,"
+        f"\n\nDownload `ACHomebrew-{version}.zip` and extract it into the game's `Mods/ACHomebrew` folder,"
         " or install it with Unity Mod Manager.\n")
     return {"version": version, "title": title, "notes": notes}
 

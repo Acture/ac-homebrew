@@ -51,11 +51,11 @@ namespace ACHomebrew
             return ModMenu.Settings.Toggle.New(key, defaultValue, L(name, text)).OnValueChanged(value => Apply(() => write(value)));
         }
 
-        private static SliderInt Slider(string name, int defaultValue, Func<int> read, Action<int> write, LocalizedText text)
+        private static SliderInt Slider(string name, int defaultValue, Func<int> read, Action<int> write, LocalizedText text, int minimum = 0, int maximum = FeatBudgetRules.MaxLimit)
         {
             var key = Key(name);
             PushCurrentValues.Add(() => MenuApi.SetSetting(key, read()));
-            return SliderInt.New(key, defaultValue, L(name, text), 0, FeatBudgetRules.MaxLimit)
+            return SliderInt.New(key, defaultValue, L(name, text), minimum, maximum)
                 .OnValueChanged(value => Apply(() => write(value)));
         }
 
@@ -106,6 +106,17 @@ namespace ACHomebrew
             }
 
             builder
+                .AddSubHeader(L("ManeuverTactics", LocalizedText.Text("Text.ManeuverSettings.Title", "Maneuver Tactics")))
+                .AddSliderInt(Slider("maneuver-free", d.ManeuverFreePerRound, () => s.ManeuverFreePerRound, v => s.ManeuverFreePerRound = v,
+                    LocalizedText.Text("Text.ManeuverSettings.FreePerRound", "Free maneuvers per round")))
+                .AddSliderInt(Slider("maneuver-burst", d.ManeuverBurstPerCombat, () => s.ManeuverBurstPerCombat, v => s.ManeuverBurstPerCombat = v,
+                    LocalizedText.Text("Text.ManeuverSettings.Burst", "Extra free uses per encounter")))
+                .AddSliderInt(Slider("maneuver-cap", d.ManeuverFreePerRoundCap, () => s.ManeuverFreePerRoundCap, v => s.ManeuverFreePerRoundCap = v,
+                    LocalizedText.Text("Text.ManeuverSettings.Cap", "Maximum free maneuvers per round")))
+                .AddSliderInt(Slider("maneuver-duration", (int)d.ManeuverDurationMultiplier, () => (int)s.ManeuverDurationMultiplier, v => s.ManeuverDurationMultiplier = v,
+                    LocalizedText.Text("Text.ManeuverSettings.Multiplier", "Maneuver duration multiplier"), 1, 10))
+                .AddSliderInt(Slider("maneuver-duration-extra", d.ManeuverMinimumExtraRounds, () => s.ManeuverMinimumExtraRounds, v => s.ManeuverMinimumExtraRounds = v,
+                    LocalizedText.Text("Text.ManeuverSettings.ExtraRounds", "Minimum extra duration (rounds)")))
                 .AddSubHeader(L("Modes", LocalizedText.Text("Text.ModMenuSettings.Register.Text.11", "Damage and casting modes (applies immediately)")))
                 .AddDropdownList(Choice("weapon-damage", (int)d.WeaponDamage, () => (int)s.WeaponDamage, v => s.WeaponDamage = (WeaponDamageMode)v,
                     LocalizedText.Text("Text.ModMenuSettings.Register.Text.12", "Weapon Damage mode"), LocalizedText.Text("Text.ModMenuSettings.Register.Text.29", "Replace"), LocalizedText.Text("Text.ModMenuSettings.Register.Text.30", "Add")))

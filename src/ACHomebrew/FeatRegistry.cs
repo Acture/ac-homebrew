@@ -19,6 +19,7 @@ namespace ACHomebrew.Feats
             // Use &= so later steps still run after an earlier failure.
             var succeeded = TryConfigureFamily(nameof(MainAbilityToEverything_Feats), () => MainAbilityToEverything_Feats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(SpecializedFeats), () => SpecializedFeats.ConfigureAll());
+            succeeded &= TryConfigureFamily(nameof(ManeuverFeats), () => ManeuverFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(StanceFeats), () => StanceFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(ConditionalFeats), () => ConditionalFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(StatReplacementFeats), () => StatReplacementFeats.ConfigureAll());
@@ -51,8 +52,8 @@ namespace ACHomebrew.Feats
             succeeded &= menusSucceeded;
             succeeded &= TryConfigure(nameof(FeatBudget), FeatBudget.Install);
             Main.Log?.Log(succeeded
-                ? "AttributeFeats: registry initialized."
-                : "AttributeFeats: initialization finished with errors; some feats or menus may be unavailable. See the named failures above.");
+                ? "ACHomebrew: registry initialized."
+                : "ACHomebrew: initialization finished with errors; some feats or menus may be unavailable. See the named failures above.");
         }
 
         private static bool TryConfigureFamily(string name, Action configure)

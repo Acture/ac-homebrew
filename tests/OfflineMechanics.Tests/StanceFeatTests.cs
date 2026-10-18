@@ -6,19 +6,19 @@ using Kingmaker.UnitLogic.Buffs.Blueprints;
 using WotR.Testing.Offline;
 using Xunit;
 
-namespace AttributeFeats.OfflineTests
+namespace ACHomebrew.OfflineTests
 {
     /// <summary>
     /// Grandmaster's Gambit (Intelligence stance) on a real unit: attacks of opportunity gain the Intelligence
     /// modifier and other attack rolls take an equal penalty, both from a modifier of at least 0.
     /// The game clamps a rank config after its progression, so this guards the sign of the penalty.
     /// </summary>
-    [Collection(AttributeFeatsGameCollection.Name)]
+    [Collection(ACHomebrewGameCollection.Name)]
     public sealed class StanceFeatTests
     {
-        private readonly AttributeFeatsGame fixture;
+        private readonly ACHomebrewGame fixture;
 
-        public StanceFeatTests(AttributeFeatsGame fixture) => this.fixture = fixture;
+        public StanceFeatTests(ACHomebrewGame fixture) => this.fixture = fixture;
 
         [Theory]
         [InlineData(18, 4)]

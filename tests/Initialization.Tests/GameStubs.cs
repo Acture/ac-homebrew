@@ -99,6 +99,7 @@ namespace ACHomebrew.Feats
     internal static class Common { internal static string L(string key, string text) => text; }
     internal static class MainAbilityToEverything_Feats { internal static void ConfigureAll() => World.Register(nameof(MainAbilityToEverything_Feats), FeatSelection.MainFromStr); }
     internal static class SpecializedFeats { internal static void ConfigureAll() => World.Register(nameof(SpecializedFeats), FeatSelection.Defensive); }
+    internal static class ManeuverFeats { internal static void ConfigureAll() => World.Register(nameof(ManeuverFeats), FeatSelection.ManeuverTactics); }
     internal static class StanceFeats { internal static void ConfigureAll() => World.Register(nameof(StanceFeats), FeatSelection.Stance); }
     internal static class ConditionalFeats { internal static void ConfigureAll() => World.Register(nameof(ConditionalFeats), FeatSelection.Conditional); }
     internal static class StatReplacementFeats { internal static void ConfigureAll() => World.Register(nameof(StatReplacementFeats), FeatSelection.WeaponInsight); }

@@ -10,22 +10,22 @@ using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.Utility;
 using Xunit;
 
-namespace AttributeFeats.OfflineTests
+namespace ACHomebrew.OfflineTests
 {
     /// <summary>
     /// How far summoner/target logic runs offline (OSS-320, OSS-321). The summon itself uses the game's
     /// pre-made unit path of RuleSummonUnit, because spawning a unit view needs the Unity engine.
     /// Paths that reach Unity native code are skipped as [UNITY_RUNTIME_REQUIRED], never passed.
     /// </summary>
-    [Collection(AttributeFeatsGameCollection.Name)]
+    [Collection(ACHomebrewGameCollection.Name)]
     public sealed class SummoningProbeTests
     {
         // CR2_BoarStandard: a vanilla creature used as the pre-made summon.
         private const string VanillaSummon = "5f968d63d756f994ebff0d774e88e4ab";
 
-        private readonly AttributeFeatsGame fixture;
+        private readonly ACHomebrewGame fixture;
 
-        public SummoningProbeTests(AttributeFeatsGame fixture) => this.fixture = fixture;
+        public SummoningProbeTests(ACHomebrewGame fixture) => this.fixture = fixture;
 
         [SkippableFact]
         public void BloodlineOfBeastsBuffsTheSummonFromTheSummonersStrengthOnly()

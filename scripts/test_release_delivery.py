@@ -1,7 +1,7 @@
 """Run positive and failure controls for delivery checks without game files."""
 import io
 import zipfile
-from release_delivery import ROOT, REQUIRED, LOCALES, check_sources, check_archive, parse_json, language_entries
+from release_delivery import ROOT, REQUIRED, LOCALES, check_sources, check_archive, parse_json, language_entries, check_changelog
 
 
 def archive(overrides=None, omit=None):
@@ -24,6 +24,14 @@ def rejected(build):
 
 def main():
     version, entries = check_sources()
+    for pending in ("", "## Unreleased\n", "## 尚未发布\n"):
+        check_changelog(pending + f"## {version} — today\n", version, "fixture")
+    for invalid in ("## Unreleased\n", "## Unreleased\n## 0.0.0 — old\n", "## Unknown\n" + f"## {version} — today\n"):
+        try:
+            check_changelog(invalid, version, "fixture")
+        except AssertionError:
+            continue
+        raise AssertionError("Outdated changelog accepted")
     with archive() as package:
         check_archive(package)
     for name in REQUIRED:

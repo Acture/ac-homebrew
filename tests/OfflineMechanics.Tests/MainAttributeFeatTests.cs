@@ -12,13 +12,13 @@ using WotR.Testing.Offline;
 using Xunit;
 using Xunit.Sdk;
 
-namespace AttributeFeats.OfflineTests
+namespace ACHomebrew.OfflineTests
 {
     /// <summary>
     /// Main Attribute Mastery on a real vanilla unit: add, check the game's stat system, remove, check every stat returns.
     /// Expected values follow the feat descriptions with default settings (Balanced, attribute bonuses on, power options off).
     /// </summary>
-    [Collection(AttributeFeatsGameCollection.Name)]
+    [Collection(ACHomebrewGameCollection.Name)]
     public sealed class MainAttributeFeatTests
     {
         // MC_Human_M_Cavalier_Base: a vanilla human pregen; its class levels are applied by the game's own AddClassLevels.
@@ -29,9 +29,9 @@ namespace AttributeFeats.OfflineTests
             StatType.Strength, StatType.Dexterity, StatType.Constitution, StatType.Intelligence, StatType.Wisdom, StatType.Charisma,
         };
 
-        private readonly AttributeFeatsGame fixture;
+        private readonly ACHomebrewGame fixture;
 
-        public MainAttributeFeatTests(AttributeFeatsGame fixture) => this.fixture = fixture;
+        public MainAttributeFeatTests(ACHomebrewGame fixture) => this.fixture = fixture;
 
         /// <summary>Strength Mastery: Dexterity adds the Strength modifier (minimum 0) to Dexterity only, as an inherent bonus.</summary>
         [Fact]

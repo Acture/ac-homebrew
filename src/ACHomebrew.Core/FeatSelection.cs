@@ -13,10 +13,11 @@ namespace ACHomebrew.Feats
 {
     internal sealed class FeatSelection
     {
-        public static readonly FeatSelection Root = new("Root", Guids.AttributeFeatsSelection, "AC's Homebrew");
+        public static readonly FeatSelection Root = new("Root", Guids.ACHomebrewSelection, "AC's Homebrew");
         public static readonly FeatSelection MainAttribute = new("MainAttribute", Guids.FeatSelections.MainAttribute, "Main Attribute Mastery");
         public static readonly FeatSelection Defensive = new("Defensive", Guids.FeatSelections.Defensive, "Defensive Adept");
         public static readonly FeatSelection Maneuver = new("Maneuver", Guids.FeatSelections.Maneuver, "Maneuver Adept");
+        public static readonly FeatSelection ManeuverTactics = new("ManeuverTactics", Guids.ManeuverTactics.Selection, "Maneuver Tactics");
         public static readonly FeatSelection Skilled = new("Skilled", Guids.FeatSelections.Skilled, "Skilled Adept");
         public static readonly FeatSelection Arcane = new("Arcane", Guids.FeatSelections.Arcane, "Arcane Adept");
         public static readonly FeatSelection Stance = new("Stance", Guids.FeatSelections.Stance, "Stance");
@@ -60,7 +61,7 @@ namespace ACHomebrew.Feats
         private static readonly FeatSelection[] Families =
         {
             MainFromStr, MainFromDex, MainFromCon, MainFromInt, MainFromWis, MainFromCha, MainLegacy,
-            MainAttribute, Defensive, Maneuver, Skilled, Arcane, Stance, Conditional,
+            MainAttribute, Defensive, Maneuver, ManeuverTactics, Skilled, Arcane, Stance, Conditional,
             WeaponInsight, ExtendedReplacement, GreaterSummoning, SummonerSacrifice,
             ReactiveArmor, DerivedStat, SpellSchool, SpellDescriptor, DistanceDamage, WeaponDamage,
             CastingStat, ResourceStat, Retaliation, Momentum, Stealth, Solo, Growth, Execution, Arcana, Summoner, Survival, Meme, Penetration,
@@ -78,7 +79,7 @@ namespace ACHomebrew.Feats
         private FeatSelection(string name, string guid, string displayName, FeatSelection parent = null, bool hidden = false)
         {
             Key = name;
-            Name = $"AttributeFeatsSelection_{name}";
+            Name = $"ACHomebrewSelection_{name}";
             Guid = guid;
             DisplayName = displayName;
             Parent = parent;
@@ -144,7 +145,7 @@ namespace ACHomebrew.Feats
             }
             catch (Exception error)
             {
-                Mod.Log?.Log($"AttributeFeats: {name} failed - {error}");
+                Mod.Log?.Log($"ACHomebrew: {name} failed - {error}");
                 return false;
             }
         }
@@ -191,7 +192,7 @@ namespace ACHomebrew.Feats
                 (Parent ?? Root).Feats[selection.AssetGuid] = selection;
             }
             Configured = true;
-            Mod.Log?.Log($"AttributeFeats: grouped {Feats.Count} options under {DisplayName}.");
+            Mod.Log?.Log($"ACHomebrew: grouped {Feats.Count} options under {DisplayName}.");
         }
     }
 }

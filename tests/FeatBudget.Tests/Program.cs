@@ -89,7 +89,7 @@ Check("limits are clamped to the supported range", () =>
 Check("cost table covers every menu with tiers 1-3", () =>
 {
     var menus = new[] { "MainAttribute_Str", "MainAttribute_Dex", "MainAttribute_Con", "MainAttribute_Int", "MainAttribute_Wis",
-        "MainAttribute_Cha", "MainAttributeLegacy", "Defensive", "Maneuver", "Skilled", "Arcane", "Stance", "Conditional",
+        "MainAttribute_Cha", "MainAttributeLegacy", "Defensive", "Maneuver", "ManeuverTactics", "Skilled", "Arcane", "Stance", "Conditional",
         "WeaponInsight", "ExtendedReplacement", "GreaterSummoning", "SummonerSacrifice", "ReactiveArmor",
         "DerivedStat", "SpellSchool", "SpellDescriptor", "DistanceDamage", "WeaponDamage", "CastingStat", "ResourceStat", "Retaliation", "Momentum", "Stealth", "Solo", "Growth", "Execution", "Arcana", "Summoner", "Survival", "Meme", "Penetration", "Root" };
     Expect(FeatBudgetRules.Costs.Keys.OrderBy(k => k).SequenceEqual(menus.OrderBy(k => k)), "Cost table and menu list differ");

@@ -1,8 +1,8 @@
 # AC's Homebrew 0.2.1
 
 A homebrew feat mod for **Pathfinder: Wrath of the Righteous**, installed with
-Unity Mod Manager (UMM). Formerly AttributeFeats; the mod's installed folder is
-still `Mods/AttributeFeats`.
+Unity Mod Manager (UMM). Its UMM Id is `ACHomebrew`, its installed folder is
+`Mods/ACHomebrew`, and its assembly is `ACHomebrew.dll`.
 
 ## What you get
 
@@ -14,6 +14,7 @@ subject to their prerequisites, exclusion groups and any budget you enable.
 - **Attributes:** improve one attribute from another, use an attribute for
   weapon attack or damage, convert derived statistics, or change a spellbook's
   casting attribute or a resource's bonus uses.
+- **Maneuver Tactics:** Seize the Opening grants one free maneuver per round plus three extra uses per encounter (maximum two per round). Lingering Disruption doubles timed maneuver effects, adding at least two rounds. Both can be taken together; each costs 2 budget points. Configure them in UMM or ModMenu.
 - **Aptitudes:** themed attribute bonuses to defense, maneuvers, skills or magic.
 - **Martial:** activatable stances, conditional triggers, close/mid/long-range
   styles, reach, attack momentum and execution effects.
@@ -42,15 +43,24 @@ ModMenu installed, the game's options also show an AC's Homebrew settings page.
 
 ## Upgrade and existing characters
 
-Exit the game first. Back up your saves and the existing `Mods/AttributeFeats`
-folder, including settings and any edited language files. Install the new ZIP
-through UMM, then reapply your translations to the new language files so new
-keys are retained. Do not run the old and new mod as separate installations.
+Exit the game and back up your saves and old mod folder first.
 
-The UMM identity, settings identity and published feat IDs are unchanged.
-**0.2.1 changes delivery and text loading, not feat effects or numbers.**
-A leftover `AttributeFeats.dll` from older versions is no longer the entry
-assembly; the current one is `ACHomebrew.dll`.
+1. Disable the old **AttributeFeats** entry in UMM, then install and enable
+   **AC's Homebrew** from the new ZIP. The new installation is `Mods/ACHomebrew`.
+2. If `Mods/ACHomebrew/Settings.xml` is absent, the mod reads settings from
+   the sibling `Mods/AttributeFeats/Settings.xml`. You may instead copy the old
+   `Settings.xml` into the new directory before removing the old installation.
+   Both XML roots are readable; subsequent saves use `ACHomebrewSettings`.
+   Existing new settings take precedence and the old file is never overwritten.
+3. Reapply any personal translations to the new `Localization` files, keeping
+   new keys. The reader also accepts the previous menu-key prefix.
+4. Once your settings are confirmed, remove the old installation. Do not enable
+   both copies: the new loader refuses to load alongside an enabled or started
+   legacy copy. Restart after disabling it.
+
+Published feat GUIDs remain unchanged. This version fixes the Harmony loading
+failure and Grandmaster's Gambit, and adds the two Maneuver Tactics feats;
+existing characters do not need a respec just to retain their feats.
 
 If upgrading from 0.1.x, note the **0.2.0 gameplay changes**: the six broad Main
 feats are retired, retained on existing characters with narrowed effects.

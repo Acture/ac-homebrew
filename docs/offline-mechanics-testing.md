@@ -1,6 +1,6 @@
 # Offline mechanics tests
 
-`tests/OfflineMechanics.Tests` runs AC's Homebrew (UMM Id `AttributeFeats`) against the real Pathfinder:
+`tests/OfflineMechanics.Tests` runs AC's Homebrew (UMM Id `ACHomebrew`) against the real Pathfinder:
 Wrath of the Righteous assemblies, vanilla blueprint pack and settings in a test
 process on the game's own Unity Mono runtime. It does not start `Wrath.exe`, the
 Unity player or the Unity Editor, and it does not touch saves or the installed
@@ -11,8 +11,7 @@ The game-independent part is
 package `WotR.Testing.Offline` (version: the `PackageReference` in the test project). Its
 [documentation](https://github.com/Acture/wotr-testing/blob/main/docs/offline.md)
 describes how the game runs without Unity, every environment adaptation, the
-result classes and the general limits. This page covers what the mod's tests
-and what they found.
+result classes and the general limits. This page covers the mod's tests and what they found.
 
 ## Setup
 
@@ -40,6 +39,7 @@ and what they found.
 pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1
 pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1 -WotrInputRoot vendor/wotr -Filter "FullyQualifiedName~MainAttribute"
 pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1 -Harmony game
+pwsh -NoProfile -File scripts/Invoke-OfflineMechanicsTests.ps1 -Filter "FullyQualifiedName~Maneuver"
 ```
 
 The mod is built from this checkout without deploying it, against the same game
@@ -50,7 +50,12 @@ Paths that need the Unity engine are reported as `unity-runtime-required`, never
 as passed.
 
 Besides the game startup stages, the test project fails initialization unless the
-mod logs "AttributeFeats: registry initialized.".
+mod logs "ACHomebrew: registry initialized.".
+
+Game-derived test components live in `tests/OfflineMechanics.TestSupport`.
+The xUnit assembly refers to them inside test methods, after `RequireGame()`
+installs the game assembly resolver. Keeping them out of xUnit's discovery
+reflection avoids loading game dependencies before the fixture is ready.
 
 ### Harmony copies
 
@@ -75,9 +80,18 @@ both before a release.
 | Retired Titan's Apotheosis | Half the Strength modifier (rounded down) appears as an inherent bonus on the other five attributes and nowhere else; removal restores every stat |
 | Failure control | The same assertion fails when the mastery's stat component is removed |
 | Summoning probe (Bloodline of Beasts) | Runs the game's `RuleSummonUnit` with a pre-made vanilla unit: the summoner keeps only the trigger buff; the summon gets the bonus buff, with the summoner as caster and the summoner's Strength modifier as the value |
+| Seize the Opening | Real ability commands share per-round and per-encounter allowances; queries, cancellation and invalid execution do not spend them; resources and failed checks still count; exhausted allowances restore the original action cost |
+| Action allowance persistence | The game's JSON serializer retains the unit part, including after combat-state reconstruction; feat removal and reapplication do not refill it |
+| Lingering Disruption | Actual maneuver rules and buffs check fresh timed effects, failure, reapplication, nested rules and scope cleanup; unrelated, permanent and prone effects keep their duration |
+| Third-party maneuver recognition | Synthetic physical abilities exercise native/custom maneuver actions, conditionals, variants and explicit registration; spells, weapon attacks and unknown overrides are excluded |
 
-These are evidence for the listed feats only. Other families, conditional
-triggers, combat rolls, weapon damage and the in-game UI are not covered here;
+The command tests invoke game command execution and action spending directly;
+they do not run animation, view initialization or the full Unity command loop.
+Serializer tests cover the allowance state, not opening a complete save file.
+Third-party controls exercise blueprint patterns, not an installed mod collection.
+
+These are evidence for the listed feats only. Other families, weapon damage,
+the complete combat loop and the in-game UI are not covered here;
 see [validation.md](validation.md) for the remaining checks.
 
 ## Observations
@@ -85,7 +99,8 @@ see [validation.md](validation.md) for the remaining checks.
 - **Runtime.** The tests run on the game's Unity Mono with rewritten Unity copies,
   not inside the Unity player. Confirm important results in the game.
 - **Starting equipment.** The pregen's starting weapons and armor fail to equip
-  offline, so weapon and armor feats need this resolved first.
+  offline. Tests that need a weapon grant its proficiency and insert it explicitly;
+  this does not validate starting-equipment initialization or other weapon feats.
 - **Undead and constructs.** The game gives them no Constitution, so the
   Constitution bonus cannot show on them. The tests check that their unit is a
   living creature.

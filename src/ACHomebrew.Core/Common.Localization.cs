@@ -64,7 +64,7 @@ namespace ACHomebrew.Feats
             }
             catch (System.Exception ex)
             {
-                Mod.Log?.Log("AttributeFeats: RefreshLocale error: " + ex);
+                Mod.Log?.Log("ACHomebrew: RefreshLocale error: " + ex);
             }
         }
 

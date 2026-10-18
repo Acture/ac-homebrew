@@ -21,12 +21,12 @@ namespace ACHomebrew.Feats
             try
             {
                 Mod.Log?.Log(Mod.Settings != null && !Mod.Settings.EnableMutex
-                    ? "AttributeFeats: MutexPass skipped (EnableMutex = OFF; all mutex disabled)."
-                    : "AttributeFeats: exclusion groups are checked at selection time (FeatGroupRules / FeatBudget).");
+                    ? "ACHomebrew: MutexPass skipped (EnableMutex = OFF; all mutex disabled)."
+                    : "ACHomebrew: exclusion groups are checked at selection time (FeatGroupRules / FeatBudget).");
             }
             catch (Exception e)
             {
-                Mod.Log?.Log("AttributeFeats: MutexPass log failed - " + e);
+                Mod.Log?.Log("ACHomebrew: MutexPass log failed - " + e);
             }
         }
     }

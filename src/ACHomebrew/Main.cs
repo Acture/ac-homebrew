@@ -22,9 +22,17 @@ namespace ACHomebrew
 
         public static bool Load(UnityModManager.ModEntry modEntry)
         {
+            // A loaded legacy copy keeps its Harmony patches until the process exits.
+            var legacy = UnityModManager.FindMod("AttributeFeats");
+            if (legacy != null && (legacy.Enabled || legacy.Started))
+            {
+                modEntry.Logger.Error("Disable the old AttributeFeats installation in Unity Mod Manager, then restart before enabling AC's Homebrew.");
+                return false;
+            }
+
             Entry = modEntry;
             Log = modEntry.Logger;
-            Settings = UnityModManager.ModSettings.Load<ModSettings>(modEntry);
+            Settings = ModSettings.LoadCompatible(modEntry);
             Mod.Entry = Entry;
             Mod.Log = Log;
             Mod.Settings = Settings;
@@ -68,7 +76,7 @@ namespace ACHomebrew
             var changed = false;
 
             GUILayout.Label("<color=cyan><b>[ Global Scaling Configuration ]</b></color>");
-            GUILayout.Label("Weapon Damage Mode, Feat Budget and exclusion groups apply immediately. Other settings require restarting.");
+            GUILayout.Label("Weapon Damage Mode, casting settings, maneuver settings, Feat Budget and exclusion groups apply immediately. Other settings require restarting.");
 
             GUILayout.BeginVertical("box");
             GUILayout.BeginHorizontal();
@@ -193,6 +201,20 @@ namespace ACHomebrew
             }
 
             GUILayout.Space(10);
+            GUILayout.Label(Common.CurrentText("Text.ManeuverSettings.Title", "Maneuver Tactics"));
+            GUILayout.BeginVertical("box");
+            changed |= LimitStepper(Common.CurrentText("Text.ManeuverSettings.FreePerRound", "Free maneuvers per round"), ref s.ManeuverFreePerRound);
+            changed |= LimitStepper(Common.CurrentText("Text.ManeuverSettings.Burst", "Extra free uses per encounter"), ref s.ManeuverBurstPerCombat);
+            changed |= LimitStepper(Common.CurrentText("Text.ManeuverSettings.Cap", "Maximum free maneuvers per round"), ref s.ManeuverFreePerRoundCap);
+            var durationMultiplier = (int)s.ManeuverDurationMultiplier;
+            if (LimitStepper(Common.CurrentText("Text.ManeuverSettings.Multiplier", "Maneuver duration multiplier"), ref durationMultiplier, 1, 10))
+            {
+                s.ManeuverDurationMultiplier = durationMultiplier;
+                changed = true;
+            }
+            changed |= LimitStepper(Common.CurrentText("Text.ManeuverSettings.ExtraRounds", "Minimum extra duration (rounds)"), ref s.ManeuverMinimumExtraRounds);
+            GUILayout.EndVertical();
+            GUILayout.Space(10);
             GUILayout.Label("<color=red><b>[ Power Mode ]</b></color>");
             GUILayout.BeginVertical("box");
             GUILayout.Label("<color=red><size=11>Warning: these settings materially increase combat power and are intentionally off by default.</size></color>");
@@ -214,7 +236,7 @@ namespace ACHomebrew
             return true;
         }
 
-        private static bool LimitStepper(string label, ref int value)
+        private static bool LimitStepper(string label, ref int value, int minimum = 0, int maximum = FeatBudgetRules.MaxLimit)
         {
             var old = value;
             GUILayout.BeginHorizontal();
@@ -223,7 +245,7 @@ namespace ACHomebrew
             if (GUILayout.Button("+", GUILayout.Width(30))) value++;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
-            value = FeatBudgetRules.ClampLimit(value);
+            value = Math.Max(minimum, Math.Min(maximum, value));
             return value != old;
         }
 
@@ -285,20 +307,20 @@ namespace ACHomebrew
 
                     if (!Enabled)
                     {
-                        Log.Log("AttributeFeats: skipped (disabled).");
+                        Log.Log("ACHomebrew: skipped (disabled).");
                         return;
                     }
 
-                    Log.Log("AttributeFeats: patching blueprints...");
+                    Log.Log("ACHomebrew: patching blueprints...");
                     FeatRegistry.ConfigureAll();
                     Common.RefreshLocale();
                     ModMenuSettings.TryRegister();
                     ModTagSupport.TryRegister();
-                    Log.Log("AttributeFeats: blueprint initialization attempt finished; see registration diagnostics above.");
+                    Log.Log("ACHomebrew: blueprint initialization attempt finished; see registration diagnostics above.");
                 }
                 catch (Exception e)
                 {
-                    Log.Log("AttributeFeats: failed to initialize.\n" + e);
+                    Log.Log("ACHomebrew: failed to initialize.\n" + e);
                 }
             }
         }

@@ -45,7 +45,7 @@ namespace ACHomebrew.Feats
             Create(StatType.Strength, "Str", LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text", "Strength"), LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.2", "Somatic Force"), Guids.CastingStat.Str, spellbooks);
             Create(StatType.Dexterity, "Dex", LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.3", "Dexterity"), LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.4", "Sleight of Arcana"), Guids.CastingStat.Dex, spellbooks);
             Create(StatType.Constitution, "Con", LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.5", "Constitution"), LocalizedText.Text("Text.CastingStatFeats.ConfigureAll.Text.6", "Sanguine Incantation"), Guids.CastingStat.Con, spellbooks);
-            Mod.Log?.Log($"AttributeFeats: casting attribute feats cover {spellbooks.Count} spellbooks.");
+            Mod.Log?.Log($"ACHomebrew: casting attribute feats cover {spellbooks.Count} spellbooks.");
         }
 
         public static bool IsCastingFeat(BlueprintFeature feature) => feature != null && FeatGuids.Contains(feature.AssetGuid);
@@ -219,7 +219,7 @@ namespace ACHomebrew.Feats
                     yield return instruction;
                 }
                 if (replaced == 0)
-                    Mod.Log?.Log($"AttributeFeats: casting attribute read not found in {original.DeclaringType?.Name}.{original.Name}.");
+                    Mod.Log?.Log($"ACHomebrew: casting attribute read not found in {original.DeclaringType?.Name}.{original.Name}.");
             }
 
             // Not CodeInstruction.LoadArgument: Harmony 2.0.4, which the game ships and some games load

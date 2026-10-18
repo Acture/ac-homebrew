@@ -1,11 +1,11 @@
 # Public documentation
 
-This directory contains the documentation for AC's Homebrew (formerly
-AttributeFeats), versioned with the mod's code.
+This directory contains the documentation for AC's Homebrew, versioned with the mod's code.
 
 ## Current guides
 
 - [Feat families and abilities](../README.md#feat-families)
+- [Maneuver Tactics: rules, settings and integrations](maneuver-tactics.md)
 - [Mod settings](../README.md#settings)
 - [Feat budget](../README.md#feat-budget) and [exclusion groups](../README.md#exclusion-groups)
 - [Installation](../README.md#installation-unity-mod-manager)

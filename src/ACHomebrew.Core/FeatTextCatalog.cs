@@ -28,9 +28,9 @@ namespace ACHomebrew.Feats
             catalogs = loaded;
         }
 
-        // English keeps its historical resource name so older tools that read it keep working.
+        // Resource names share the mod identity; external language files retain their locale names.
         internal static string ResourceName(Locale locale)
-            => locale == Locale.enGB ? "AttributeFeats.Localization.FeatText.json" : $"AttributeFeats.Localization.{locale}.json";
+            => locale == Locale.enGB ? "ACHomebrew.Localization.FeatText.json" : $"ACHomebrew.Localization.{locale}.json";
 
         private static Dictionary<string, string> ReadEmbedded(Assembly assembly, string name, Action<string> log)
         {
@@ -56,6 +56,9 @@ namespace ACHomebrew.Feats
                 if (reader.TokenType != JsonToken.PropertyName)
                     throw new InvalidDataException("Expected a localization key.");
                 var key = (string)reader.Value;
+                const string legacyMenuPrefix = "AttributeFeatsSelection_";
+                if (key != null && key.StartsWith(legacyMenuPrefix, StringComparison.Ordinal))
+                    key = "ACHomebrewSelection_" + key.Substring(legacyMenuPrefix.Length);
                 if (string.IsNullOrWhiteSpace(key) || result.ContainsKey(key)
                     || !reader.Read() || reader.TokenType != JsonToken.String)
                     throw new InvalidDataException("Keys must be unique and nonempty, and values must be strings: " + key);
