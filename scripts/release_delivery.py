@@ -150,4 +150,8 @@ def check_archive(archive, root=ROOT):
     assert archive.filename is None or Path(archive.filename).name == f"ACHomebrew-{version}.zip", "release ZIP version"
     language_entries({locale: parse_json(archive.read(f"Localization/{locale}.json")) for locale in LOCALES})
     for destination, source in REQUIRED.items():
-        assert archive.read(destination) == (root / source).read_bytes(), f"archive differs from build inputs: {destination}"
+        # REQUIRED contains text only. Git may check it out as CRLF on Windows and LF on Linux.
+        # Compare that content without rewriting the ZIP; its full SHA-256 is verified separately.
+        delivered = archive.read(destination).replace(b"\r\n", b"\n")
+        expected = (root / source).read_bytes().replace(b"\r\n", b"\n")
+        assert delivered == expected, f"archive differs from build inputs: {destination}"

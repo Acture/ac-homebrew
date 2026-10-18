@@ -66,6 +66,30 @@ class NexusReleaseTests(unittest.TestCase):
     def prepare(self):
         return prepare_release(self.metadata, self.tag, self.repository, self.source, self.package, self.output)
 
+    def test_text_line_endings_may_differ_between_windows_zip_and_linux_checkout(self):
+        for source_newline, archive_newline in ((b"\n", b"\r\n"), (b"\r\n", b"\n")):
+            with self.subTest(source_newline=source_newline):
+                self.output = self.directory / f"ready-eol-{len(source_newline)}"
+                overrides = {}
+                for name, relative in REQUIRED.items():
+                    path = self.source / relative
+                    canonical = path.read_bytes().replace(b"\r\n", b"\n")
+                    path.write_bytes(canonical.replace(b"\n", source_newline))
+                    overrides[name] = canonical.replace(b"\n", archive_newline)
+                self.archive(overrides=overrides)
+                result = self.prepare()
+                self.assertEqual(result["sha256"], self.digest)
+                self.assertEqual((self.output / self.package.name).read_bytes(), self.package.read_bytes())
+
+    def test_text_comparison_still_rejects_content_and_whitespace_changes(self):
+        original = (self.source / REQUIRED["README.en.md"]).read_bytes().replace(b"\r\n", b"\n")
+        for changed in (original + b" ", original.replace(b"ACHomebrew", b"WrongMod")):
+            with self.subTest(changed=changed[-30:]):
+                self.archive(overrides={"README.en.md": changed})
+                with self.assertRaisesRegex(AssertionError, "archive differs from build inputs"):
+                    self.prepare()
+                self.assertFalse(self.output.exists())
+
     def test_published_prerelease_metadata_selects_exact_asset(self):
         result = inspect_release(self.metadata, self.tag, self.repository)
         self.assertEqual(result["version"], self.version)
