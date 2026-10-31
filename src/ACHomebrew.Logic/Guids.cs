@@ -12,6 +12,24 @@ namespace ACHomebrew.Feats
             public const string Selection = "974ae1af-6659-4c5c-ad57-7e15ed6165bd";
         }
 
+        public static class Duel
+        {
+            public const string Selection = "ee37b98e-a576-4a02-aeac-a58e944a711c";
+            public const string Oath = "cebc62ca-dbef-4ed9-960c-fbe5f036728d";
+            public const string EndlessChallenge = "7b79c58d-1c06-4e92-af90-aaed73369a0a";
+            public const string SingleCombat = "5f6bf73f-7cc0-4a5d-9d46-2de5d741e30c";
+            public const string Ability = "889afa8c-54e8-4953-9a2a-4fd6bbf4e471";
+            public const string Resource = "04f617fa-83df-412a-a90e-cd8439e4a59b";
+            public const string Buff = "1a3f3fd1-fb65-4c5e-a8cc-da03836dcd6f";
+            public const string Victories = "2b5bef7c-cf1f-4626-a9ca-d6eab58a270f";
+            public const string MythicOath = "a019bda3-ddfd-4fdc-8bf0-3a2c04d060ba";
+        }
+
+        public static class Reaper
+        {
+            public const string FingerOfTheReaper = "60faaf56-1285-41d2-b421-09771a6ee0cd";
+        }
+
         public static class FeatSelections
         {
             public const string MainAttribute = "0fca3f71-f928-4a16-bc6d-a7670b7eb497";

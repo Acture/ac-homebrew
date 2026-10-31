@@ -18,6 +18,7 @@ namespace ACHomebrew.Feats
         public static readonly FeatSelection Defensive = new("Defensive", Guids.FeatSelections.Defensive, "Defensive Adept");
         public static readonly FeatSelection Maneuver = new("Maneuver", Guids.FeatSelections.Maneuver, "Maneuver Adept");
         public static readonly FeatSelection ManeuverTactics = new("ManeuverTactics", Guids.ManeuverTactics.Selection, "Maneuver Tactics");
+        public static readonly FeatSelection Duel = new("Duel", Guids.Duel.Selection, "Duel");
         public static readonly FeatSelection Skilled = new("Skilled", Guids.FeatSelections.Skilled, "Skilled Adept");
         public static readonly FeatSelection Arcane = new("Arcane", Guids.FeatSelections.Arcane, "Arcane Adept");
         public static readonly FeatSelection Stance = new("Stance", Guids.FeatSelections.Stance, "Stance");
@@ -61,7 +62,7 @@ namespace ACHomebrew.Feats
         private static readonly FeatSelection[] Families =
         {
             MainFromStr, MainFromDex, MainFromCon, MainFromInt, MainFromWis, MainFromCha, MainLegacy,
-            MainAttribute, Defensive, Maneuver, ManeuverTactics, Skilled, Arcane, Stance, Conditional,
+            MainAttribute, Defensive, Maneuver, ManeuverTactics, Duel, Skilled, Arcane, Stance, Conditional,
             WeaponInsight, ExtendedReplacement, GreaterSummoning, SummonerSacrifice,
             ReactiveArmor, DerivedStat, SpellSchool, SpellDescriptor, DistanceDamage, WeaponDamage,
             CastingStat, ResourceStat, Retaliation, Momentum, Stealth, Solo, Growth, Execution, Arcana, Summoner, Survival, Meme, Penetration,

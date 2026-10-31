@@ -20,6 +20,7 @@ namespace ACHomebrew.Feats
             var succeeded = TryConfigureFamily(nameof(MainAbilityToEverything_Feats), () => MainAbilityToEverything_Feats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(SpecializedFeats), () => SpecializedFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(ManeuverFeats), () => ManeuverFeats.ConfigureAll());
+            succeeded &= TryConfigureFamily(nameof(DuelFeats), () => DuelFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(StanceFeats), () => StanceFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(ConditionalFeats), () => ConditionalFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(StatReplacementFeats), () => StatReplacementFeats.ConfigureAll());

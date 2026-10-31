@@ -84,13 +84,20 @@ both before a release.
 | Action allowance persistence | The game's JSON serializer retains the unit part, including after combat-state reconstruction; feat removal and reapplication do not refill it |
 | Lingering Disruption | Actual maneuver rules and buffs check fresh timed effects, failure, reapplication, nested rules and scope cleanup; unrelated, permanent and prone effects keep their duration |
 | Third-party maneuver recognition | Synthetic physical abilities exercise native/custom maneuver actions, conditionals, variants and explicit registration; spells, weapon attacks and unknown overrides are excluded |
+| Duel blueprints and uses | The Duel menu, prerequisites, the mythic feat in the vanilla mythic selection, the challenge tracker on the vanilla challenge effect; 1 + level/5 daily uses, +2 with Endless Challenge |
+| Duel ability | A real ability command against a Dretch spends one use and links both duelists; allies, self and fallen creatures are invalid targets; the encounter limit lifts only on a real leave-combat transition |
+| Duel compulsion and targets | Both duelists get the attack-nearest compulsion aimed at the opponent and lose direct control; neither can attack a bystander; ending one side ends both and returns control; Unbound Duelist keeps its owner uncompelled but restricted |
+| Duel damage | Damage rules: duelists deal 0 to anyone but the opponent; Single Combat halves an interloper's 10 to 5, also during a challenge; without the duel everything is unchanged |
+| Duel victories | A falling opponent gives the survivor one permanent +1 additional damage, the reverse when the owner falls, nothing for an expired or simultaneous duel or a repeated event; victories serialize and are excluded from respec carry-over |
+| Challenges as duels | The vanilla Cavalier's Challenge effect counts only for an Oath owner, is settled once across a revival, spends no Duel uses and does not compel |
+| Finger of the Reaper | The vanilla Finger of Death effect gets +CL; damage rules add CL + kills only to Finger of Death; only a lethal final hit followed by death counts, once per death, not after healing, another source or another caster; kills serialize with the feat and reset when it is removed |
 
 The command tests invoke game command execution and action spending directly;
 they do not run animation, view initialization or the full Unity command loop.
 Serializer tests cover the allowance state, not opening a complete save file.
 Third-party controls exercise blueprint patterns, not an installed mod collection.
 
-These are evidence for the listed feats only. Other families, weapon damage,
+These are evidence for the listed feats only. Duel and Finger of the Reaper are described in [duel-feats.md](duel-feats.md), including what still needs confirmation in the game. Other families, weapon damage,
 the complete combat loop and the in-game UI are not covered here;
 see [validation.md](validation.md) for the remaining checks.
 
@@ -108,4 +115,7 @@ see [validation.md](validation.md) for the remaining checks.
   multiple components on several feats where only one is allowed (for example
   `AttackStatReplacementFixed`). The warnings are listed in `environment.json`
   (`logWarnings`) and are not evaluated by these tests.
+- **Damage to non-party creatures.** The game's "green NPC" check compares the target with the main character, which an offline session lacks, and fails inside the damage rule. Duel and Finger of the Reaper tests resolve damage inside a cutscene-command context, where the game skips that check.
+- **Deaths.** `UnitLifeController.OnUnitDeath` plays the death animation on the unit's view after setting the life state. View-less units throw there, so the tests raise the life-state event the controller raises next. Falling unconscious runs unchanged.
+- **Charge.** A compelled unit charges when its charge ability can reach the target, which needs pathfinding in a scene. The compulsion tests remove the charge ability and check the direct attack command; they create the command but do not run it.
 - **CI.** Public CI has no game files and does not run these tests.

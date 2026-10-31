@@ -15,6 +15,7 @@ subject to their prerequisites, exclusion groups and any budget you enable.
   weapon attack or damage, convert derived statistics, or change a spellbook's
   casting attribute or a resource's bonus uses.
 - **Maneuver Tactics:** Seize the Opening grants one free maneuver per round plus three extra uses per encounter (maximum two per round). Lingering Disruption doubles timed maneuver effects, adding at least two rounds. Both can be taken together; each costs 2 budget points. Configure them in UMM or ModMenu.
+- **Duel:** Oath of the Duel compels you and an enemy to fight only each other for 2 rounds; each duel won permanently adds +1 weapon damage, and Cavalier challenges also count. Endless Challenge adds uses, Single Combat halves damage from interlopers, and the mythic feat Unbound Duelist keeps you in control.
 - **Aptitudes:** themed attribute bonuses to defense, maneuvers, skills or magic.
 - **Martial:** activatable stances, conditional triggers, close/mid/long-range
   styles, reach, attack momentum and execution effects.
@@ -22,7 +23,8 @@ subject to their prerequisites, exclusion groups and any budget you enable.
 - **Magic:** school/descriptor specialists, spell-slot effects and immunity piercing.
 - **Summoning:** stronger or more numerous summons, sacrificial bargains and
   shared healing.
-- **Styles:** stealth, solo play and permanent growth from kills. Optional joke
+- **Styles:** stealth, solo play and permanent growth from kills, including
+  Finger of the Reaper, which grows Finger of Death with every kill. Optional joke
   feats are off by default.
 
 Names, lore and complete rule text—including shared description templates—are

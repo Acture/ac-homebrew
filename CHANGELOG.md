@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- **Duel** family. Oath of the Duel grants Duel: for 2 rounds you and an enemy are compelled to attack only each other, and damage either deals to anyone else is prevented. The survivor permanently gains +1 damage with weapon attacks per duel won. 1 use per day plus 1 per 5 levels, once per encounter. Cavalier's Challenge (including Knight's Challenge) also counts as a duel without spending uses. Endless Challenge adds 2 daily uses; Single Combat halves damage from anyone but your opponent while you duel. Each costs 1 budget point.
+- **Unbound Duelist**, the mod's first mythic feat: you keep control during your duels while your opponent is still compelled.
+- **Finger of the Reaper** (Growth): Finger of Death deals +1 damage per caster level, plus +1 for each creature it has killed, without limit.
+- Other mods can register their challenge effects as duels with `DuelRules.RegisterChallenge`. See [Duel and Finger of the Reaper](docs/duel-feats.md).
+- All new text in the eight supported languages.
+
 ## 0.2.1 — 2026-10-18
 
 ### Added

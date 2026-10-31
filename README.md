@@ -61,6 +61,10 @@ Families are grouped by play theme below. Numbers are first-pass values, and **n
 
 **Seize the Opening (乘隙制敌)** makes one active combat maneuver per round a free action, with three extra uses per encounter for a second free maneuver in a round. **Lingering Disruption (余势未消)** doubles timed maneuver effects, adding at least two rounds. Both can be selected together and alongside Maneuver aptitudes; each costs 2 budget points. [Rules, settings and mod compatibility](docs/maneuver-tactics.md).
 
+### Duel
+
+**Oath of the Duel (决斗誓约)** grants **Duel**: for 2 rounds you and an enemy are compelled to attack only each other, and damage either deals to anyone else is prevented. If your opponent falls while you stand, you permanently gain +1 weapon damage; if you fall, it does. 1 use per day plus 1 per 5 levels, once per encounter. Your Cavalier challenges also count as duels. **Endless Challenge (无尽挑战)** adds 2 daily uses; **Single Combat (单挑)** halves damage from anyone but your opponent while you duel. The mythic feat **Unbound Duelist (决斗自如)** lets you keep control during your duels. Each costs 1 budget point. [Rules, victories and challenges](docs/duel-feats.md).
+
 ### Aptitudes
 
 Each aptitude adds the attribute modifier (untyped) to two or three themed values.
@@ -167,7 +171,7 @@ Maneuver adds the modifier to CMB. Arcane adds it to caster level and spell pene
 
 **Solo** — Lone Wolf (孤鸿涉远: bonus to dodge AC, saves and damage while no ally is within 30 ft, growing with level) and Truly Solo (+1 to attributes, dodge AC, saves, attack and damage per joined companion who is not in the party, up to 5).
 
-**Growth** — permanent, uncapped growth from kills: Stolen Grace (掠影炼魄: +1 Dex per 100 kills), Corpse-Forged Bulk (尸山淬躯: +1 Str per 100 party kills), Stolen Epiphany (掠识开慧: +1 Int per 10 caster kills), Siphoned Vitality (噬元固魄: +1 max HP per 10 kills), and Soul-Tether Harvest (拘魂蓄怨: souls from kills add damage, up to twice your level).
+**Growth** — permanent, uncapped growth from kills: Stolen Grace (掠影炼魄: +1 Dex per 100 kills), Corpse-Forged Bulk (尸山淬躯: +1 Str per 100 party kills), Stolen Epiphany (掠识开慧: +1 Int per 10 caster kills), Siphoned Vitality (噬元固魄: +1 max HP per 10 kills), Soul-Tether Harvest (拘魂蓄怨: souls from kills add damage, up to twice your level), and Finger of the Reaper (一指索命: Finger of Death deals +1 damage per caster level, plus +1 for each creature it has killed; [rules](docs/duel-feats.md#finger-of-the-reaper)).
 
 **Meme** (off by default; enable in settings and restart; free of budget points) — Man, What Can I Say (a speech bubble on kills and critical hits) and Nobody Knows It Better (+2 to a chosen skill and a speech bubble when you use it).
 
@@ -200,7 +204,7 @@ The optional feat budget limits each character's Homebrew feats across all famil
 |---|---|
 | 3 | Retired broad Main feats |
 | 2 | Maneuver Tactics, Main Attribute Mastery, Weapon Insight, Extended Replacement, Derived Stat Conversion, Weapon Damage, Casting Attribute, Stance, Greater Summoning, Summoner Sacrifice, Spell School/Descriptor Specialist, Arcana, Stealth, Solo, Survival, Penetration |
-| 1 | Defensive, Maneuver, Skilled and Arcane aptitudes, Resource Attribute, Conditional Trigger, Distance Damage, Long-Reach Gambit, Momentum, Execution, Reactive Armor, Retaliation, Summoner, Growth |
+| 1 | Defensive, Maneuver, Skilled and Arcane aptitudes, Resource Attribute, Conditional Trigger, Distance Damage, Long-Reach Gambit, Momentum, Execution, Reactive Armor, Retaliation, Summoner, Growth, Duel |
 | 0 | Meme |
 
 - Only feats granted to the character count. Opening the AC's Homebrew menu or a family menu is free, and vanilla or other mods' feats are never counted.
@@ -278,7 +282,7 @@ replace in-game behavior tests.
 | `src/ACHomebrew.Core/` | In-game infrastructure: feat menus, budget and exclusion enforcement, settings, localization and shared feat builders |
 | `src/ACHomebrew.Attributes/` | Main Attribute Mastery, Weapon Insight and Extended Replacement, Derived Stat Conversion, Weapon Damage, casting and resource attributes |
 | `src/ACHomebrew.Aptitudes/` | Defensive, Maneuver, Skilled and Arcane aptitudes |
-| `src/ACHomebrew.Martial/` | Stances, Conditional Triggers, distance feats, Long-Reach Gambit, Momentum and Execution |
+| `src/ACHomebrew.Martial/` | Stances, Conditional Triggers, distance feats, Long-Reach Gambit, Momentum, Execution, Maneuver Tactics and Duel |
 | `src/ACHomebrew.Defense/` | Reactive Armor and Retaliation |
 | `src/ACHomebrew.Magic/` | Spell School/Descriptor Specialists and Arcana (spell slots) |
 | `src/ACHomebrew.Summoning/` | Greater Summoning, Summoner Sacrifice and Summoner links |
