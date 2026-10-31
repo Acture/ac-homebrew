@@ -1214,5 +1214,45 @@
     "nameEn": "Nobody Knows It Better",
     "nameZh": "没有人比我更懂",
     "sha256": "d78d514c56e69744b33983ee002a74047cab9865f6f5006067558189a6e3f4c3"
+  },
+  {
+    "internal": "DuelOath",
+    "family": "Duel",
+    "filename": "DuelOath.png",
+    "nameEn": "Oath of the Duel",
+    "nameZh": "决斗誓约",
+    "sha256": "8b9e74151883fa66b9801f365f3bef7d13687db0248dc05cb1a152afc769a922"
+  },
+  {
+    "internal": "EndlessChallenge",
+    "family": "Duel",
+    "filename": "EndlessChallenge.png",
+    "nameEn": "Endless Challenge",
+    "nameZh": "无尽挑战",
+    "sha256": "536c1efe80abe1edfc3bae5242ba92cb6d9fd4f50d30c840c8d5aa70b20357a9"
+  },
+  {
+    "internal": "SingleCombat",
+    "family": "Duel",
+    "filename": "SingleCombat.png",
+    "nameEn": "Single Combat",
+    "nameZh": "单挑",
+    "sha256": "f820f794a1f368e39c8cd01877e917e56b5c7851e6358a4b23ea1480066b4d77"
+  },
+  {
+    "internal": "MythicDuelOath",
+    "family": "Duel",
+    "filename": "MythicDuelOath.png",
+    "nameEn": "Unbound Duelist",
+    "nameZh": "决斗自如",
+    "sha256": "c531e56277af84cc5c081e7f929952f5076ae47a1261f495366baa8449a5ba58"
+  },
+  {
+    "internal": "FingerOfTheReaper",
+    "family": "Growth",
+    "filename": "FingerOfTheReaper.png",
+    "nameEn": "Finger of the Reaper",
+    "nameZh": "一指索命",
+    "sha256": "5c75174d15297c4128ff306c9b26f66e8a5811c79d78c81dd83cd7e0593cbc3a"
   }
 ]

@@ -115,6 +115,7 @@ namespace ACHomebrew.Feats
             ["Defensive"] = 1,
             ["Maneuver"] = 1,
             ["ManeuverTactics"] = 2,
+            ["Duel"] = 1,
             ["Skilled"] = 1,
             ["Arcane"] = 1,
             ["Conditional"] = 1,

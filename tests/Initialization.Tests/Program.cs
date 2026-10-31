@@ -159,7 +159,7 @@ internal static class World
 {
     internal static readonly string[] RegistrationNames =
     {
-        "MainAbilityToEverything_Feats", "SpecializedFeats", "ManeuverFeats", "StanceFeats", "ConditionalFeats",
+        "MainAbilityToEverything_Feats", "SpecializedFeats", "ManeuverFeats", "DuelFeats", "StanceFeats", "ConditionalFeats",
         "StatReplacementFeats", "ReactiveArmorFeats", "DerivedStatFeats", "GreaterSummoningFeats",
         "SpellTagFeats", "SummonerSacrificeFeats", "PolearmMasterFeats", "DistanceDamageFeats",
         "WeaponDamageFeats", "CastingStatFeats", "ResourceStatFeats", "RetaliationFeats", "MomentumFeats", "ExecutionFeats", "ArcanaFeats", "SummonerFeats", "StealthFeats", "SoloFeats", "GrowthFeats", "SurvivalFeats", "MemeFeats", "PenetrationFeats", "WeaponPenetrationFeats", "MutexPass",

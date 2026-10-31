@@ -29,7 +29,9 @@ using Kingmaker.Utility;
 using Kingmaker;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System;
+using Newtonsoft.Json;
 using static ACHomebrew.Feats.FeatBuilders;
 
 namespace ACHomebrew.Feats
@@ -46,6 +48,15 @@ namespace ACHomebrew.Feats
 
             ConfigureKillGrowth();
             ConfigureNecromastery();
+            ConfigureFingerOfTheReaper();
+        }
+
+        private static void ConfigureFingerOfTheReaper()
+        {
+            Feat(FeatSelection.Growth, "FingerOfTheReaper", Guids.Reaper.FingerOfTheReaper, LocalizedText.Text("FingerOfTheReaper.Name", "Finger of the Reaper"),
+                    LocalizedText.Text("FingerOfTheReaper.Desc", "<i>Every soul your word unmakes lends weight to the next.</i>\n\nYour Finger of Death deals +1 damage per caster level. Each creature it kills permanently adds +1 more, without limit. A creature counts when it dies and your Finger of Death dealt the final, lethal damage; each death counts once, so a creature raised and slain again counts again. Works with Finger of Death from any source, including scrolls and wands. Kills are kept in your save and reset if you lose this feat, for example by respec."))
+                .AddComponent<ReaperFinger>()
+                .Configure();
         }
 
         private static void ConfigureKillGrowth()
@@ -132,6 +143,71 @@ namespace ACHomebrew.Feats
             var fact = Owner.Progression.Features.GetFact(counter);
             if (fact == null) Owner.Progression.Features.AddFeature(counter);
             else fact.AddRank();
+        }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class ReaperFingerData
+    {
+        [JsonProperty] public int Kills;
+    }
+
+    /// <summary>
+    /// Finger of the Reaper: the owner's Finger of Death deals +1 damage per caster level plus +1 per creature
+    /// it has killed. The kill count is the feat's own saved data, so losing the feat resets it.
+    /// </summary>
+    [TypeId("43ed4383695044de95570da4016fb74b")]
+    public class ReaperFinger : UnitFactComponentDelegate<ReaperFingerData>, IInitiatorRulebookHandler<RuleDealDamage>, IInitiatorRulebookSubscriber,
+        IGlobalRulebookHandler<RuleHealDamage>, IGlobalRulebookSubscriber, IUnitLifeStateChanged
+    {
+        public const string FingerOfDeath = "6f1dcf6cfa92d1948a740195707c0dbe";
+
+        // Damage from the owner's Finger of Death that left its target at 0 HP or below.
+        private static readonly ConditionalWeakTable<RuleDealDamage, object> LethalHits = new();
+        private static readonly object Lethal = new();
+
+        public int Kills => Data.Kills;
+
+        private static readonly BlueprintGuid FingerOfDeathGuid = BlueprintGuid.Parse(FingerOfDeath);
+
+        public static bool IsFingerOfDeath(RuleDealDamage evt)
+        {
+            var ability = evt.Reason.Ability?.Blueprint ?? evt.Reason.Context?.SourceAbility ?? evt.SourceAbility;
+            return ability != null && (ability.AssetGuid == FingerOfDeathGuid || ability.Parent?.AssetGuid == FingerOfDeathGuid);
+        }
+
+        public void OnEventAboutToTrigger(RuleDealDamage evt)
+        {
+            if (!IsFingerOfDeath(evt)) return;
+            var first = evt.DamageBundle.FirstOrDefault();
+            var casterLevel = evt.Reason.Context?.Params?.CasterLevel ?? 0;
+            var bonus = Math.Max(0, casterLevel) + Data.Kills;
+            if (first != null && bonus > 0) first.AddModifier(bonus, Fact);
+        }
+
+        public void OnEventDidTrigger(RuleDealDamage evt)
+        {
+            if (evt.Target != null && evt.Result > 0 && evt.Target.HPLeft <= 0 && IsFingerOfDeath(evt))
+                LethalHits.GetValue(evt, _ => Lethal);
+        }
+
+        // Healing after the hit means the spell did not kill, even if the creature dies later without new damage.
+        public void OnEventAboutToTrigger(RuleHealDamage evt) { }
+
+        public void OnEventDidTrigger(RuleHealDamage evt)
+        {
+            var lastHit = evt.Target?.LastHandledDamage;
+            if (lastHit != null && lastHit.Initiator == Owner) LethalHits.Remove(lastHit);
+        }
+
+        public void HandleUnitLifeStateChanged(UnitEntityData unit, UnitLifeState prevLifeState)
+        {
+            var lastHit = unit.LastHandledDamage;
+            if (lastHit == null || lastHit.Initiator != Owner || !LethalHits.TryGetValue(lastHit, out _)) return;
+            // The hit is settled by the next life-state change: a death counts once; anything else (unconscious,
+            // revived) means it did not kill, so a later death that reuses LastHandledDamage is not credited.
+            LethalHits.Remove(lastHit);
+            if (prevLifeState != UnitLifeState.Dead && unit.Descriptor.State.LifeState == UnitLifeState.Dead) Data.Kills++;
         }
     }
 

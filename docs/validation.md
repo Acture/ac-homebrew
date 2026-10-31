@@ -49,7 +49,7 @@ tooltips or saved characters behave the same way.
 The repository contract checks preserve the 133 published blueprint identifiers
 and allow new unique IDs. Asset checks compare the existing families' component
 calls and inline IDs with a committed baseline extracted from v0.1.1, then check
-every PNG mapping (152 at the time of writing), hash, dimension and catalog name. These are static checks of
+every PNG mapping (157 at the time of writing), hash, dimension and catalog name. These are static checks of
 identity and component configuration, not proof of combat behavior.
 
 With a local Wrath installation configured in the ignored root `GamePath.props`:
