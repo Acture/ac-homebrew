@@ -9,6 +9,9 @@
 - Other mods can register their challenge effects as duels with `DuelRules.RegisterChallenge`. See [Duel and Finger of the Reaper](docs/duel-feats.md).
 - All new text in the eight supported languages.
 
+### Changed
+- Unity Mod Manager lists the author as Acture, as the repository and the package metadata do.
+
 ## 0.2.1 — 2026-10-18
 
 ### Added
