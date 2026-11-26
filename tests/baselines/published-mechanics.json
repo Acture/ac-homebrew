@@ -165,7 +165,7 @@
         ],
         [
           "AddContextStatBonus",
-          "StatType.AC,Common.Rank(),descriptor:Desc"
+          "StatType.AC,Common.Rank(),descriptor:Desc,restrictions:CreateArcaneAegisRestriction()"
         ],
         [
           "AddContextRankConfig",
@@ -375,7 +375,11 @@
         ],
         [
           "AddRank",
-          "cfg,baseStat,AbilityRankType.StatBonus,Common.ResolveProgression(settings.powerLevel,ScalingIntent.Half)"
+          "cfg,baseStat,AbilityRankType.StatBonus,Progression(casterLevel),step:casterLevel"
+        ],
+        [
+          "AddRank",
+          "cfg,baseStat,AbilityRankType.SpeedBonus,Progression(spellDc),step:spellDc"
         ],
         [
           "AddRecalculateOnStatChange",

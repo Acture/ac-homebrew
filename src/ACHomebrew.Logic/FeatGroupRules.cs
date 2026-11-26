@@ -109,7 +109,7 @@ namespace ACHomebrew.Feats
                 Guids.Specialized.Defensive.Dex, Guids.Specialized.Defensive.Con,
                 Guids.Stance.Feature.Dex, Guids.Stance.Feature.Wis,
                 Guids.Replacement.Extended.InnerSentinel, Guids.ExtendedReplacement2.LightfootDefense,
-                Guids.Conditional.EndlessResolve),
+                Guids.Conditional.EndlessResolve, Guids.Derived.ArcaneAegis),
             SameAttribute("Str", Guids.str_main_to_everything, Guids.Specialized.Defensive.Str, Guids.Specialized.Maneuver.Str,
                 Guids.Specialized.Skilled.Str, Guids.Specialized.Arcane.Str, Guids.Stance.Feature.Str),
             SameAttribute("Dex", Guids.dex_main_to_everything, Guids.Specialized.Defensive.Dex, Guids.Specialized.Maneuver.Dex,

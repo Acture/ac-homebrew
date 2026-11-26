@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BlueprintCore.Actions.Builder;
 using BlueprintCore.Actions.Builder.ContextEx;
@@ -8,8 +9,13 @@ using BlueprintCore.Utils;
 using BlueprintCore.Utils.Types;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Items.Armors;
+using Kingmaker.Designers.Mechanics.Facts.Restrictions;
+using Kingmaker.EntitySystem.Properties;
+using Kingmaker.EntitySystem.Properties.BaseGetter;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
+using Kingmaker.Items.Slots;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Properties;
@@ -69,14 +75,31 @@ namespace ACHomebrew.Feats
                 nameKey: "Derived_ArcaneAegis.Name",
                 displayName: LocalizedText.Text("Derived_ArcaneAegis.Name", "Arcane Aegis"),
                 descKey: "Derived_ArcaneAegis.Desc",
-                desc: BuildDescription(
-                    LocalizedText.Text("Text.DerivedStatFeats.CreateArcaneAegis.Text", "Caster Level to AC"),
+                desc: LocalizedText.Format(
+                    "Text.DerivedStatFeats.CreateArcaneAegis.Description",
+                    "<i>Derived · {0}</i>\n{1}\n\n<b>Effect:</b> {2}\n\n<b>Restrictions:</b> {3}",
+                    LocalizedText.Text("Text.DerivedStatFeats.CreateArcaneAegis.Text", "Half Caster Level to AC"),
                     LocalizedText.Text("Derived_ArcaneAegis.Lore", "Years of spellwork teach you to turn practiced magical control toward personal defense."),
-                    LocalizedText.Text("Text.DerivedStatFeats.CreateArcaneAegis.Text.2", "Adds half your caster level as an untyped bonus to AC.")))
+                    LocalizedText.Text("Text.DerivedStatFeats.CreateArcaneAegis.Text.2", "Adds half your caster level (rounded down) as an untyped bonus to AC while you wear no armor or light armor and do not use a shield."),
+                    LocalizedText.Text("Text.DerivedStatFeats.CreateArcaneAegis.Restriction", "Requires no armor or light armor, and no shield. While exclusion groups are on, this feat shares the derived armor class limit of one and counts toward the attribute-bonus-to-AC limit of two.")))
                 .AddContextRankConfig(ContextRankConfigs.CasterLevel(min: 0).WithDiv2Progression())
-                .AddContextStatBonus(StatType.AC, Common.Rank(), descriptor: Desc)
+                .AddContextStatBonus(StatType.AC, Common.Rank(), descriptor: Desc, restrictions: CreateArcaneAegisRestriction())
                 .Configure();
         }
+
+        private static RestrictionCalculator CreateArcaneAegisRestriction()
+            => new RestrictionCalculator
+            {
+                Property = new PropertyCalculator
+                {
+                    Operation = PropertyCalculator.OperationType.Sum,
+                    TargetType = PropertyTargetType.CurrentEntity,
+                    Getters = new PropertyGetter[]
+                    {
+                        new ArcaneAegisArmorPropertyGetter(),
+                    },
+                },
+            };
 
         private static void CreateMartialInsight()
         {
@@ -238,5 +261,36 @@ namespace ACHomebrew.Feats
         {
             return LocalizedText.Format("Text.DerivedStatFeats.BuildDescription.Description", "<i>Derived · {0}</i>\n{1}\n\n<b>Effect:</b> {2}\n\n<b>Restrictions:</b> None. This feat is independent and stacks normally with other feat families.", subtitle, lore, effect);
         }
+    }
+
+    [Serializable]
+    internal sealed class ArcaneAegisArmorPropertyGetter : UnitPropertyGetter
+    {
+        protected override int GetBaseValue()
+        {
+            var body = CurrentEntity?.Body;
+            if (body == null)
+            {
+                return ArcaneAegisRules.Applies(ArcaneAegisArmor.Missing, false) ? 1 : 0;
+            }
+
+            var holdingShield = (body.PrimaryHand != null && body.PrimaryHand.HasShield)
+                || (body.SecondaryHand != null && body.SecondaryHand.HasShield);
+            var armor = ArcaneAegisArmor.Missing;
+            foreach (var slot in body.CurrentEquipmentSlots)
+            {
+                if (slot is ArmorSlot armorSlot)
+                {
+                    armor = armorSlot.HasArmor
+                        ? ArcaneAegisRules.ClassifyGroup(armorSlot.Armor?.Blueprint?.ProficiencyGroup.ToString())
+                        : ArcaneAegisArmor.Missing;
+                    break;
+                }
+            }
+
+            return ArcaneAegisRules.Applies(armor, holdingShield) ? 1 : 0;
+        }
+
+        protected override string GetInnerCaption() => "No or light armor, no shield";
     }
 }
