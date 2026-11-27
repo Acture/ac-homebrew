@@ -21,8 +21,10 @@ namespace ACHomebrew.OfflineTests
     [Collection(ACHomebrewGameCollection.Name)]
     public sealed class MainAttributeFeatTests
     {
-        // MC_Human_M_Cavalier_Base: a vanilla human pregen; its class levels are applied by the game's own AddClassLevels.
-        internal const string VanillaUnit = "5def1061f2e84909a1235ac8bb42578f";
+        // Seelah_Companion: a player-faction companion. AddClassLevels on an added feature grants her class
+        // levels (ClassLevelLimit is above 0, so they apply), and the blueprint body equips her starting
+        // weapon, armor, and shield. Not a character-creation pregen.
+        internal const string VanillaUnit = "54be53f0b35bf3c4592a97ae335fe765";
 
         private static readonly StatType[] Attributes =
         {
@@ -32,6 +34,81 @@ namespace ACHomebrew.OfflineTests
         private readonly ACHomebrewGame fixture;
 
         public MainAttributeFeatTests(ACHomebrewGame fixture) => this.fixture = fixture;
+
+        /// <summary>
+        /// The shared vanilla unit is a real blueprint-leveled companion: class levels come from AddClassLevels,
+        /// and her starting weapon, armor, and shield are in their equipment slots.
+        /// </summary>
+        [Fact]
+        public void VanillaUnitHasClassLevelsAndEquippedGear()
+        {
+            fixture.RequireGame();
+            var unit = OfflineGame.CreateUnit(VanillaUnit);
+            AssertLiving(unit);
+            Assert.Equal("Seelah_Companion", unit.Blueprint.name);
+            Assert.True(unit.Descriptor.IsPlayerFaction, unit.Descriptor.Faction?.name);
+
+            var limit = unit.Blueprint.ComponentsArray.OfType<ClassLevelLimit>().SingleOrDefault();
+            Assert.True(limit == null || limit.LevelLimit > 0, $"ClassLevelLimit is {limit?.LevelLimit.ToString() ?? "absent"}.");
+            var granted = ClassGrants(unit).Where(component => component.Levels > 0).ToArray();
+            Assert.NotEmpty(granted);
+            var appliedByClass = granted
+                .GroupBy(component => component.CharacterClass)
+                .Select(group => new
+                {
+                    name = group.Key.name,
+                    blueprintLevels = group.Sum(component => component.Levels),
+                    applied = unit.Descriptor.Progression.GetClassLevel(group.Key),
+                })
+                .ToArray();
+            Assert.Contains(appliedByClass, row => row.applied > 0);
+            Assert.Equal(unit.Descriptor.Progression.CharacterLevel, appliedByClass.Sum(row => row.applied));
+            Assert.True(unit.Descriptor.Progression.CharacterLevel > 0);
+
+            var weapon = unit.Body.PrimaryHand.MaybeWeapon;
+            Assert.NotNull(weapon);
+            Assert.False(weapon.Blueprint.IsUnarmed);
+            Assert.False(weapon.Blueprint.IsNatural);
+            Assert.Same(weapon, unit.Body.PrimaryHand.MaybeItem);
+            Assert.Same(unit.Body.PrimaryHand, weapon.HoldingSlot);
+            Assert.NotSame(unit.Body.EmptyHandWeapon, weapon);
+
+            var armor = unit.Body.Armor.MaybeArmor;
+            Assert.NotNull(armor);
+            Assert.Same(armor, unit.Body.Armor.MaybeItem);
+            Assert.Same(unit.Body.Armor, armor.HoldingSlot);
+
+            var shield = unit.Body.SecondaryHand.MaybeShield;
+            Assert.NotNull(shield);
+            Assert.Same(shield, unit.Body.SecondaryHand.MaybeItem);
+            Assert.Same(unit.Body.SecondaryHand, shield.HoldingSlot);
+
+            fixture.Observations["vanillaUnit"] = new
+            {
+                blueprint = unit.Blueprint.name,
+                guid = unit.Blueprint.AssetGuid.ToString(),
+                faction = unit.Descriptor.Faction?.name,
+                playerFaction = unit.Descriptor.IsPlayerFaction,
+                characterLevel = unit.Descriptor.Progression.CharacterLevel,
+                mythicLevel = unit.Descriptor.Progression.MythicLevel,
+                classLevelLimit = limit?.LevelLimit,
+                classes = appliedByClass,
+                weapon = weapon.Blueprint.name,
+                weaponSlot = weapon.HoldingSlot?.GetType().Name,
+                armor = armor.Blueprint.name,
+                armorSlot = armor.HoldingSlot?.GetType().Name,
+                shield = shield.Blueprint.name,
+                shieldSlot = shield.HoldingSlot?.GetType().Name,
+            };
+        }
+
+        /// <summary>AddClassLevels on the unit itself, or on a feature the unit adds.</summary>
+        private static IEnumerable<AddClassLevels> ClassGrants(UnitEntityData unit)
+        {
+            var direct = unit.Blueprint.ComponentsArray.OfType<AddClassLevels>();
+            var added = unit.Blueprint.AddFacts.SelectMany(fact => fact.ComponentsArray.OfType<AddClassLevels>());
+            return direct.Concat(added);
+        }
 
         /// <summary>Strength Mastery: Dexterity adds the Strength modifier (minimum 0) to Dexterity only, as an inherent bonus.</summary>
         [Fact]
