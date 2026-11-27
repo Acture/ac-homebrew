@@ -307,10 +307,15 @@ namespace ACHomebrew.Feats
                     tagEncyclopediaEntries: true))
                 .SetIconIfPresent(internalName);
 
+            var legacy = settings.powerLevel == PowerLevel.Legacy_AllFull;
             Common.AddRank(cfg, baseStat, AbilityRankType.Default, Common.ResolveProgression(settings.powerLevel, ScalingIntent.Full));
             if (family == SpecializedFamily.Arcane)
             {
-                Common.AddRank(cfg, baseStat, AbilityRankType.StatBonus, Common.ResolveProgression(settings.powerLevel, ScalingIntent.Half));
+                // StatBonus and SpeedBonus are rank slots only. SpeedBonus holds the quarter modifier for spell DC.
+                var casterLevel = ArcaneSpecializationRules.Divisor(ArcaneSpecializationRules.CasterLevelDivisor, legacy);
+                var spellDc = ArcaneSpecializationRules.Divisor(ArcaneSpecializationRules.SpellDcDivisor, legacy);
+                Common.AddRank(cfg, baseStat, AbilityRankType.StatBonus, Progression(casterLevel), step: casterLevel);
+                Common.AddRank(cfg, baseStat, AbilityRankType.SpeedBonus, Progression(spellDc), step: spellDc);
             }
 
             switch (family)
@@ -340,7 +345,7 @@ namespace ACHomebrew.Feats
                     {
                         cfg.AddComponent<IncreaseCasterLevel>(c =>
                         {
-                            c.Value = Common.Rank(AbilityRankType.Default);
+                            c.Value = Common.Rank(AbilityRankType.StatBonus);
                             c.Descriptor = Desc;
                         });
                     }
@@ -349,7 +354,7 @@ namespace ACHomebrew.Feats
                     {
                         cfg.AddComponent<IncreaseAllSpellsDC>(c =>
                         {
-                            c.Value = Common.Rank(AbilityRankType.StatBonus);
+                            c.Value = Common.Rank(AbilityRankType.SpeedBonus);
                             c.Descriptor = Desc;
                             c.SpellsOnly = false;
                         });
@@ -370,6 +375,19 @@ namespace ACHomebrew.Feats
             return cfg.Configure();
         }
 
+
+        private static ContextRankProgression Progression(int divisor)
+        {
+            switch (divisor)
+            {
+                case 1:
+                    return ContextRankProgression.AsIs;
+                case 2:
+                    return ContextRankProgression.Div2;
+                default:
+                    return ContextRankProgression.DivStep;
+            }
+        }
 
         private static void AddContextBonuses(FeatureConfigurator cfg, IReadOnlyList<StatType> stats, AbilityRankType rankType)
         {
@@ -403,7 +421,7 @@ namespace ACHomebrew.Feats
                 case SpecializedFamily.Skilled:
                     return LocalizedText.Format("Text.SpecializedFeats.GetEffectText.Text", "Adds your {0} modifier (untyped) to {1}.", attributeName, SkilledThemes[baseStat].label);
                 case SpecializedFamily.Arcane:
-                    return LocalizedText.Format("Text.SpecializedFeats.GetEffectText.Text.3", "Adds your {0} modifier (untyped) to caster level and spell penetration checks, plus half your {0} modifier (rounded down) to spell and ability save DCs in Balanced mode, or the full modifier in Legacy_AllFull mode.", attributeName);
+                    return LocalizedText.Format("Text.SpecializedFeats.GetEffectText.Text.3", "Adds half your {0} modifier (rounded down) to caster level, your full {0} modifier to spell penetration checks, and one quarter of your {0} modifier (rounded down) to spell and ability save DCs. Balanced mode uses those fractions. Legacy_AllFull mode uses the full {0} modifier for caster level, spell penetration and save DCs.", attributeName);
                 default:
                     return LocalizedText.Invariant(string.Empty);
             }

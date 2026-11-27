@@ -39,7 +39,7 @@ Families are grouped by play theme below. Numbers are first-pass values, and **n
 | Adamantine Mettle | 生机洪炉 | Con modifier to HP (minimum 0; added once) |
 
 **Derived Stat Conversion (6)**
-- **Arcane Aegis (魔能天衣)** — Half Caster Level to AC.
+- **Arcane Aegis (魔能天衣)** — Half caster level (rounded down) to AC while unarmored or in light armor, and not using a shield. Counts toward attribute bonuses to AC.
 - **War-Hardened Reflexes (百战身魄)** — Half BAB to all saving throws.
 - **Scholar's Positioning (通识御敌)** — One third of total Skill Ranks to AC.
 - **Ley-Infused Vitality (灵脉淬体)** — Caster Level to Max HP.
@@ -76,7 +76,7 @@ Each aptitude adds the attribute modifier (untyped) to two or three themed value
 | **Skilled** | Giantwright's Craft (巨匠巧工): Athletics, Intimidate | Thief-King's Panache (妙手绝尘): Mobility, Stealth, Thievery | Ascetic Diligence (苦行研磨): Athletics, Perception | Encyclopedic Synthesis (格物万象): Arcana, World, Use Magic Device | Wanderer's Lucidity (云水澄明): Perception, Nature, Religion | Silver-Tongued Virtuoso (锦绣天潢): Persuasion, Bluff, Diplomacy |
 | **Arcane** | Mage-Hammer Inscription (铁骨铸咒) | Somatic Velocity (疾影手印) | Crucible of the Conduit (鼎炉承法) | Archmage's Codex (万法源流) | Gnostic Channel (玄鉴通幽) | Sovereign Decrees (天宪法旨) |
 
-Maneuver adds the modifier to CMB. Arcane adds it to caster level and spell penetration, and half of it to save DCs.
+Maneuver adds the modifier to CMB. Arcane adds half of it (rounded down) to caster level, the full modifier to spell penetration, and one quarter of it (rounded down) to spell and ability save DCs.
 
 ### Martial
 
@@ -190,7 +190,7 @@ Maneuver adds the modifier to CMB. Arcane adds it to caster level and spell pene
 | Truly Solo pets (`TrulySoloCountsPets`) | OFF | Pets in the party reduce the number of absent companions. |
 | Maneuver Tactics | 1 free/round, 3 extra/encounter, at most 2/round; duration ×2, at least +2 rounds | Configure action allowances and new effect durations. See [Maneuver Tactics](docs/maneuver-tactics.md). |
 | Meme feats (`EnableMemeFeats`) | OFF | Registers the Meme menu (restart required). |
-| Power Level | `Balanced` | `Balanced`: full scaling for attributes, defenses, maneuvers, skills, caster level and spell penetration; reduced scaling for spell DC, BAB and Power Mode bonuses. `Legacy_AllFull`: all rank-based bonuses use full scaling. |
+| Power Level | `Balanced` | `Balanced`: full scaling for attributes, defenses, maneuvers, skills and spell penetration. Arcane Adept adds half its attribute modifier to caster level and one quarter to save DCs. BAB and Power Mode stay on their reduced scaling. `Legacy_AllFull`: all rank-based bonuses use full scaling. |
 | Include Self in Attribute Stack | OFF | A retired broad Main feat may add its attribute to itself. |
 | EnableAttributes, EnableDefenses, EnableManeuvers, EnableChecks, EnableSkills, EnableCasterDC, EnableCasterLevel, EnableSpellPenetration | ON | Gate the corresponding bonuses of the attribute and aptitude feats. |
 | EnableBAB | OFF | Main Attribute Mastery also adds reduced scaling to Base Attack Bonus. |
@@ -226,7 +226,7 @@ Each group limits how many of its feats one character may own. Every group has i
 | Conditional Trigger | The six triggers | 2 |
 | Attribute replaces AC / CMD | Ascetic's Ward + Zephyr's Grace / Monarch's Stature + Titan's Footing | 1 each |
 | Derived AC; Caster level to HP | Arcane Aegis + Scholar's Positioning; Ley-Infused Vitality + Dawn of the Soul | 1 each |
-| Attribute bonuses to AC | AC aptitudes, AC stances, AC replacements and Defiance at the Precipice | 2 |
+| Attribute bonuses to AC | AC aptitudes, AC stances, AC replacements, Defiance at the Precipice and Arcane Aegis | 2 |
 | One distance style | Close, mid and long feats exclude each other; feats within a style stack | ON |
 | Same attribute across Main, aptitudes and stances | One feat keyed to each attribute | OFF |
 | Casting and resource attribute | One feat per spellbook and per resource | Always on |

@@ -264,5 +264,96 @@ Check("one distance style: close feats stack, styles exclude each other", () =>
     Expect(Style(Guids.DistanceDamage.SteadySniper, Guids.DistanceDamage.StrongBow, Guids.DistanceDamage.MarksmansFocus).Count == 0, "Long feats do not stack");
 });
 
-Console.WriteLine($"{cases - failures}/{cases} feat budget and exclusion group rule checks passed (pure rules, not an in-game test).");
+Check("arcane specialization scheme C rounds half, full and quarter modifiers down", () =>
+{
+    void ExpectScale(int modifier, bool legacy, int casterLevel, int penetration, int dc)
+    {
+        Expect(ArcaneSpecializationRules.CasterLevelBonus(modifier, legacy) == casterLevel,
+            $"CL {modifier} legacy {legacy}");
+        Expect(ArcaneSpecializationRules.SpellPenetrationBonus(modifier, legacy) == penetration,
+            $"penetration {modifier} legacy {legacy}");
+        Expect(ArcaneSpecializationRules.SpellDcBonus(modifier, legacy) == dc,
+            $"DC {modifier} legacy {legacy}");
+    }
+
+    Expect(ArcaneSpecializationRules.CasterLevelDivisor == 2
+        && ArcaneSpecializationRules.SpellPenetrationDivisor == 1
+        && ArcaneSpecializationRules.SpellDcDivisor == 4, "Scheme C divisors");
+    ExpectScale(0, false, 0, 0, 0);
+    ExpectScale(1, false, 0, 1, 0);
+    ExpectScale(2, false, 1, 2, 0);
+    ExpectScale(3, false, 1, 3, 0);
+    ExpectScale(4, false, 2, 4, 1);
+    ExpectScale(5, false, 2, 5, 1);
+    ExpectScale(7, false, 3, 7, 1);
+    ExpectScale(8, false, 4, 8, 2);
+    ExpectScale(15, false, 7, 15, 3);
+    ExpectScale(-1, false, 0, 0, 0);
+    ExpectScale(-4, false, 0, 0, 0);
+    ExpectScale(1, true, 1, 1, 1);
+    ExpectScale(5, true, 5, 5, 5);
+    ExpectScale(7, true, 7, 7, 7);
+    ExpectScale(-3, true, 0, 0, 0);
+});
+
+Check("arcane aegis keeps half caster level and allows only light or no armor without a shield", () =>
+{
+    Expect(ArcaneAegisRules.ArmorClassBonus(0) == 0 && ArcaneAegisRules.ArmorClassBonus(1) == 0, "CL 0 and 1");
+    Expect(ArcaneAegisRules.ArmorClassBonus(2) == 1 && ArcaneAegisRules.ArmorClassBonus(5) == 2, "CL 2 and 5");
+    Expect(ArcaneAegisRules.ArmorClassBonus(9) == 4 && ArcaneAegisRules.ArmorClassBonus(20) == 10, "CL 9 and 20");
+    Expect(ArcaneAegisRules.ArmorClassBonus(-4) == 0, "Negative caster level");
+
+    bool Allows(string group, bool shield) => ArcaneAegisRules.Applies(ArcaneAegisRules.ClassifyGroup(group), shield);
+    Expect(ArcaneAegisRules.Applies(ArcaneAegisArmor.Missing, false), "No armor slot");
+    Expect(Allows(null, false) && Allows("None", false) && Allows("Light", false), "Unarmored and light armor");
+    Expect(!Allows("Medium", false) && !Allows("Heavy", false), "Medium and heavy armor");
+    Expect(!Allows("LightBarding", false) && !Allows("MediumBarding", false) && !Allows("HeavyBarding", false), "Barding");
+    Expect(!Allows("Buckler", false) && !Allows("LightShield", false) && !Allows("HeavyShield", false) && !Allows("TowerShield", false), "Shield worn as armor");
+    Expect(!Allows("Other", false), "Unknown armor");
+    Expect(!ArcaneAegisRules.Applies(ArcaneAegisArmor.Missing, true), "Shield and no armor");
+    Expect(!Allows("None", true) && !Allows("Light", true), "Shield with unarmored or light armor");
+    Expect(!Allows("Medium", true) && !Allows("Heavy", true), "Shield with medium or heavy armor");
+});
+
+Check("arcane aegis counts toward attribute-to-AC, and stacking lifts that limit", () =>
+{
+    var attributeToAc = Group("AttributeToAc");
+    Expect(members[attributeToAc].Contains(FeatGroupRules.Key(Guids.Derived.ArcaneAegis)), "Arcane Aegis missing from attribute-to-AC");
+    Expect(members[Group("DerivedAc")].Contains(FeatGroupRules.Key(Guids.Derived.ArcaneAegis)), "Arcane Aegis missing from derived AC");
+
+    var oneOther = new[] { Guids.Specialized.Defensive.Dex };
+    var twoOthers = new[] { Guids.Specialized.Defensive.Dex, Guids.Stance.Feature.Dex };
+    Expect(!Blocking(Defaults, Guids.Derived.ArcaneAegis).Contains("AttributeToAc"), "Arcane Aegis alone blocked");
+    Expect(!Blocking(Defaults, Guids.Derived.ArcaneAegis, oneOther).Contains("AttributeToAc"), "Second attribute-to-AC feat blocked");
+    Expect(Blocking(Defaults, Guids.Derived.ArcaneAegis, twoOthers).Contains("AttributeToAc"), "Third attribute-to-AC feat allowed");
+    Expect(Blocking(Defaults, Guids.Derived.ArcaneAegis, Guids.Derived.SkilledDefender).Contains("DerivedAc"), "Derived AC pair allowed");
+
+    FeatGroupLimit AllowAttributeStack(FeatGroup group) => group.SettingId == "AttributeToAc"
+        ? new FeatGroupLimit(false, group.DefaultMax)
+        : new FeatGroupLimit(group.DefaultEnabled, group.DefaultMax);
+    Expect(!Blocking(AllowAttributeStack, Guids.Derived.ArcaneAegis, twoOthers).Contains("AttributeToAc"), "Disabled attribute-to-AC group still blocks");
+    Expect(Blocking(AllowAttributeStack, Guids.Derived.ArcaneAegis, Guids.Derived.SkilledDefender).Contains("DerivedAc"), "Derived AC turned off with attribute stacking");
+
+    Expect(Blocking(_ => new FeatGroupLimit(false, 1), Guids.Derived.ArcaneAegis, twoOthers.Append(Guids.Derived.SkilledDefender).ToArray()).Count == 0,
+        "Master exclusion switch still blocks");
+});
+
+Check("arcane feats wire scheme C ranks and arcane aegis keeps its armor gate", () =>
+{
+    var root = Directory.GetCurrentDirectory();
+    while (!File.Exists(Path.Combine(root, "ACHomebrew.slnx")))
+        root = Directory.GetParent(root)?.FullName ?? throw new Exception("Cannot locate repository root.");
+    var arcane = File.ReadAllText(Path.Combine(root, "src", "ACHomebrew.Aptitudes", "SpecializedFeats.cs"));
+    Expect(arcane.Contains("Common.Rank(AbilityRankType.StatBonus)")
+        && arcane.Contains("Common.Rank(AbilityRankType.Default)")
+        && arcane.Contains("Common.Rank(AbilityRankType.SpeedBonus)"), "Arcane rank slots");
+    Expect(arcane.Contains("AbilityRankType.StatBonus, Progression(casterLevel), step: casterLevel")
+        && arcane.Contains("AbilityRankType.SpeedBonus, Progression(spellDc), step: spellDc"), "Arcane divisors");
+    var aegis = File.ReadAllText(Path.Combine(root, "src", "ACHomebrew.Attributes", "DerivedStatFeats.cs"));
+    Expect(aegis.Contains("ContextRankConfigs.CasterLevel(min: 0).WithDiv2Progression()")
+        && aegis.Contains("restrictions: CreateArcaneAegisRestriction()")
+        && aegis.Contains("ArcaneAegisRules.Applies"), "Arcane Aegis gate");
+});
+
+Console.WriteLine($"{cases - failures}/{cases} feat budget, exclusion and arcane balance checks passed (pure rules, not an in-game test).");
 return failures == 0 ? 0 : 1;

@@ -19,6 +19,7 @@ namespace ACHomebrew.Feats
     {
         Full,
         Half,
+        Quarter,
     }
 
     internal static partial class Common
@@ -32,7 +33,7 @@ namespace ACHomebrew.Feats
                 ValueRank = type,
             };
 
-        public static void AddRank(FeatureConfigurator cfg, StatType baseStat, AbilityRankType type, ContextRankProgression prog)
+        public static void AddRank(FeatureConfigurator cfg, StatType baseStat, AbilityRankType type, ContextRankProgression prog, int step = 0)
         {
             var registrations = RankRegistrations.GetValue(cfg, _ => new HashSet<string>());
             var key = $"{baseStat}:{type}";
@@ -50,6 +51,14 @@ namespace ACHomebrew.Feats
                 case ContextRankProgression.Div2:
                     config = config.WithDiv2Progression();
                     break;
+                case ContextRankProgression.DivStep:
+                    if (step <= 0)
+                    {
+                        Mod.Log?.Log($"ACHomebrew: DivStep without a positive step for {baseStat}/{type}; using AsIs.");
+                        break;
+                    }
+                    config = config.WithDivStepProgression(step);
+                    break;
                 case ContextRankProgression.HalfMore:
                     config = config.WithHalfMoreProgression();
                     break;
@@ -66,8 +75,10 @@ namespace ACHomebrew.Feats
             {
                 (PowerLevel.Balanced, ScalingIntent.Full) => ContextRankProgression.AsIs,
                 (PowerLevel.Balanced, ScalingIntent.Half) => ContextRankProgression.Div2,
+                (PowerLevel.Balanced, ScalingIntent.Quarter) => ContextRankProgression.DivStep,
                 (PowerLevel.Legacy_AllFull, ScalingIntent.Full) => ContextRankProgression.AsIs,
                 (PowerLevel.Legacy_AllFull, ScalingIntent.Half) => ContextRankProgression.AsIs,
+                (PowerLevel.Legacy_AllFull, ScalingIntent.Quarter) => ContextRankProgression.AsIs,
                 _ => ContextRankProgression.AsIs,
             };
 
