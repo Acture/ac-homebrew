@@ -30,8 +30,8 @@ using Xunit;
 namespace ACHomebrew.OfflineTests
 {
     /// <summary>
-    /// Oath of the Duel, Endless Challenge, Single Combat and Unbound Duelist on real vanilla units: a human cavalier
-    /// pregen and CR2 Dretches of the Mobs faction, which the game itself treats as enemies.
+    /// Oath of the Duel, Endless Challenge, Single Combat and Unbound Duelist on real vanilla units: Seelah,
+    /// a leveled player-faction companion, and CR2 Dretches of the Mobs faction, which the game itself treats as enemies.
     /// </summary>
     [Collection(ACHomebrewGameCollection.Name)]
     public sealed class DuelFeatTests

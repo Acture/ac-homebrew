@@ -76,7 +76,7 @@ both before a release.
 | Environment: no game process | No `Wrath`/Unity process starts; `UnityPlayer.dll` and `Wrath.exe` are not loaded, and Unity's Mono runtime only from the game inputs |
 | Environment: method bodies | Rewritten `Assembly-CSharp`, `Assembly-CSharp-firstpass` and `Owlcat.Runtime.Core` keep every method body |
 | Environment: mod initialization | `Main.Load` and the `BlueprintsCache.Init` postfix register all families and menus |
-| Main Attribute Mastery (Strength → Dexterity) | On a vanilla human pregen, the Strength modifier (minimum 0) appears as one inherent bonus on Dexterity and nowhere else; removal restores every stat |
+| Main Attribute Mastery (Strength → Dexterity) | On Seelah, a leveled and equipped player-faction companion, the Strength modifier (minimum 0) appears as one inherent bonus on Dexterity and nowhere else; removal restores every stat |
 | Retired Titan's Apotheosis | Half the Strength modifier (rounded down) appears as an inherent bonus on the other five attributes and nowhere else; removal restores every stat |
 | Failure control | The same assertion fails when the mastery's stat component is removed |
 | Summoning probe (Bloodline of Beasts) | Runs the game's `RuleSummonUnit` with a pre-made vanilla unit: the summoner keeps only the trigger buff; the summon gets the bonus buff, with the summoner as caster and the summoner's Strength modifier as the value |
@@ -105,9 +105,12 @@ see [validation.md](validation.md) for the remaining checks.
 
 - **Runtime.** The tests run on the game's Unity Mono with rewritten Unity copies,
   not inside the Unity player. Confirm important results in the game.
-- **Starting equipment.** The pregen's starting weapons and armor fail to equip
-  offline. Tests that need a weapon grant its proficiency and insert it explicitly;
-  this does not validate starting-equipment initialization or other weapon feats.
+- **Starting equipment.** `VanillaUnit` is `Seelah_Companion`, a player-faction
+  companion. `AddClassLevels` on an added feature grants her class levels, and her
+  `ClassLevelLimit` is above 0, so those levels apply. Her starting weapon, armor,
+  and shield are created already equipped. `VanillaUnitHasClassLevelsAndEquippedGear`
+  checks character level, that a granted class level was applied, and those slots.
+  The disarm case still inserts a longsword into its own target.
 - **Undead and constructs.** The game gives them no Constitution, so the
   Constitution bonus cannot show on them. The tests check that their unit is a
   living creature.
