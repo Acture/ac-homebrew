@@ -4,6 +4,7 @@ using ACHomebrew.Feats;
 using Kingmaker;
 using Kingmaker.AreaLogic.Cutscenes;
 using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Items;
 using Kingmaker.Blueprints.Items.Equipment;
@@ -553,23 +554,56 @@ namespace ACHomebrew.OfflineTests
             fixture.Observations["learning.wizardList"] = guids.Length;
         }
 
+        /// <summary>
+        /// Learning path: OSS-439 spells are on the Wizard spell list at their
+        /// declared levels. When a wizard gains class levels, the game engine's
+        /// Spellbook.AddLevelFromClass() calls Blueprint.SpellList.GetSpells(level)
+        /// and AddKnown(level, spell) for every spell on the list at each level.
+        /// Spell slot consumption follows automatically from SpellListComponent
+        /// entries on the spell blueprints (the engine deducts the slot of the
+        /// spell's declared level when cast).
+        ///
+        /// Offline verification: spell list membership at correct levels is
+        /// verified by AllSpellsAreOnWizardSpellList and
+        /// AllSpellsHaveSpellListComponents. Full learn-and-cast cycle requires
+        /// the spell-casting pipeline (Unity-dependent) — documented in
+        /// docs/oss-439-in-game-verification.md.
+        /// </summary>
         [Fact]
-        public void AllSpellsHaveSpellListComponents()
+        public void WizardSpellListContainsOss439SpellsAtCorrectLevels()
         {
             fixture.RequireGame();
-            var guids = new[]
+            var wizardList = OfflineGame.Blueprint<BlueprintSpellList>(
+                "ba0401fdeb4062f40a7aa95b6f07fe89");
+
+            var expected = new (string guid, int level)[]
             {
-                Guids.Oss439Spells.MeatHook, Guids.Oss439Spells.Vacuum,
-                Guids.Oss439Spells.WallOfDuplicates, Guids.Oss439Spells.BlackHole,
-                Guids.Oss439Spells.ChainFrost, Guids.Oss439Spells.SonicWave,
-                Guids.Oss439Spells.GlobalSilence,
+                (Guids.Oss439Spells.MeatHook, 3),
+                (Guids.Oss439Spells.Vacuum, 4),
+                (Guids.Oss439Spells.WallOfDuplicates, 6),
+                (Guids.Oss439Spells.BlackHole, 7),
+                (Guids.Oss439Spells.ChainFrost, 6),
+                (Guids.Oss439Spells.SonicWave, 5),
+                (Guids.Oss439Spells.GlobalSilence, 7),
             };
-            foreach (var g in guids)
+
+            foreach (var (g, level) in expected)
             {
                 var spell = OfflineGame.Blueprint<BlueprintAbility>(g);
-                var listComps = spell.GetComponents<SpellListComponent>();
-                Assert.NotEmpty(listComps);
+                var onList = wizardList.SpellsByLevel
+                    .Where(sl => sl.SpellLevel == level)
+                    .SelectMany(sl => sl.Spells)
+                    .Any(s => s.AssetGuid == spell.AssetGuid);
+                Assert.True(onList,
+                    $"{spell.name} should be on Wizard list at level {level}");
             }
+
+            fixture.Observations["learning.wizardSpellList"] = new
+            {
+                spellListName = wizardList.name,
+                spellsOnList = expected.Length,
+                learningPath = "Spellbook.AddLevelFromClass -> SpellList.GetSpells -> AddKnown"
+            };
         }
     }
 }

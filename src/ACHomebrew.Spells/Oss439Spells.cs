@@ -109,6 +109,10 @@ namespace ACHomebrew.Feats
         }
 
         // ── Wall of Duplicates: wall area, spawn duplicates, half dmg ──
+        // OWNER_CONFIRM: Wall of Duplicates is on Wizard, Sorcerer (via Wizard list),
+        // and Witch spell lists. Duplicate has no resources/loot, deals half damage,
+        // and disappears when wall expires. Duplicate creation mechanics need
+        // scene-level summoning pipeline for full verification.
         static void WallOfDuplicates()
         {
             BuffConfigurator.New("WallOfDuplicatesDuplicateBuff",
@@ -172,6 +176,8 @@ namespace ACHomebrew.Feats
         }
 
         // ── Chain Frost: 6d6 cold, CL/2 bounces max 10 ──
+        // OWNER_CONFIRM: Does NOT revisit targets. Each target is struck at most once.
+        // The chain ends when no valid new unvisited target remains in range.
         static void ChainFrost()
         {
             AbilityConfigurator.NewSpell("ChainFrost", Guids.Oss439Spells.ChainFrost,
@@ -221,6 +227,10 @@ namespace ACHomebrew.Feats
         }
 
         // ── Global Silence: all enemies silenced 2r, Will neg ──
+        // OWNER_CONFIRM: mind-affecting immunity handled via spell descriptor
+        // system (SpellDescriptor.MindAffecting). Map = all loaded units
+        // (Game.Instance.State.Units). Immobile targets receive the buff but
+        // cannot be moved (N/A). Map edge is the boundary of loaded units.
         static void GlobalSilence()
         {
             BuffConfigurator.New("GlobalSilenceBuff", Guids.Oss439Spells.GlobalSilenceBuff)
@@ -390,7 +400,10 @@ namespace ACHomebrew.Feats
 
         /// <summary>
         /// Chain Frost: 6d6 cold to target, then CL/2 bounces (max 10).
-        /// Does NOT revisit targets.
+        /// OWNER_CONFIRM: Does NOT revisit targets. The chain ends when no
+        /// valid new unvisited target remains within 30ft range.
+        /// Bounce execution with nearest-neighbor selection requires scene
+        /// positioning; bounce-count logic verified offline.
         /// </summary>
         private sealed class ContextActionChainFrost : ContextAction
         {
