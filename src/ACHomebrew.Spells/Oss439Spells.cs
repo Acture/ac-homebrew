@@ -588,6 +588,45 @@ namespace ACHomebrew.Feats
                 Guids.Oss439Spells.ScrollOfSonicWave, "Sonic Wave", sonicWave, 5);
             if (globalSilence != null) CreateScroll("ScrollOfGlobalSilence",
                 Guids.Oss439Spells.ScrollOfGlobalSilence, "Global Silence", globalSilence, 7);
+
+            CreateVendorTable(meatHook, vacuum, wall, blackHole, chainFrost, sonicWave, globalSilence);
+        }
+
+        private static void CreateVendorTable(params BlueprintAbility[] spells)
+        {
+            const string vendorGuid = "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d";
+            var cfg = BlueprintCore.Blueprints.Configurators.Items
+                .SharedVendorTableConfigurator.New("Oss439ScrollVendor", vendorGuid)
+                .SetAutoIdentifyAllItems(true);
+
+            var scrollGuids = new[]
+            {
+                Guids.Oss439Spells.ScrollOfMeatHook,
+                Guids.Oss439Spells.ScrollOfVacuum,
+                Guids.Oss439Spells.ScrollOfWallOfDuplicates,
+                Guids.Oss439Spells.ScrollOfBlackHole,
+                Guids.Oss439Spells.ScrollOfChainFrost,
+                Guids.Oss439Spells.ScrollOfSonicWave,
+                Guids.Oss439Spells.ScrollOfGlobalSilence,
+            };
+
+            foreach (var sg in scrollGuids)
+            {
+                cfg.AddComponent<Kingmaker.Blueprints.Loot.LootItemsPackFixed>(c =>
+                {
+                    var lootItem = new Kingmaker.Blueprints.Loot.LootItem();
+                    // Set m_Item (BlueprintItemReference) via Traverse
+                    var itemRef = BlueprintTool.GetRef<BlueprintItemReference>(sg);
+                    HarmonyLib.Traverse.Create(lootItem).Field("m_Item").SetValue(itemRef);
+                    HarmonyLib.Traverse.Create(lootItem).Field("m_Type")
+                        .SetValue(Kingmaker.Blueprints.Loot.LootItemType.Item);
+                    HarmonyLib.Traverse.Create(c).Field("m_Item").SetValue(lootItem);
+                    HarmonyLib.Traverse.Create(c).Field("m_Count").SetValue(1);
+                });
+            }
+
+            cfg.Configure();
+            Mod.Log?.Log("[OSS-439] Created Oss439ScrollVendor shared vendor table with 7 scrolls.");
         }
     }
 }
