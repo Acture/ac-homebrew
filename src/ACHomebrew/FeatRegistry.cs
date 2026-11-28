@@ -46,6 +46,7 @@ namespace ACHomebrew.Feats
             succeeded &= TryConfigureFamily(nameof(MemeFeats), () => MemeFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(PenetrationFeats), () => PenetrationFeats.ConfigureAll());
             succeeded &= TryConfigureFamily(nameof(WeaponPenetrationFeats), () => WeaponPenetrationFeats.ConfigureAll());
+            succeeded &= TryConfigureFamily(nameof(Oss439Spells), () => Oss439Spells.ConfigureAll());
             succeeded &= TryConfigure(nameof(MutexPass), () => MutexPass.ApplyAll());
 
             var menusSucceeded = false;

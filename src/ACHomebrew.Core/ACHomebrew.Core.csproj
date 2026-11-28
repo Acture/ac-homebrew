@@ -15,5 +15,6 @@
 		<InternalsVisibleTo Include="ACHomebrew.Magic" />
 		<InternalsVisibleTo Include="ACHomebrew.Summoning" />
 		<InternalsVisibleTo Include="ACHomebrew.Styles" />
+		<InternalsVisibleTo Include="ACHomebrew.Spells" />
 	</ItemGroup>
 </Project>
