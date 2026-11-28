@@ -56,7 +56,7 @@ Check("feat budget covers leaves only, priced by family", () =>
     FeatRegistry.ConfigureAll();
     ExpectRoot();
     var budgeted = World.Budgeted.ToDictionary(entry => entry.feat.Name, entry => entry.cost);
-    Expect(budgeted.Count == World.RegistrationNames.Length - 1, $"Expected one budgeted leaf per family, got {budgeted.Count}");
+    Expect(budgeted.Count == World.RegistrationNames.Length - 2, $"Expected one budgeted leaf per family, got {budgeted.Count}");
     Expect(!World.Budgeted.Any(entry => entry.feat is Kingmaker.Blueprints.Classes.Selection.BlueprintFeatureSelection), "A menu consumes budget");
     Expect(budgeted["MainAbilityToEverything_Feats"] == 2, "Main source-menu cost not applied");
     Expect(budgeted["SpecializedFeats"] == 1, "Defensive family cost not applied");
@@ -162,7 +162,7 @@ internal static class World
         "MainAbilityToEverything_Feats", "SpecializedFeats", "ManeuverFeats", "DuelFeats", "StanceFeats", "ConditionalFeats",
         "StatReplacementFeats", "ReactiveArmorFeats", "DerivedStatFeats", "GreaterSummoningFeats",
         "SpellTagFeats", "SummonerSacrificeFeats", "PolearmMasterFeats", "DistanceDamageFeats",
-        "WeaponDamageFeats", "CastingStatFeats", "ResourceStatFeats", "RetaliationFeats", "MomentumFeats", "ExecutionFeats", "ArcanaFeats", "SummonerFeats", "StealthFeats", "SoloFeats", "GrowthFeats", "SurvivalFeats", "MemeFeats", "PenetrationFeats", "WeaponPenetrationFeats", "MutexPass",
+        "WeaponDamageFeats", "CastingStatFeats", "ResourceStatFeats", "RetaliationFeats", "MomentumFeats", "ExecutionFeats", "ArcanaFeats", "SummonerFeats", "StealthFeats", "SoloFeats", "GrowthFeats", "SurvivalFeats", "MemeFeats", "PenetrationFeats", "WeaponPenetrationFeats", "Oss439Spells", "MutexPass",
     };
     internal static readonly HashSet<string> FailedRegistrations = new();
     internal static readonly List<string> Attempted = new();

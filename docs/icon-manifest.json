@@ -1254,5 +1254,61 @@
     "nameEn": "Finger of the Reaper",
     "nameZh": "一指索命",
     "sha256": "5c75174d15297c4128ff306c9b26f66e8a5811c79d78c81dd83cd7e0593cbc3a"
+  },
+  {
+    "internal": "MeatHook",
+    "family": "Spells",
+    "filename": "MeatHook.png",
+    "nameEn": "Meat Hook",
+    "nameZh": "肉钩",
+    "sha256": "cfef16a294f42e12a4581ed4a7acbcd12679bdce3554a21142c392055c628b4b"
+  },
+  {
+    "internal": "Vacuum",
+    "family": "Spells",
+    "filename": "Vacuum.png",
+    "nameEn": "Vacuum",
+    "nameZh": "真空",
+    "sha256": "a308dd59fb6c11a0ff0051c6904faa3613786d7f9ba60aa5ab4e0de7718385bc"
+  },
+  {
+    "internal": "WallOfDuplicates",
+    "family": "Spells",
+    "filename": "WallOfDuplicates.png",
+    "nameEn": "Wall of Duplicates",
+    "nameZh": "复制之墙",
+    "sha256": "b6df7058bb9660232d75c2a6370668dabce2a9192837c48fdb84194bbdf47d1e"
+  },
+  {
+    "internal": "BlackHole",
+    "family": "Spells",
+    "filename": "BlackHole.png",
+    "nameEn": "Black Hole",
+    "nameZh": "黑洞",
+    "sha256": "e80610c022ef7b48a0ab9fa2af78efa0f663475209caab6eb90e7f649e2a3100"
+  },
+  {
+    "internal": "ChainFrost",
+    "family": "Spells",
+    "filename": "ChainFrost.png",
+    "nameEn": "Chain Frost",
+    "nameZh": "连环霜冻",
+    "sha256": "173be96bffbc032de6feab3ce1e8032154677f00ebbfb7da9156121a41e4ef7b"
+  },
+  {
+    "internal": "SonicWave",
+    "family": "Spells",
+    "filename": "SonicWave.png",
+    "nameEn": "Sonic Wave",
+    "nameZh": "音波",
+    "sha256": "77a178ae4e7ae1c7cdebccc18825a4cefa75a0ba7be438bdc4f31a56e2b5efaa"
+  },
+  {
+    "internal": "GlobalSilence",
+    "family": "Spells",
+    "filename": "GlobalSilence.png",
+    "nameEn": "Global Silence",
+    "nameZh": "全球沉默",
+    "sha256": "52933d00c5c0fb35dad28b01578df8632517829b966f733d5bd37375e907e19e"
   }
 ]
