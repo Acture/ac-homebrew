@@ -119,6 +119,7 @@ namespace ACHomebrew.Feats
                     T("WallOfDuplicatesDuplicateBuff")))
                 .SetIconIfPresent("WallOfDuplicates")
                 .SetStacking(StackingType.Replace)
+                .AddComponent<DuplicateHalfDamage>()
                 .Configure();
 
             AbilityConfigurator.NewSpell("WallOfDuplicates",
@@ -500,6 +501,22 @@ namespace ACHomebrew.Feats
                     u.AddBuff(buff, caster, dur);
                 }
             }
+        }
+
+        /// Halves all damage dealt by units with this buff (Wall of Duplicates).
+        /// Uses RuleCalculateDamage.AddDecline(ByHalf) — the game's standard
+        /// damage-reduction mechanism, offline-verifiable.
+        /// </summary>
+        private sealed class DuplicateHalfDamage : UnitFactComponentDelegate,
+            IInitiatorRulebookHandler<RuleCalculateDamage>, IInitiatorRulebookSubscriber
+        {
+            public void OnEventAboutToTrigger(RuleCalculateDamage evt)
+            {
+                foreach (var dmg in evt.DamageBundle)
+                    dmg.AddDecline(new DamageDecline(DamageDeclineType.ByHalf, Fact));
+            }
+
+            public void OnEventDidTrigger(RuleCalculateDamage evt) { }
         }
 
         // ── helpers ──
