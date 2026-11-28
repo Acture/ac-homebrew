@@ -161,11 +161,15 @@
       "mechanics": [
         [
           "AddContextRankConfig",
-          "ContextRankConfigs.CasterLevel(min:0).WithDiv2Progression()"
+          "ContextRankConfigs.CustomProperty(Guids.Derived.HighestSpellbookClassLevelProperty,min:0).WithDiv2Progression()"
         ],
         [
           "AddContextStatBonus",
           "StatType.AC,Common.Rank(),descriptor:Desc,restrictions:CreateArcaneAegisRestriction()"
+        ],
+        [
+          "SetReapplyOnLevelUp",
+          ""
         ],
         [
           "AddContextRankConfig",
@@ -185,11 +189,15 @@
         ],
         [
           "AddContextRankConfig",
-          "ContextRankConfigs.CasterLevel(min:0)"
+          "ContextRankConfigs.CustomProperty(Guids.Derived.HighestSpellbookClassLevelProperty,min:0)"
         ],
         [
           "AddContextStatBonus",
           "StatType.HitPoints,Common.Rank(),descriptor:Desc"
+        ],
+        [
+          "SetReapplyOnLevelUp",
+          ""
         ],
         [
           "AddFacts",
@@ -216,12 +224,20 @@
           "newPropertySettings(),stat"
         ],
         [
+          "SetBaseValue",
+          "0"
+        ],
+        [
+          "SetOperationOnComponents",
+          "BlueprintUnitProperty.MathOperation.Sum"
+        ],
+        [
           "SetStacking",
           "StackingType.Replace"
         ],
         [
           "AddContextRankConfig",
-          "ContextRankConfigs.CasterLevel(min:0)"
+          "ContextRankConfigs.CustomProperty(Guids.Derived.HighestSpellbookClassLevelProperty,min:0)"
         ],
         [
           "AddTemporaryHitPointsFromAbilityValue",
@@ -234,6 +250,10 @@
         [
           "New",
           "\"SkilledDefenderSkillRanksProperty\",SkilledDefenderSkillRanksPropertyGuid"
+        ],
+        [
+          "New",
+          "\"HighestSpellbookClassLevelProperty\",Guids.Derived.HighestSpellbookClassLevelProperty"
         ],
         [
           "New",

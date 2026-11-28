@@ -12,6 +12,9 @@
 ### Changed
 - Unity Mod Manager lists the author as Acture, as the repository and the package metadata do.
 
+### Fixed
+- **Arcane Aegis, Ley-Infused Vitality and Dawn of the Soul granted almost nothing.** All three read the caster level from their own ability parameters, which are empty outside a spell: Arcane Aegis added +0 AC, and the other two were stuck at +1. They now read a new unit property — the highest level among your classes that have a spellbook (the highest one, never a sum) — so a Wizard 8 / Fighter 4 counts 8. The two permanent feats also reapply on level up, and Dawn of the Soul's combat buff is computed anew at every combat start.
+
 ## 0.2.1 — 2026-10-18
 
 ### Added

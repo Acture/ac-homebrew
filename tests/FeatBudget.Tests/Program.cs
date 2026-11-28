@@ -350,9 +350,33 @@ Check("arcane feats wire scheme C ranks and arcane aegis keeps its armor gate", 
     Expect(arcane.Contains("AbilityRankType.StatBonus, Progression(casterLevel), step: casterLevel")
         && arcane.Contains("AbilityRankType.SpeedBonus, Progression(spellDc), step: spellDc"), "Arcane divisors");
     var aegis = File.ReadAllText(Path.Combine(root, "src", "ACHomebrew.Attributes", "DerivedStatFeats.cs"));
-    Expect(aegis.Contains("ContextRankConfigs.CasterLevel(min: 0).WithDiv2Progression()")
+    Expect(aegis.Contains("ContextRankConfigs.CustomProperty(Guids.Derived.HighestSpellbookClassLevelProperty, min: 0).WithDiv2Progression()")
         && aegis.Contains("restrictions: CreateArcaneAegisRestriction()")
         && aegis.Contains("ArcaneAegisRules.Applies"), "Arcane Aegis gate");
+});
+
+Check("derived feats take the highest spellbook class level, never a sum, and reapply on level up", () =>
+{
+    Expect(DerivedStatRules.HighestSpellbookClassLevel(new[] { 8 }) == 8, "Single spellbook class");
+    Expect(DerivedStatRules.HighestSpellbookClassLevel(new[] { 8, 4 }) == 8, "Two spellbook classes take the highest, not 12");
+    Expect(DerivedStatRules.HighestSpellbookClassLevel(new[] { 4, 8 }) == 8, "Order does not matter");
+    Expect(DerivedStatRules.HighestSpellbookClassLevel(Array.Empty<int>()) == 0, "No spellbook class");
+    Expect(DerivedStatRules.HighestSpellbookClassLevel(new[] { 0 }) == 0, "Zero-level spellbook class");
+
+    var root = Directory.GetCurrentDirectory();
+    while (!File.Exists(Path.Combine(root, "ACHomebrew.slnx")))
+        root = Directory.GetParent(root)?.FullName ?? throw new Exception("Cannot locate repository root.");
+    var derived = File.ReadAllText(Path.Combine(root, "src", "ACHomebrew.Attributes", "DerivedStatFeats.cs"));
+    Expect(derived.Contains("UnitPropertyConfigurator.New(\"HighestSpellbookClassLevelProperty\", Guids.Derived.HighestSpellbookClassLevelProperty)"),
+        "The unit property blueprint is missing");
+    Expect(!derived.Contains("ContextRankConfigs.CasterLevel("),
+        "A derived feat still reads the empty-params caster level");
+    const string property = "ContextRankConfigs.CustomProperty(Guids.Derived.HighestSpellbookClassLevelProperty, min: 0)";
+    Expect(derived.Split(new[] { property }, StringSplitOptions.None).Length - 1 == 3,
+        "Arcane Aegis, Mystic Vitality and the Soul Bulwark buff must all read the property");
+    Expect(derived.Contains(property + ".WithDiv2Progression()"), "Arcane Aegis keeps half progression");
+    Expect(derived.Split(new[] { ".SetReapplyOnLevelUp()" }, StringSplitOptions.None).Length - 1 == 2,
+        "Arcane Aegis and Mystic Vitality reapply on level up");
 });
 
 Console.WriteLine($"{cases - failures}/{cases} feat budget, exclusion and arcane balance checks passed (pure rules, not an in-game test).");
