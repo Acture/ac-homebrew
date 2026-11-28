@@ -532,5 +532,33 @@ namespace ACHomebrew.Feats
                 public const string FlatBonus = "96c9d080-65e6-4339-9019-d0fa3c63ae48";
             }
         }
+
+        // OSS-439: 7 learnable spells. DO NOT change values once committed.
+        public static class Oss439Spells
+        {
+            public const string MeatHook = "b1e2f3a4-c5d6-4e7f-8901-234567890abc";
+            public const string Vacuum = "c2d3e4f5-a6b7-4c8d-9e0f-1234567890ab";
+            public const string WallOfDuplicates = "d3e4f5a6-b7c8-4d9e-a0b1-234567890abc";
+            public const string BlackHole = "e4f5a6b7-c8d9-4e0f-1a2b-34567890abcd";
+            public const string ChainFrost = "f5a6b7c8-d9e0-4f1a-2b3c-4567890abcde";
+            public const string SonicWave = "a6b7c8d9-e0f1-4a2b-3c4d-567890abcdef";
+            public const string GlobalSilence = "b7c8d9e0-f1a2-4b3c-4d5e-67890abcdef0";
+
+            // Scroll items
+            public const string ScrollOfMeatHook = "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f";
+            public const string ScrollOfVacuum = "d2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a";
+            public const string ScrollOfWallOfDuplicates = "e3f4a5b6-c7d8-4e9f-a0b1-2c3d4e5f6a7b";
+            public const string ScrollOfBlackHole = "f4a5b6c7-d8e9-4f0a-1b2c-3d4e5f6a7b8c";
+            public const string ScrollOfChainFrost = "a5b6c7d8-e9f0-4a1b-2c3d-4e5f6a7b8c9d";
+            public const string ScrollOfSonicWave = "b6c7d8e9-f0a1-4b2c-3d4e-5f6a7b8c9d0e";
+            public const string ScrollOfGlobalSilence = "c7d8e9f0-a1b2-4c3d-4e5f-6a7b8c9d0e1f";
+
+            // Wall of Duplicates buff
+            public const string WallOfDuplicatesBuff = "d8e9f0a1-b2c3-4d4e-5f6a-7b8c9d0e1f2a";
+            // Black Hole area effect
+            public const string BlackHoleArea = "e9f0a1b2-c3d4-4e5f-6a7b-8c9d0e1f2a3b";
+            // Global Silence buff (enemy silence debuff)
+            public const string GlobalSilenceBuff = "f0a1b2c3-d4e5-4f6a-7b8c-9d0e1f2a3b4c";
+        }
     }
 }

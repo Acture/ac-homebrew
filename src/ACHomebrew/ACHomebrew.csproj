@@ -32,6 +32,7 @@
 		<ProjectReference Include="../ACHomebrew.Magic/ACHomebrew.Magic.csproj" />
 		<ProjectReference Include="../ACHomebrew.Summoning/ACHomebrew.Summoning.csproj" />
 		<ProjectReference Include="../ACHomebrew.Styles/ACHomebrew.Styles.csproj" />
+		<ProjectReference Include="../ACHomebrew.Spells/ACHomebrew.Spells.csproj" />
 	</ItemGroup>
 
 	<!-- ModMenu is optional: compile its settings page only when it is installed, never ship it. -->
@@ -73,7 +74,7 @@
 	<Target Name="MergeFeatureAssemblies" AfterTargets="Build" BeforeTargets="Deploy">
 		<ItemGroup>
 			<_MergeInputs Include="$(TargetPath)" />
-			<_MergeInputs Include="$(TargetDir)ACHomebrew.Logic.dll;$(TargetDir)ACHomebrew.Core.dll;$(TargetDir)ACHomebrew.Attributes.dll;$(TargetDir)ACHomebrew.Aptitudes.dll;$(TargetDir)ACHomebrew.Martial.dll;$(TargetDir)ACHomebrew.Defense.dll;$(TargetDir)ACHomebrew.Magic.dll;$(TargetDir)ACHomebrew.Summoning.dll;$(TargetDir)ACHomebrew.Styles.dll" />
+			<_MergeInputs Include="$(TargetDir)ACHomebrew.Logic.dll;$(TargetDir)ACHomebrew.Core.dll;$(TargetDir)ACHomebrew.Attributes.dll;$(TargetDir)ACHomebrew.Aptitudes.dll;$(TargetDir)ACHomebrew.Martial.dll;$(TargetDir)ACHomebrew.Defense.dll;$(TargetDir)ACHomebrew.Magic.dll;$(TargetDir)ACHomebrew.Summoning.dll;$(TargetDir)ACHomebrew.Styles.dll;$(TargetDir)ACHomebrew.Spells.dll" />
 			<!-- BlueprintCore ships inside the mod so it does not depend on another mod providing it. -->
 			<_MergeInputs Include="$(TargetDir)BlueprintCore.dll" />
 		</ItemGroup>
@@ -84,7 +85,7 @@
 		<MakeDir Directories="$(_MergedDir)" />
 		<Exec Command="&quot;$(PkgILRepack)\tools\ILRepack.exe&quot; /lib:&quot;$(TargetDir.TrimEnd('\'))&quot; /lib:&quot;$(WrathInstallDir)\Wrath_Data\Managed&quot; /lib:&quot;$(WrathInstallDir)\Mods\ModMenu&quot; /out:&quot;$(_MergedDir)$(TargetFileName)&quot; @(_MergeInputs->'&quot;%(FullPath)&quot;', ' ')" />
 		<Copy SourceFiles="$(_MergedDir)$(TargetFileName);$(_MergedDir)$(TargetName).pdb" DestinationFolder="$(TargetDir)" />
-		<Delete Files="$(TargetDir)ACHomebrew.Logic.dll;$(TargetDir)ACHomebrew.Logic.pdb;$(TargetDir)ACHomebrew.Core.dll;$(TargetDir)ACHomebrew.Core.pdb;$(TargetDir)ACHomebrew.Attributes.dll;$(TargetDir)ACHomebrew.Attributes.pdb;$(TargetDir)ACHomebrew.Aptitudes.dll;$(TargetDir)ACHomebrew.Aptitudes.pdb;$(TargetDir)ACHomebrew.Martial.dll;$(TargetDir)ACHomebrew.Martial.pdb;$(TargetDir)ACHomebrew.Defense.dll;$(TargetDir)ACHomebrew.Defense.pdb;$(TargetDir)ACHomebrew.Magic.dll;$(TargetDir)ACHomebrew.Magic.pdb;$(TargetDir)ACHomebrew.Summoning.dll;$(TargetDir)ACHomebrew.Summoning.pdb;$(TargetDir)ACHomebrew.Styles.dll;$(TargetDir)ACHomebrew.Styles.pdb;$(TargetDir)BlueprintCore.dll" />
+		<Delete Files="$(TargetDir)ACHomebrew.Logic.dll;$(TargetDir)ACHomebrew.Logic.pdb;$(TargetDir)ACHomebrew.Core.dll;$(TargetDir)ACHomebrew.Core.pdb;$(TargetDir)ACHomebrew.Attributes.dll;$(TargetDir)ACHomebrew.Attributes.pdb;$(TargetDir)ACHomebrew.Aptitudes.dll;$(TargetDir)ACHomebrew.Aptitudes.pdb;$(TargetDir)ACHomebrew.Martial.dll;$(TargetDir)ACHomebrew.Martial.pdb;$(TargetDir)ACHomebrew.Defense.dll;$(TargetDir)ACHomebrew.Defense.pdb;$(TargetDir)ACHomebrew.Magic.dll;$(TargetDir)ACHomebrew.Magic.pdb;$(TargetDir)ACHomebrew.Summoning.dll;$(TargetDir)ACHomebrew.Summoning.pdb;$(TargetDir)ACHomebrew.Styles.dll;$(TargetDir)ACHomebrew.Styles.pdb;$(TargetDir)ACHomebrew.Spells.dll;$(TargetDir)ACHomebrew.Spells.pdb;$(TargetDir)BlueprintCore.dll" />
 	</Target>
 
 	<!-- Deploy to Mods folder + zip -->

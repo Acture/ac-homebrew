@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<!-- OSS-439: 7 learnable spells + merchant scrolls. -->
+	<Import Project="../WrathMod.props" />
+	<ItemGroup>
+		<ProjectReference Include="../ACHomebrew.Logic/ACHomebrew.Logic.csproj" />
+		<ProjectReference Include="../ACHomebrew.Core/ACHomebrew.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="ACHomebrew" />
+	</ItemGroup>
+</Project>
