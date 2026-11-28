@@ -7,8 +7,6 @@ using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Items;
 using Kingmaker.UnitLogic;
-using Kingmaker.UnitLogic.Abilities;
-using Kingmaker.UnitLogic.Mechanics;
 using WotR.Testing.Offline;
 using Xunit;
 
@@ -26,6 +24,13 @@ namespace ACHomebrew.OfflineTests
     /// test therefore grants the proficiency each vanilla item needs and equips the item through
     /// the game's slot API, so the slot, the item and its proficiency group are the real ones.
     /// </para>
+    /// <para>
+    /// The feat's rank is half the highest spellbook class level, read from the unit through the
+    /// mod's own unit property, so the test gives the pregen wizard levels with the game's own
+    /// <c>UnitProgressionData.AddClassLevel</c>. The pregen carries the Angel mythic class at
+    /// level 10, which has a spellbook; twelve wizard levels make the wizard the highest, and
+    /// the expected bonus is half of that.
+    /// </para>
     /// </summary>
     [Collection(ACHomebrewGameCollection.Name)]
     public sealed class ArcaneAegisArmorTests
@@ -36,11 +41,10 @@ namespace ACHomebrew.OfflineTests
         private const string HeavyArmor = "ed6bbd7ecd050c04690fe11d4c3b3f7d";
         private const string LightShield = "a85d51d0fb905f940b951eec60388bac";
 
-        // The feat's rank is half the caster level. A feature that is added to a unit gets a fresh
-        // mechanics context, and the game's empty ability parameters carry caster level 1, which
-        // would make the bonus 0 and hide the gate. The test therefore gives the feat's context the
-        // caster level of a character, through the game's own MechanicsContext.SetParams.
-        private const int CasterLevel = 8;
+        // WizardClass: a vanilla class with a spellbook, added with the game's own AddClassLevel.
+        // Twelve levels outrank the pregen's Angel mythic class (level 10, also a spellbook class).
+        private const string WizardClass = "ba34257984f4c41408ce1dc2004e342e";
+        private const int WizardLevels = 12;
 
         private readonly ACHomebrewGame fixture;
 
@@ -59,7 +63,7 @@ namespace ACHomebrew.OfflineTests
 
             var feat = Aegis(unit);
             Assert.True(feat.IsTurnedOn, "The feat should be on the unit.");
-            Assert.Equal(CasterLevel / 2, AegisBonus(unit));
+            Assert.Equal(WizardLevels / 2, AegisBonus(unit));
         }
 
         /// <summary>Light armor: the bonus still applies.</summary>
@@ -74,7 +78,7 @@ namespace ACHomebrew.OfflineTests
 
             var feat = Aegis(unit);
             Assert.True(feat.IsTurnedOn, "The feat should be on the unit.");
-            Assert.Equal(CasterLevel / 2, AegisBonus(unit));
+            Assert.Equal(WizardLevels / 2, AegisBonus(unit));
         }
 
         /// <summary>Medium armor: the bonus does not apply.</summary>
@@ -146,7 +150,7 @@ namespace ACHomebrew.OfflineTests
             fixture.RequireGame();
             var unit = Wearer();
             var feat = Aegis(unit);
-            Assert.Equal(CasterLevel / 2, AegisBonus(unit));
+            Assert.Equal(WizardLevels / 2, AegisBonus(unit));
 
             var armor = OfflineGame.Blueprint<BlueprintItemArmor>(MediumArmor);
             unit.Descriptor.Proficiencies.Add(armor.ProficiencyGroup);
@@ -170,6 +174,11 @@ namespace ACHomebrew.OfflineTests
         private static UnitEntityData Wearer(string armor = null, string shield = null)
         {
             var unit = OfflineGame.CreateUnit(MainAttributeFeatTests.VanillaUnit);
+            var wizard = OfflineGame.Blueprint<BlueprintCharacterClass>(WizardClass);
+            for (var i = 0; i < WizardLevels; i++)
+            {
+                unit.Descriptor.Progression.AddClassLevel(wizard);
+            }
             if (armor != null)
             {
                 var blueprint = OfflineGame.Blueprint<BlueprintItemArmor>(armor);
@@ -185,13 +194,11 @@ namespace ACHomebrew.OfflineTests
             return unit;
         }
 
-        /// <summary>Adds the feat with a caster level in its mechanics context.</summary>
+        /// <summary>Adds the feat; its rank reads the unit's highest spellbook class level.</summary>
         private static Feature Aegis(UnitEntityData unit)
         {
             var blueprint = OfflineGame.Blueprint<BlueprintFeature>(Guids.Derived.ArcaneAegis);
-            var context = new MechanicsContext(unit, unit.Descriptor, blueprint);
-            context.SetParams(new AbilityParams { CasterLevel = CasterLevel });
-            return unit.Progression.Features.AddFeature(blueprint, context);
+            return unit.Progression.Features.AddFeature(blueprint);
         }
 
         /// <summary>The AC modifier the feat adds, or null when the feat adds none.</summary>

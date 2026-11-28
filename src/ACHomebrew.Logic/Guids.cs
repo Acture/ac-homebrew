@@ -416,6 +416,7 @@ namespace ACHomebrew.Feats
             public const string SoulBulwark = "0a28d92a-2d2a-4a30-a589-fdb6b93a9e4f";
             public const string SoulBulwarkBuff = "a07d2617-5172-4ff0-b4b8-d3a1441eed98";
             public const string SwordSaint = "0c65b291-ce0a-4d99-b776-b9123f0bc8be";
+            public const string HighestSpellbookClassLevelProperty = "b6b5c9d3-fa1d-4fb9-8826-bc9faa7b6b75";
         }
 
         public static class Summon

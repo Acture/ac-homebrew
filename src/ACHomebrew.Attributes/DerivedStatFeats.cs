@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BlueprintCore.Actions.Builder;
 using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.Configurators.UnitLogic.Properties;
@@ -11,6 +12,7 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Items.Armors;
 using Kingmaker.Designers.Mechanics.Facts.Restrictions;
+using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Properties;
 using Kingmaker.EntitySystem.Properties.BaseGetter;
 using Kingmaker.EntitySystem.Stats;
@@ -57,6 +59,7 @@ namespace ACHomebrew.Feats
             Initialized = true;
 
             CreateSkilledDefenderSkillRanksProperty();
+            CreateHighestSpellbookClassLevelProperty();
             CreateSoulBulwarkTempBuff();
             CreateSoulBulwarkTriggerBuff();
             CreateArcaneAegis();
@@ -82,8 +85,9 @@ namespace ACHomebrew.Feats
                     LocalizedText.Text("Derived_ArcaneAegis.Lore", "Years of spellwork teach you to turn practiced magical control toward personal defense."),
                     LocalizedText.Text("Text.DerivedStatFeats.CreateArcaneAegis.Text.2", "Adds half your caster level (rounded down) as an untyped bonus to AC while you wear no armor or light armor and do not use a shield."),
                     LocalizedText.Text("Text.DerivedStatFeats.CreateArcaneAegis.Restriction", "Requires no armor or light armor, and no shield. While exclusion groups are on, this feat shares the derived armor class limit of one and counts toward the attribute-bonus-to-AC limit of two.")))
-                .AddContextRankConfig(ContextRankConfigs.CasterLevel(min: 0).WithDiv2Progression())
+                .AddContextRankConfig(ContextRankConfigs.CustomProperty(Guids.Derived.HighestSpellbookClassLevelProperty, min: 0).WithDiv2Progression())
                 .AddContextStatBonus(StatType.AC, Common.Rank(), descriptor: Desc, restrictions: CreateArcaneAegisRestriction())
+                .SetReapplyOnLevelUp()
                 .Configure();
         }
 
@@ -152,8 +156,9 @@ namespace ACHomebrew.Feats
                     LocalizedText.Text("Text.DerivedStatFeats.CreateMysticVitality.Text", "Caster Level to Hit Points"),
                     LocalizedText.Text("Derived_MysticVitality.Lore", "You make the discipline of channeling magic part of the discipline of sustaining yourself."),
                     LocalizedText.Text("Text.DerivedStatFeats.CreateMysticVitality.Text.2", "Adds your caster level as an untyped bonus to Hit Points.")))
-                .AddContextRankConfig(ContextRankConfigs.CasterLevel(min: 0))
+                .AddContextRankConfig(ContextRankConfigs.CustomProperty(Guids.Derived.HighestSpellbookClassLevelProperty, min: 0))
                 .AddContextStatBonus(StatType.HitPoints, Common.Rank(), descriptor: Desc)
+                .SetReapplyOnLevelUp()
                 .Configure();
         }
 
@@ -204,6 +209,15 @@ namespace ACHomebrew.Feats
             cfg.Configure();
         }
 
+        private static void CreateHighestSpellbookClassLevelProperty()
+        {
+            UnitPropertyConfigurator.New("HighestSpellbookClassLevelProperty", Guids.Derived.HighestSpellbookClassLevelProperty)
+                .SetBaseValue(0)
+                .SetOperationOnComponents(BlueprintUnitProperty.MathOperation.Sum)
+                .AddComponent<HighestSpellbookClassLevelGetter>(c => c.Settings = new PropertySettings())
+                .Configure();
+        }
+
         private static void CreateSoulBulwarkTempBuff()
         {
             BuffConfigurator.New("SoulBulwarkTempBuff", SoulBulwarkTempBuffGuid)
@@ -214,7 +228,7 @@ namespace ACHomebrew.Feats
                     tagEncyclopediaEntries: true))
                 .SetIconIfPresent("SoulBulwark")
                 .SetStacking(StackingType.Replace)
-                .AddContextRankConfig(ContextRankConfigs.CasterLevel(min: 0))
+                .AddContextRankConfig(ContextRankConfigs.CustomProperty(Guids.Derived.HighestSpellbookClassLevelProperty, min: 0))
                 .AddTemporaryHitPointsFromAbilityValue(descriptor: Desc, removeWhenHitPointsEnd: false, value: Common.Rank())
                 .Configure();
         }
@@ -292,5 +306,21 @@ namespace ACHomebrew.Feats
         }
 
         protected override string GetInnerCaption() => "No or light armor, no shield";
+    }
+
+    [Serializable]
+    internal sealed class HighestSpellbookClassLevelGetter : PropertyValueGetter
+    {
+        protected override int GetBaseValue(UnitEntityData unit)
+        {
+            var classes = unit?.Descriptor?.Progression?.Classes;
+            if (classes == null)
+            {
+                return 0;
+            }
+
+            return DerivedStatRules.HighestSpellbookClassLevel(
+                classes.Where(@class => @class.Spellbook != null).Select(@class => @class.Level));
+        }
     }
 }
