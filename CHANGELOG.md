@@ -9,6 +9,8 @@
 - Other mods can register their challenge effects as duels with `DuelRules.RegisterChallenge`. See [Duel and Finger of the Reaper](docs/duel-feats.md).
 - All new text in the eight supported languages.
 
+- **7 learnable spells (OSS-439):** Meat Hook (3rd Conjuration), Vacuum (4th Conjuration), Wall of Duplicates (6th Illusion), Black Hole (7th Conjuration), Chain Frost (6th Evocation), Sonic Wave (5th Evocation), Global Silence (7th Enchantment). Each spell has class spell-list entries, proper school/level/descriptors, saving throws, and scroll items. Effect components implement real game rules for damage, pull/push, chain bounce, and global silence. Offline tests verify blueprint registration, school, level, spell-list entries, scroll existence, and effect component presence.
+
 ### Changed
 - Unity Mod Manager lists the author as Acture, as the repository and the package metadata do.
 
